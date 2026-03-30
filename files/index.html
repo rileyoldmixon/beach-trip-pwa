@@ -101,6 +101,10 @@ body{background:var(--sand);color:var(--text);font-family:'DM Sans',sans-serif;f
 .meal-type-lbl.lunch{color:var(--green);}
 .meal-type-lbl.dinner{color:var(--ocean);}
 .meal-name{font-family:'Playfair Display',serif;font-size:16px;font-weight:700;color:var(--text);margin-top:1px;min-height:24px;}
+.meal-name.collapsible{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;cursor:pointer;}
+.meal-name.collapsible.expanded{display:block;}
+.meal-expand-btn{background:none;border:none;color:var(--ocean);font-size:11px;font-weight:600;cursor:pointer;padding:2px 0 0;font-family:'DM Sans',sans-serif;display:none;}
+.meal-expand-btn.visible{display:block;}
 .card-footer{padding:0 16px 12px;display:flex;gap:6px;flex-wrap:wrap;align-items:center;}
 .chip{font-size:11px;padding:3px 10px;border-radius:6px;font-weight:500;background:var(--sand);color:var(--text-mid);border:1px solid var(--sand-mid);}
 .chip.chef{background:var(--ocean-deep);color:var(--seafoam);border-color:var(--ocean-deep);}
@@ -114,7 +118,7 @@ body{background:var(--sand);color:var(--text);font-family:'DM Sans',sans-serif;f
 /* EDIT INLINE */
 .meal-edit-wrap{padding:0 16px 14px;display:none;}
 .meal-edit-wrap.open{display:block;}
-.meal-input{width:100%;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:400;color:var(--text);background:var(--sand);border:1.5px solid var(--sand-dark);border-radius:10px;padding:10px 14px;outline:none;transition:border-color .15s;}
+.meal-input{width:100%;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:400;color:var(--text);background:var(--sand);border:1.5px solid var(--sand-dark);border-radius:10px;padding:10px 14px;outline:none;transition:border-color .15s;resize:none;}
 .meal-input:focus{border-color:var(--ocean);background:var(--white);}
 .edit-actions{display:flex;gap:8px;margin-top:8px;}
 .save-btn{flex:1;background:var(--ocean-deep);color:var(--seafoam);border:none;border-radius:9px;padding:10px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;cursor:pointer;}
@@ -398,7 +402,32 @@ body{background:var(--sand);color:var(--text);font-family:'DM Sans',sans-serif;f
 .act-signup-btn.joined{background:var(--green);color:#fff;border-color:var(--green);}
 .act-signup-btn:active{opacity:.7;}
 .act-signup-empty{font-size:11px;color:var(--text-light);font-style:italic;}
-.reassign-btn{font-size:11px;padding:3px 10px;border-radius:6px;font-weight:500;background:#fff5ee;color:var(--coral);border:1px solid #f8c8b0;cursor:pointer;font-family:'DM Sans',sans-serif;}
+/* ITINERARY */
+.itinerary-section{margin-bottom:8px;}
+.itinerary-list{display:flex;flex-direction:column;gap:12px;}
+.itin-day{background:var(--white);border:1.5px solid var(--sand-mid);border-radius:14px;overflow:hidden;box-shadow:0 2px 8px rgba(26,67,96,.04);}
+.itin-day-header{background:var(--ocean-deep);color:var(--white);padding:10px 14px;display:flex;align-items:baseline;justify-content:space-between;}
+.itin-day-title{font-family:'Playfair Display',serif;font-size:15px;font-weight:700;}
+.itin-day-date{font-size:11px;color:rgba(253,250,245,.55);letter-spacing:.06em;}
+.itin-items{padding:10px 14px;display:flex;flex-direction:column;gap:8px;}
+.itin-item{display:flex;align-items:flex-start;gap:10px;}
+.itin-item-icon{width:30px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;}
+.itin-item-icon.meal-breakfast{background:#fff3dc;}
+.itin-item-icon.meal-lunch{background:#eaf5e2;}
+.itin-item-icon.meal-dinner{background:#e6eeff;}
+.itin-item-icon.activity{background:#f0eaff;}
+.itin-item-body{flex:1;}
+.itin-item-type{font-size:10px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;}
+.itin-item-type.breakfast{color:var(--gold);}
+.itin-item-type.lunch{color:var(--green);}
+.itin-item-type.dinner{color:var(--ocean);}
+.itin-item-type.activity{color:#6040a0;}
+.itin-item-name{font-size:13px;font-weight:600;color:var(--text);margin-top:1px;}
+.itin-item-note{font-size:11px;color:var(--text-light);margin-top:1px;}
+.itin-free{font-size:13px;color:var(--text-light);font-style:italic;padding:4px 0;}
+.itin-empty{text-align:center;padding:20px;font-size:13px;color:var(--text-light);}
+
+/* REASSIGN BUTTON */
 .reassign-btn:active{opacity:.7;}
 
 /* REASSIGN MODAL */
@@ -687,6 +716,7 @@ body{background:var(--sand);color:var(--text);font-family:'DM Sans',sans-serif;f
           <div class="meal-meta">
             <div class="meal-type-lbl dinner">Dinner</div>
             <div class="meal-name" id="meal-d24-dinner">TBD</div>
+            <button class="meal-expand-btn" id="expand-d24-dinner" onclick="toggleMealExpand('d24-dinner')">▼ Show more</button>
           </div>
         </div>
         <div class="card-footer">
@@ -696,7 +726,7 @@ body{background:var(--sand);color:var(--text);font-family:'DM Sans',sans-serif;f
           <button class="reassign-btn" onclick="startReassign('d24-dinner')">Reassign</button>
         </div>
         <div class="meal-edit-wrap" id="edit-d24-dinner">
-          <input class="meal-input" id="input-d24-dinner" type="text" placeholder="What's for dinner?">
+          <textarea class="meal-input" id="input-d24-dinner" placeholder="What's for dinner?" maxlength="250" rows="2"></textarea>
           <div class="edit-actions">
             <button class="cancel-btn" onclick="cancelEdit('d24-dinner')">Cancel</button>
             <button class="save-btn" onclick="saveMeal('d24-dinner')">Save</button>
@@ -759,6 +789,7 @@ body{background:var(--sand);color:var(--text);font-family:'DM Sans',sans-serif;f
           <div class="meal-meta">
             <div class="meal-type-lbl breakfast">Breakfast</div>
             <div class="meal-name" id="meal-d25-breakfast">TBD</div>
+            <button class="meal-expand-btn" id="expand-d25-breakfast" onclick="toggleMealExpand('d25-breakfast')">▼ Show more</button>
           </div>
         </div>
         <div class="card-footer">
@@ -767,7 +798,7 @@ body{background:var(--sand);color:var(--text);font-family:'DM Sans',sans-serif;f
           <button class="reassign-btn" onclick="startReassign('d25-breakfast')">Reassign</button>
         </div>
         <div class="meal-edit-wrap" id="edit-d25-breakfast">
-          <input class="meal-input" id="input-d25-breakfast" type="text" placeholder="What's for breakfast?">
+          <textarea class="meal-input" id="input-d25-breakfast" placeholder="What's for breakfast?" maxlength="250" rows="2"></textarea>
           <div class="edit-actions">
             <button class="cancel-btn" onclick="cancelEdit('d25-breakfast')">Cancel</button>
             <button class="save-btn" onclick="saveMeal('d25-breakfast')">Save</button>
@@ -781,6 +812,7 @@ body{background:var(--sand);color:var(--text);font-family:'DM Sans',sans-serif;f
           <div class="meal-meta">
             <div class="meal-type-lbl lunch">Lunch</div>
             <div class="meal-name" id="meal-d25-lunch">TBD</div>
+            <button class="meal-expand-btn" id="expand-d25-lunch" onclick="toggleMealExpand('d25-lunch')">▼ Show more</button>
           </div>
         </div>
         <div class="card-footer">
@@ -789,7 +821,7 @@ body{background:var(--sand);color:var(--text);font-family:'DM Sans',sans-serif;f
           <button class="reassign-btn" onclick="startReassign('d25-lunch')">Reassign</button>
         </div>
         <div class="meal-edit-wrap" id="edit-d25-lunch">
-          <input class="meal-input" id="input-d25-lunch" type="text" placeholder="What's for lunch?">
+          <textarea class="meal-input" id="input-d25-lunch" placeholder="What's for lunch?" maxlength="250" rows="2"></textarea>
           <div class="edit-actions">
             <button class="cancel-btn" onclick="cancelEdit('d25-lunch')">Cancel</button>
             <button class="save-btn" onclick="saveMeal('d25-lunch')">Save</button>
@@ -803,6 +835,7 @@ body{background:var(--sand);color:var(--text);font-family:'DM Sans',sans-serif;f
           <div class="meal-meta">
             <div class="meal-type-lbl dinner">Dinner</div>
             <div class="meal-name" id="meal-d25-dinner">TBD</div>
+            <button class="meal-expand-btn" id="expand-d25-dinner" onclick="toggleMealExpand('d25-dinner')">▼ Show more</button>
           </div>
         </div>
         <div class="card-footer">
@@ -811,7 +844,7 @@ body{background:var(--sand);color:var(--text);font-family:'DM Sans',sans-serif;f
           <button class="reassign-btn" onclick="startReassign('d25-dinner')">Reassign</button>
         </div>
         <div class="meal-edit-wrap" id="edit-d25-dinner">
-          <input class="meal-input" id="input-d25-dinner" type="text" placeholder="What's for dinner?">
+          <textarea class="meal-input" id="input-d25-dinner" placeholder="What's for dinner?" maxlength="250" rows="2"></textarea>
           <div class="edit-actions">
             <button class="cancel-btn" onclick="cancelEdit('d25-dinner')">Cancel</button>
             <button class="save-btn" onclick="saveMeal('d25-dinner')">Save</button>
@@ -826,7 +859,7 @@ body{background:var(--sand);color:var(--text);font-family:'DM Sans',sans-serif;f
   <div class="day-panel" id="d26">
     <div class="day-hdr">
       <div class="day-title">Sunday, July 26</div>
-      <div class="day-sub">Beach Day 2 · Aquarium Day</div>
+      <div class="day-sub">Beach Day 2 · Aquarium · Group Photos</div>
       <div class="headcount">16 guests</div>
     </div>
     <div class="day-section-label">Activities</div>
@@ -869,6 +902,27 @@ body{background:var(--sand);color:var(--text);font-family:'DM Sans',sans-serif;f
           </div>
         </div>
       </div>
+      <div class="act-card" id="act-d26-act3">
+        <div class="act-hdr">
+          <div class="act-icon photo">📸</div>
+          <div class="act-meta">
+            <div class="act-slot">Evening · Activity 3</div>
+            <div class="act-name">Full Group Photos</div>
+            <div class="act-desc">Golden hour on the beach — get the full group shot while all 16 are together before Connor &amp; Bethany leave the following morning.</div>
+          </div>
+        </div>
+        <div class="act-footer">
+          <span class="act-chip photo">Group Photos</span>
+          <span class="act-chip photo">All 16 — full group</span>
+          <span class="act-chip photo">📍 Beach · Golden Hour</span>
+        </div>
+        <div class="act-signup-section" id="signup-section-d26-act3">
+          <div class="act-signup-row">
+            <div class="act-signup-names" id="signup-names-d26-act3"></div>
+            <button class="act-signup-btn" id="signup-btn-d26-act3" onclick="toggleSignup('d26-act3')">Join</button>
+          </div>
+        </div>
+      </div>
     </div>
     <div class="day-section-label">Meals</div>
     <div class="cards-col">
@@ -878,6 +932,7 @@ body{background:var(--sand);color:var(--text);font-family:'DM Sans',sans-serif;f
           <div class="meal-meta">
             <div class="meal-type-lbl breakfast">Breakfast</div>
             <div class="meal-name" id="meal-d26-breakfast">TBD</div>
+            <button class="meal-expand-btn" id="expand-d26-breakfast" onclick="toggleMealExpand('d26-breakfast')">▼ Show more</button>
           </div>
         </div>
         <div class="card-footer">
@@ -886,7 +941,7 @@ body{background:var(--sand);color:var(--text);font-family:'DM Sans',sans-serif;f
           <button class="reassign-btn" onclick="startReassign('d26-breakfast')">Reassign</button>
         </div>
         <div class="meal-edit-wrap" id="edit-d26-breakfast">
-          <input class="meal-input" id="input-d26-breakfast" type="text" placeholder="What's for breakfast?">
+          <textarea class="meal-input" id="input-d26-breakfast" placeholder="What's for breakfast?" maxlength="250" rows="2"></textarea>
           <div class="edit-actions">
             <button class="cancel-btn" onclick="cancelEdit('d26-breakfast')">Cancel</button>
             <button class="save-btn" onclick="saveMeal('d26-breakfast')">Save</button>
@@ -900,16 +955,16 @@ body{background:var(--sand);color:var(--text);font-family:'DM Sans',sans-serif;f
           <div class="meal-meta">
             <div class="meal-type-lbl lunch">Lunch</div>
             <div class="meal-name" id="meal-d26-lunch">TBD</div>
+            <button class="meal-expand-btn" id="expand-d26-lunch" onclick="toggleMealExpand('d26-lunch')">▼ Show more</button>
           </div>
         </div>
         <div class="card-footer">
           <span class="chip chef" id="chef-d26-lunch">👨‍🍳 Codi &amp; Adriel</span>
-          <span class="chip note">Cooper &amp; Em at aquarium</span>
           <button class="edit-btn" onclick="toggleEdit('d26-lunch')">Edit</button>
           <button class="reassign-btn" onclick="startReassign('d26-lunch')">Reassign</button>
         </div>
         <div class="meal-edit-wrap" id="edit-d26-lunch">
-          <input class="meal-input" id="input-d26-lunch" type="text" placeholder="What's for lunch?">
+          <textarea class="meal-input" id="input-d26-lunch" placeholder="What's for lunch?" maxlength="250" rows="2"></textarea>
           <div class="edit-actions">
             <button class="cancel-btn" onclick="cancelEdit('d26-lunch')">Cancel</button>
             <button class="save-btn" onclick="saveMeal('d26-lunch')">Save</button>
@@ -923,6 +978,7 @@ body{background:var(--sand);color:var(--text);font-family:'DM Sans',sans-serif;f
           <div class="meal-meta">
             <div class="meal-type-lbl dinner">Dinner</div>
             <div class="meal-name" id="meal-d26-dinner">TBD</div>
+            <button class="meal-expand-btn" id="expand-d26-dinner" onclick="toggleMealExpand('d26-dinner')">▼ Show more</button>
           </div>
         </div>
         <div class="card-footer">
@@ -931,7 +987,7 @@ body{background:var(--sand);color:var(--text);font-family:'DM Sans',sans-serif;f
           <button class="reassign-btn" onclick="startReassign('d26-dinner')">Reassign</button>
         </div>
         <div class="meal-edit-wrap" id="edit-d26-dinner">
-          <input class="meal-input" id="input-d26-dinner" type="text" placeholder="What's for dinner?">
+          <textarea class="meal-input" id="input-d26-dinner" placeholder="What's for dinner?" maxlength="250" rows="2"></textarea>
           <div class="edit-actions">
             <button class="cancel-btn" onclick="cancelEdit('d26-dinner')">Cancel</button>
             <button class="save-btn" onclick="saveMeal('d26-dinner')">Save</button>
@@ -1002,26 +1058,6 @@ body{background:var(--sand);color:var(--text);font-family:'DM Sans',sans-serif;f
           </div>
         </div>
       </div>
-      <div class="act-card" id="act-d27-act4">
-        <div class="act-hdr">
-          <div class="act-icon photo">📸</div>
-          <div class="act-meta">
-            <div class="act-slot">Evening · Activity 4</div>
-            <div class="act-name">Full Group Photos</div>
-            <div class="act-desc">Connor &amp; Bethany's last night — golden hour on the beach. Get the full group shot while all 16 are together.</div>
-          </div>
-        </div>
-        <div class="act-footer">
-          <span class="act-chip photo">Group Photos</span>
-          <span class="act-chip photo">All 16 — full group</span>
-          <span class="act-chip photo">📍 Beach · Golden Hour</span>
-        </div>
-        <div class="act-signup-section" id="signup-section-d27-act4">
-          <div class="act-signup-row">
-            <div class="act-signup-names" id="signup-names-d27-act4"></div>
-            <button class="act-signup-btn" id="signup-btn-d27-act4" onclick="toggleSignup('d27-act4')">Join</button>
-          </div>
-        </div>
       </div>
     </div>
     <div class="day-section-label">Meals</div>
@@ -1032,6 +1068,7 @@ body{background:var(--sand);color:var(--text);font-family:'DM Sans',sans-serif;f
           <div class="meal-meta">
             <div class="meal-type-lbl breakfast">Breakfast</div>
             <div class="meal-name" id="meal-d27-breakfast">TBD</div>
+            <button class="meal-expand-btn" id="expand-d27-breakfast" onclick="toggleMealExpand('d27-breakfast')">▼ Show more</button>
           </div>
         </div>
         <div class="card-footer">
@@ -1040,7 +1077,7 @@ body{background:var(--sand);color:var(--text);font-family:'DM Sans',sans-serif;f
           <button class="reassign-btn" onclick="startReassign('d27-breakfast')">Reassign</button>
         </div>
         <div class="meal-edit-wrap" id="edit-d27-breakfast">
-          <input class="meal-input" id="input-d27-breakfast" type="text" placeholder="What's for breakfast?">
+          <textarea class="meal-input" id="input-d27-breakfast" placeholder="What's for breakfast?" maxlength="250" rows="2"></textarea>
           <div class="edit-actions">
             <button class="cancel-btn" onclick="cancelEdit('d27-breakfast')">Cancel</button>
             <button class="save-btn" onclick="saveMeal('d27-breakfast')">Save</button>
@@ -1054,6 +1091,7 @@ body{background:var(--sand);color:var(--text);font-family:'DM Sans',sans-serif;f
           <div class="meal-meta">
             <div class="meal-type-lbl lunch">Lunch</div>
             <div class="meal-name" id="meal-d27-lunch">TBD</div>
+            <button class="meal-expand-btn" id="expand-d27-lunch" onclick="toggleMealExpand('d27-lunch')">▼ Show more</button>
           </div>
         </div>
         <div class="card-footer">
@@ -1062,7 +1100,7 @@ body{background:var(--sand);color:var(--text);font-family:'DM Sans',sans-serif;f
           <button class="reassign-btn" onclick="startReassign('d27-lunch')">Reassign</button>
         </div>
         <div class="meal-edit-wrap" id="edit-d27-lunch">
-          <input class="meal-input" id="input-d27-lunch" type="text" placeholder="What's for lunch?">
+          <textarea class="meal-input" id="input-d27-lunch" placeholder="What's for lunch?" maxlength="250" rows="2"></textarea>
           <div class="edit-actions">
             <button class="cancel-btn" onclick="cancelEdit('d27-lunch')">Cancel</button>
             <button class="save-btn" onclick="saveMeal('d27-lunch')">Save</button>
@@ -1076,6 +1114,7 @@ body{background:var(--sand);color:var(--text);font-family:'DM Sans',sans-serif;f
           <div class="meal-meta">
             <div class="meal-type-lbl dinner">Dinner</div>
             <div class="meal-name" id="meal-d27-dinner">TBD</div>
+            <button class="meal-expand-btn" id="expand-d27-dinner" onclick="toggleMealExpand('d27-dinner')">▼ Show more</button>
           </div>
         </div>
         <div class="card-footer">
@@ -1084,7 +1123,7 @@ body{background:var(--sand);color:var(--text);font-family:'DM Sans',sans-serif;f
           <button class="reassign-btn" onclick="startReassign('d27-dinner')">Reassign</button>
         </div>
         <div class="meal-edit-wrap" id="edit-d27-dinner">
-          <input class="meal-input" id="input-d27-dinner" type="text" placeholder="What's for dinner?">
+          <textarea class="meal-input" id="input-d27-dinner" placeholder="What's for dinner?" maxlength="250" rows="2"></textarea>
           <div class="edit-actions">
             <button class="cancel-btn" onclick="cancelEdit('d27-dinner')">Cancel</button>
             <button class="save-btn" onclick="saveMeal('d27-dinner')">Save</button>
@@ -1151,6 +1190,7 @@ body{background:var(--sand);color:var(--text);font-family:'DM Sans',sans-serif;f
           <div class="meal-meta">
             <div class="meal-type-lbl breakfast">Breakfast</div>
             <div class="meal-name" id="meal-d28-breakfast">TBD</div>
+            <button class="meal-expand-btn" id="expand-d28-breakfast" onclick="toggleMealExpand('d28-breakfast')">▼ Show more</button>
           </div>
         </div>
         <div class="card-footer">
@@ -1159,7 +1199,7 @@ body{background:var(--sand);color:var(--text);font-family:'DM Sans',sans-serif;f
           <button class="reassign-btn" onclick="startReassign('d28-breakfast')">Reassign</button>
         </div>
         <div class="meal-edit-wrap" id="edit-d28-breakfast">
-          <input class="meal-input" id="input-d28-breakfast" type="text" placeholder="What's for breakfast?">
+          <textarea class="meal-input" id="input-d28-breakfast" placeholder="What's for breakfast?" maxlength="250" rows="2"></textarea>
           <div class="edit-actions">
             <button class="cancel-btn" onclick="cancelEdit('d28-breakfast')">Cancel</button>
             <button class="save-btn" onclick="saveMeal('d28-breakfast')">Save</button>
@@ -1173,6 +1213,7 @@ body{background:var(--sand);color:var(--text);font-family:'DM Sans',sans-serif;f
           <div class="meal-meta">
             <div class="meal-type-lbl lunch">Lunch</div>
             <div class="meal-name" id="meal-d28-lunch">TBD</div>
+            <button class="meal-expand-btn" id="expand-d28-lunch" onclick="toggleMealExpand('d28-lunch')">▼ Show more</button>
           </div>
         </div>
         <div class="card-footer">
@@ -1181,7 +1222,7 @@ body{background:var(--sand);color:var(--text);font-family:'DM Sans',sans-serif;f
           <button class="reassign-btn" onclick="startReassign('d28-lunch')">Reassign</button>
         </div>
         <div class="meal-edit-wrap" id="edit-d28-lunch">
-          <input class="meal-input" id="input-d28-lunch" type="text" placeholder="What's for lunch?">
+          <textarea class="meal-input" id="input-d28-lunch" placeholder="What's for lunch?" maxlength="250" rows="2"></textarea>
           <div class="edit-actions">
             <button class="cancel-btn" onclick="cancelEdit('d28-lunch')">Cancel</button>
             <button class="save-btn" onclick="saveMeal('d28-lunch')">Save</button>
@@ -1195,6 +1236,7 @@ body{background:var(--sand);color:var(--text);font-family:'DM Sans',sans-serif;f
           <div class="meal-meta">
             <div class="meal-type-lbl dinner">Dinner</div>
             <div class="meal-name" id="meal-d28-dinner">TBD</div>
+            <button class="meal-expand-btn" id="expand-d28-dinner" onclick="toggleMealExpand('d28-dinner')">▼ Show more</button>
           </div>
         </div>
         <div class="card-footer">
@@ -1203,7 +1245,7 @@ body{background:var(--sand);color:var(--text);font-family:'DM Sans',sans-serif;f
           <button class="reassign-btn" onclick="startReassign('d28-dinner')">Reassign</button>
         </div>
         <div class="meal-edit-wrap" id="edit-d28-dinner">
-          <input class="meal-input" id="input-d28-dinner" type="text" placeholder="What's for dinner?">
+          <textarea class="meal-input" id="input-d28-dinner" placeholder="What's for dinner?" maxlength="250" rows="2"></textarea>
           <div class="edit-actions">
             <button class="cancel-btn" onclick="cancelEdit('d28-dinner')">Cancel</button>
             <button class="save-btn" onclick="saveMeal('d28-dinner')">Save</button>
@@ -1266,6 +1308,7 @@ body{background:var(--sand);color:var(--text);font-family:'DM Sans',sans-serif;f
           <div class="meal-meta">
             <div class="meal-type-lbl breakfast">Breakfast</div>
             <div class="meal-name" id="meal-d29-breakfast">TBD</div>
+            <button class="meal-expand-btn" id="expand-d29-breakfast" onclick="toggleMealExpand('d29-breakfast')">▼ Show more</button>
           </div>
         </div>
         <div class="card-footer">
@@ -1274,7 +1317,7 @@ body{background:var(--sand);color:var(--text);font-family:'DM Sans',sans-serif;f
           <button class="reassign-btn" onclick="startReassign('d29-breakfast')">Reassign</button>
         </div>
         <div class="meal-edit-wrap" id="edit-d29-breakfast">
-          <input class="meal-input" id="input-d29-breakfast" type="text" placeholder="What's for breakfast?">
+          <textarea class="meal-input" id="input-d29-breakfast" placeholder="What's for breakfast?" maxlength="250" rows="2"></textarea>
           <div class="edit-actions">
             <button class="cancel-btn" onclick="cancelEdit('d29-breakfast')">Cancel</button>
             <button class="save-btn" onclick="saveMeal('d29-breakfast')">Save</button>
@@ -1288,6 +1331,7 @@ body{background:var(--sand);color:var(--text);font-family:'DM Sans',sans-serif;f
           <div class="meal-meta">
             <div class="meal-type-lbl lunch">Farewell Lunch</div>
             <div class="meal-name" id="meal-d29-lunch">TBD</div>
+            <button class="meal-expand-btn" id="expand-d29-lunch" onclick="toggleMealExpand('d29-lunch')">▼ Show more</button>
           </div>
         </div>
         <div class="card-footer">
@@ -1296,7 +1340,7 @@ body{background:var(--sand);color:var(--text);font-family:'DM Sans',sans-serif;f
           <button class="reassign-btn" onclick="startReassign('d29-lunch')">Reassign</button>
         </div>
         <div class="meal-edit-wrap" id="edit-d29-lunch">
-          <input class="meal-input" id="input-d29-lunch" type="text" placeholder="What's for the farewell lunch?">
+          <textarea class="meal-input" id="input-d29-lunch" placeholder="What's for the farewell lunch?" maxlength="250" rows="2"></textarea>
           <div class="edit-actions">
             <button class="cancel-btn" onclick="cancelEdit('d29-lunch')">Cancel</button>
             <button class="save-btn" onclick="saveMeal('d29-lunch')">Save</button>
@@ -1315,7 +1359,7 @@ body{background:var(--sand);color:var(--text);font-family:'DM Sans',sans-serif;f
     <h3>Notes &amp; Logistics</h3>
     <div class="foot-grid">
       <div class="foot-item"><strong>Home Base</strong>166 Sunrise Ave, Port Aransas, TX 78373 — Palmilla Beach Resort. Gas cooktops, stacked ovens, outdoor grill.</div>
-      <div class="foot-item"><strong>Group Photos — Jul 27 Evening</strong>Connor &amp; Bethany's last night — get the full group shot on the beach before they leave in the morning.</div>
+      <div class="foot-item"><strong>Group Photos — Jul 26 Evening</strong>Golden hour on the beach with all 16. Connor &amp; Bethany leave the following morning.</div>
       <div class="foot-item"><strong>Connor &amp; Bethany</strong>Depart morning of Jul 28. Last meal they attend is dinner Jul 27.</div>
       <div class="foot-item"><strong>Golf — Jul 28 (Tuesday)</strong>Palmilla Beach course, on-site. Open 7:30 AM, ~$63 to walk 9 holes. Barefoot play allowed. 361-749-4653.</div>
       <div class="foot-item"><strong>Aquarium — Jul 26</strong>Texas State Aquarium, Corpus Christi. ~45 min drive. Open 10 AM–5 PM. 361-881-1200.</div>
@@ -1440,7 +1484,14 @@ body{background:var(--sand);color:var(--text);font-family:'DM Sans',sans-serif;f
 
   <!-- CREW SECTION -->
   <div class="crew-wrap">
-    <div class="crew-label">The Crew 🌊</div>
+    <!-- MY ITINERARY -->
+    <div class="itinerary-section">
+      <div class="crew-label">My Schedule 📅</div>
+      <div class="itinerary-list" id="myItinerary">
+        <div class="crew-loading">Loading your schedule…</div>
+      </div>
+    </div>
+    <div class="crew-label" style="margin-top:28px;">The Crew 🌊</div>
     <div class="crew-grid" id="crewGrid">
       <div class="crew-loading">Loading…</div>
     </div>
@@ -1580,10 +1631,13 @@ body{background:var(--sand);color:var(--text);font-family:'DM Sans',sans-serif;f
         const nameEl = document.getElementById(`meal-${row.meal_id}`);
         const inputEl = document.getElementById(`input-${row.meal_id}`);
         const btnEl = document.querySelector(`#card-${row.meal_id} .edit-btn`);
+        const expandBtn = document.getElementById(`expand-${row.meal_id}`);
         if (nameEl && row.meal_text) {
           nameEl.textContent = row.meal_text;
           if (inputEl) inputEl.value = row.meal_text;
           if (btnEl) btnEl.classList.add('filled');
+          // Apply collapsible if text is long
+          applyCollapsible(row.meal_id, row.meal_text);
         }
       });
     } catch (e) {
@@ -1591,6 +1645,29 @@ body{background:var(--sand);color:var(--text);font-family:'DM Sans',sans-serif;f
     } finally {
       setLoading(false);
     }
+  }
+
+  // ── Collapsible meal names ─────────────────────────────────────
+  function applyCollapsible(id, text) {
+    const nameEl = document.getElementById(`meal-${id}`);
+    const expandBtn = document.getElementById(`expand-${id}`);
+    if (!nameEl || !expandBtn) return;
+    // Reset state
+    nameEl.classList.remove('collapsible', 'expanded');
+    expandBtn.classList.remove('visible');
+    if (text && text.length > 80) {
+      nameEl.classList.add('collapsible');
+      expandBtn.classList.add('visible');
+      expandBtn.textContent = '▼ Show more';
+    }
+  }
+
+  function toggleMealExpand(id) {
+    const nameEl = document.getElementById(`meal-${id}`);
+    const expandBtn = document.getElementById(`expand-${id}`);
+    if (!nameEl || !expandBtn) return;
+    const expanded = nameEl.classList.toggle('expanded');
+    expandBtn.textContent = expanded ? '▲ Show less' : '▼ Show more';
   }
 
   // ── Toggle edit panel ─────────────────────────────────────────
@@ -1632,6 +1709,7 @@ body{background:var(--sand);color:var(--text);font-family:'DM Sans',sans-serif;f
       });
       if (!res.ok) throw new Error('Save failed');
       nameEl.textContent = text;
+      applyCollapsible(id, text);
       btnEl.classList.add('filled');
       cancelEdit(id);
       showToast('✓ Meal saved!');
@@ -1641,9 +1719,9 @@ body{background:var(--sand);color:var(--text);font-family:'DM Sans',sans-serif;f
     }
   }
 
-  // ── Enter key to save ─────────────────────────────────────────
+  // ── Ctrl+Enter to save meal (textarea is multiline) ──────────
   document.addEventListener('keydown', e => {
-    if (e.key === 'Enter') {
+    if ((e.key === 'Enter' && (e.ctrlKey || e.metaKey))) {
       const openWrap = document.querySelector('.meal-edit-wrap.open');
       if (openWrap) {
         const id = openWrap.id.replace('edit-', '');
@@ -1660,7 +1738,7 @@ body{background:var(--sand);color:var(--text);font-family:'DM Sans',sans-serif;f
     document.getElementById(`nav-${name}`).classList.add('active');
     if (name === 'photos') loadPhotos();
     if (name === 'feed') { loadFeed(); initFeedComposer(); }
-    if (name === 'profile') { loadMyProfile(); loadCrew(); }
+    if (name === 'profile') { loadMyProfile(); loadCrew(); buildMyItinerary(); }
     window.scrollTo(0, 0);
   }
 
@@ -2384,7 +2462,7 @@ body{background:var(--sand);color:var(--text);font-family:'DM Sans',sans-serif;f
       'd24-act1','d24-act2',
       'd25-act1','d25-act2',
       'd26-act1','d26-act2','d26-act3',
-      'd27-act1','d27-act2','d27-act3','d27-act4',
+      'd27-act1','d27-act2','d27-act3',
       'd28-act1','d28-act2',
       'd29-act1','d29-act2'
     ];
@@ -2630,6 +2708,120 @@ body{background:var(--sand);color:var(--text);font-family:'DM Sans',sans-serif;f
   const AVATAR_STORAGE = `${SUPABASE_URL}/storage/v1/object/avatars`;
   let pendingAvatarFile = null;
   let pendingAvatarPreviewUrl = null;
+
+  // ── Personal itinerary ────────────────────────────────────────
+  const DAYS = [
+    { id: 'd24', title: 'Friday', date: 'Jul 24', sub: 'Arrival Day' },
+    { id: 'd25', title: 'Saturday', date: 'Jul 25', sub: 'Beach Day 1' },
+    { id: 'd26', title: 'Sunday', date: 'Jul 26', sub: 'Beach Day 2' },
+    { id: 'd27', title: 'Monday', date: 'Jul 27', sub: 'Beach Day 3' },
+    { id: 'd28', title: 'Tuesday', date: 'Jul 28', sub: 'Beach Day 4' },
+    { id: 'd29', title: 'Wednesday', date: 'Jul 29', sub: 'Departure Day' }
+  ];
+
+  const MEAL_SLOTS = [
+    { id: 'd24-dinner', day: 'd24', type: 'dinner', label: 'Dinner', icon: '🌙' },
+    { id: 'd25-breakfast', day: 'd25', type: 'breakfast', label: 'Breakfast', icon: '☀️' },
+    { id: 'd25-lunch', day: 'd25', type: 'lunch', label: 'Lunch', icon: '🌿' },
+    { id: 'd25-dinner', day: 'd25', type: 'dinner', label: 'Dinner', icon: '🌙' },
+    { id: 'd26-breakfast', day: 'd26', type: 'breakfast', label: 'Breakfast', icon: '☀️' },
+    { id: 'd26-lunch', day: 'd26', type: 'lunch', label: 'Lunch', icon: '🌿' },
+    { id: 'd26-dinner', day: 'd26', type: 'dinner', label: 'Dinner', icon: '🌙' },
+    { id: 'd27-breakfast', day: 'd27', type: 'breakfast', label: 'Breakfast', icon: '☀️' },
+    { id: 'd27-lunch', day: 'd27', type: 'lunch', label: 'Lunch', icon: '🌿' },
+    { id: 'd27-dinner', day: 'd27', type: 'dinner', label: 'Dinner', icon: '🌙' },
+    { id: 'd28-breakfast', day: 'd28', type: 'breakfast', label: 'Breakfast', icon: '☀️' },
+    { id: 'd28-lunch', day: 'd28', type: 'lunch', label: 'Lunch', icon: '🌿' },
+    { id: 'd28-dinner', day: 'd28', type: 'dinner', label: 'Dinner', icon: '🌙' },
+    { id: 'd29-breakfast', day: 'd29', type: 'breakfast', label: 'Breakfast', icon: '☀️' },
+    { id: 'd29-lunch', day: 'd29', type: 'lunch', label: 'Farewell Lunch', icon: '🌿' }
+  ];
+
+  const ACTIVITY_META = {
+    'd24-act1': { day: 'd24', name: 'Hit the Beach', slot: 'Afternoon' },
+    'd24-act2': { day: 'd24', name: 'Resort Pool & Splash Pad', slot: 'Late Afternoon' },
+    'd25-act1': { day: 'd25', name: 'Beach Day', slot: 'Morning' },
+    'd25-act2': { day: 'd25', name: 'Dodgeball Tournament', slot: 'Afternoon' },
+    'd26-act1': { day: 'd26', name: 'Texas State Aquarium', slot: 'Morning' },
+    'd26-act2': { day: 'd26', name: 'Beach & Pool Afternoon', slot: 'Afternoon' },
+    'd26-act3': { day: 'd26', name: 'Full Group Photos', slot: 'Evening' },
+    'd27-act1': { day: 'd27', name: 'Beach Day', slot: 'Morning' },
+    'd27-act2': { day: 'd27', name: 'Pickleball Tournament', slot: 'Afternoon' },
+    'd27-act3': { day: 'd27', name: 'Pool & Splash Pad Wind-Down', slot: 'Evening' },
+    'd28-act1': { day: 'd28', name: 'Golf — Palmilla Beach Course', slot: 'Morning' },
+    'd28-act2': { day: 'd28', name: 'Last Full Beach Day', slot: 'Afternoon' },
+    'd29-act1': { day: 'd29', name: 'Last Morning Beach Walk', slot: 'Early Morning' },
+    'd29-act2': { day: 'd29', name: 'Pack Up & Check Out', slot: 'Mid-Morning' }
+  };
+
+  function findMyCoupleFor(myName) {
+    if (!myName) return null;
+    const lower = myName.toLowerCase();
+    return COUPLES.find(c =>
+      c.toLowerCase().split(/\s*[&\/]\s*/).some(part => part.trim() === lower)
+    ) || null;
+  }
+
+  function buildMyItinerary() {
+    const myName = getAuthor();
+    const container = document.getElementById('myItinerary');
+    if (!myName) {
+      container.innerHTML = '<div class="itin-empty">Set up your profile to see your schedule.</div>';
+      return;
+    }
+    const myCouple = findMyCoupleFor(myName);
+    const myActivityIds = new Set(
+      Object.entries(allSignups)
+        .filter(([, names]) => names.includes(myName))
+        .map(([id]) => id)
+    );
+
+    let hasAnything = false;
+    const html = DAYS.map(day => {
+      const items = [];
+      // Meals where my couple is assigned
+      if (myCouple) {
+        MEAL_SLOTS.filter(m => m.day === day.id).forEach(m => {
+          if (currentAssignments[m.id] === myCouple) {
+            items.push(`<div class="itin-item">
+              <div class="itin-item-icon meal-${m.type}">${m.icon}</div>
+              <div class="itin-item-body">
+                <div class="itin-item-type ${m.type}">${m.label}</div>
+                <div class="itin-item-name">Cooking for the group</div>
+                <div class="itin-item-note">${myCouple}</div>
+              </div>
+            </div>`);
+          }
+        });
+      }
+      // Activities signed up for
+      Object.entries(ACTIVITY_META)
+        .filter(([id, meta]) => meta.day === day.id && myActivityIds.has(id))
+        .forEach(([, meta]) => {
+          items.push(`<div class="itin-item">
+            <div class="itin-item-icon activity">🎯</div>
+            <div class="itin-item-body">
+              <div class="itin-item-type activity">${meta.slot}</div>
+              <div class="itin-item-name">${meta.name}</div>
+            </div>
+          </div>`);
+        });
+
+      if (!items.length) return null;
+      hasAnything = true;
+      return `<div class="itin-day">
+        <div class="itin-day-header">
+          <div class="itin-day-title">${day.title}, ${day.date}</div>
+          <div class="itin-day-date">${day.sub}</div>
+        </div>
+        <div class="itin-items">${items.join('')}</div>
+      </div>`;
+    }).filter(Boolean).join('');
+
+    container.innerHTML = hasAnything
+      ? html
+      : '<div class="itin-empty">No meals or activities yet.<br>Sign up for activities in the Planner tab!</div>';
+  }
 
   // Load my profile from Supabase or localStorage
   async function loadMyProfile() {

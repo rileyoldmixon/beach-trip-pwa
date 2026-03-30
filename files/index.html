@@ -1,0 +1,2763 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Beach Trip">
+<meta name="theme-color" content="#1a4360">
+<link rel="manifest" href="/manifest.json">
+<link rel="apple-touch-icon" href="/icon-192.png">
+<title>Beach Week 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --sand: #f4ede0;
+  --sand-mid: #e2d2b8;
+  --sand-dark: #c8b898;
+  --ocean: #2a6b8a;
+  --ocean-deep: #1a4360;
+  --coral: #d96b52;
+  --coral-light: #eda590;
+  --seafoam: #6dbdbd;
+  --gold: #b87e20;
+  --green: #4a8a40;
+  --white: #fdfaf5;
+  --text: #2c2316;
+  --text-mid: #5a4a35;
+  --text-light: #8a7860;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+body{background:var(--sand);color:var(--text);font-family:'DM Sans',sans-serif;font-weight:300;min-height:100vh;padding-bottom:env(safe-area-inset-bottom);}
+
+/* HERO */
+.hero{background:linear-gradient(150deg,#12293d 0%,#1a4360 50%,#215f7a 100%);color:var(--white);padding:calc(env(safe-area-inset-top) + 48px) 32px 76px;position:relative;overflow:hidden;}
+.hero-glow{position:absolute;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(109,189,189,.14) 0%,transparent 70%);top:-130px;right:-100px;pointer-events:none;}
+.hero-wave{position:absolute;bottom:-1px;left:0;right:0;}
+.eyebrow{font-size:10px;font-weight:600;letter-spacing:.28em;text-transform:uppercase;color:var(--seafoam);margin-bottom:14px;}
+.hero h1{font-family:'Playfair Display',serif;font-size:clamp(36px,6.5vw,60px);font-weight:700;line-height:1.02;margin-bottom:8px;}
+.hero h1 em{font-style:italic;color:var(--coral-light);}
+.hero-sub{font-size:13px;color:rgba(253,250,245,.52);letter-spacing:.07em;margin-bottom:30px;}
+.stats{display:flex;gap:30px;flex-wrap:wrap;}
+.stat-num{font-family:'Playfair Display',serif;font-size:30px;color:var(--seafoam);display:block;line-height:1;}
+.stat-lbl{font-size:10px;text-transform:uppercase;letter-spacing:.15em;color:rgba(253,250,245,.38);margin-top:3px;display:block;}
+
+/* ROSTER */
+.roster{max-width:980px;margin:0 auto;padding:38px 24px 10px;}
+.sect-label{font-size:10px;font-weight:600;letter-spacing:.25em;text-transform:uppercase;color:var(--ocean);margin-bottom:14px;}
+.couples-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(188px,1fr));gap:9px;}
+.couple-card{background:var(--white);border:1.5px solid var(--sand-mid);border-radius:12px;padding:13px 15px;}
+.couple-card.early{border-color:#f0b8a0;background:#fff7f4;}
+.c-names{font-weight:600;font-size:13.5px;}
+.c-note{font-size:11px;color:var(--text-light);margin-top:3px;}
+.badges{display:flex;flex-wrap:wrap;gap:4px;margin-top:7px;}
+.badge{font-size:9px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;padding:2px 7px;border-radius:4px;color:#fff;}
+.badge.dinner{background:var(--ocean-deep);}
+.badge.breakfast{background:var(--gold);}
+.badge.lunch{background:var(--green);}
+.badge.warn{background:var(--coral);}
+
+/* LEGEND */
+.legend{max-width:980px;margin:0 auto;padding:6px 24px 24px;}
+.legend-row{display:flex;gap:16px;flex-wrap:wrap;align-items:center;}
+.legend-item{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--text-light);}
+.legend-dot{width:10px;height:10px;border-radius:3px;flex-shrink:0;}
+
+/* TABS */
+.tabs-wrap{max-width:980px;margin:0 auto;padding:0 24px;}
+.tabs{display:flex;gap:3px;background:var(--sand-mid);border-radius:13px;padding:4px;flex-wrap:wrap;}
+.tab{flex:1;min-width:75px;padding:10px 5px 8px;border:none;background:transparent;border-radius:10px;font-family:'DM Sans',sans-serif;font-size:11.5px;font-weight:500;cursor:pointer;color:var(--text-light);transition:all .17s ease;text-align:center;}
+.tab.active{background:var(--white);color:var(--ocean-deep);box-shadow:0 1px 6px rgba(0,0,0,.1);}
+.tab-day{display:block;font-size:11px;font-weight:700;}
+.tab-date{display:block;font-size:10px;opacity:.58;margin-top:1px;}
+
+/* PANELS */
+.days-wrap{max-width:980px;margin:20px auto 60px;padding:0 24px;}
+.day-panel{display:none;}
+.day-panel.active{display:block;}
+.day-hdr{display:flex;align-items:baseline;gap:12px;margin-bottom:20px;flex-wrap:wrap;}
+.day-title{font-family:'Playfair Display',serif;font-size:26px;font-weight:700;color:var(--ocean-deep);}
+.day-sub{font-size:12px;color:var(--text-light);letter-spacing:.07em;}
+.headcount{margin-left:auto;background:var(--ocean-deep);color:var(--seafoam);font-size:11px;font-weight:500;padding:5px 13px;border-radius:20px;letter-spacing:.05em;white-space:nowrap;}
+
+/* SECTION DIVIDERS */
+.day-section-label{font-size:10px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--text-light);margin:20px 0 10px;display:flex;align-items:center;gap:8px;}
+.day-section-label::after{content:'';flex:1;height:1px;background:var(--sand-mid);}
+
+/* CARDS */
+.cards-col{display:flex;flex-direction:column;gap:11px;}
+.card{background:var(--white);border-radius:14px;overflow:hidden;border:1.5px solid var(--sand-mid);box-shadow:0 2px 12px rgba(26,67,96,.04);}
+
+/* MEAL CARDS */
+.meal-hdr{display:flex;align-items:center;gap:12px;padding:14px 16px;}
+.meal-icon{width:38px;height:38px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
+.meal-icon.breakfast{background:#fff3dc;}
+.meal-icon.lunch{background:#eaf5e2;}
+.meal-icon.dinner{background:#e6eeff;}
+.meal-meta{flex:1;}
+.meal-type-lbl{font-size:10px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;}
+.meal-type-lbl.breakfast{color:var(--gold);}
+.meal-type-lbl.lunch{color:var(--green);}
+.meal-type-lbl.dinner{color:var(--ocean);}
+.meal-name{font-family:'Playfair Display',serif;font-size:16px;font-weight:700;color:var(--text);margin-top:1px;min-height:24px;}
+.card-footer{padding:0 16px 12px;display:flex;gap:6px;flex-wrap:wrap;align-items:center;}
+.chip{font-size:11px;padding:3px 10px;border-radius:6px;font-weight:500;background:var(--sand);color:var(--text-mid);border:1px solid var(--sand-mid);}
+.chip.chef{background:var(--ocean-deep);color:var(--seafoam);border-color:var(--ocean-deep);}
+.chip.note{background:#fffaee;color:#9a6820;border-color:#f0d890;}
+
+/* EDIT BUTTON */
+.edit-btn{margin-left:auto;background:none;border:1.5px solid var(--sand-dark);border-radius:8px;padding:4px 12px;font-family:'DM Sans',sans-serif;font-size:11px;font-weight:600;color:var(--text-light);cursor:pointer;transition:all .15s ease;flex-shrink:0;}
+.edit-btn:hover,.edit-btn:active{background:var(--ocean-deep);color:var(--seafoam);border-color:var(--ocean-deep);}
+.edit-btn.filled{background:#e8f8f0;color:var(--green);border-color:#b0dcc0;}
+
+/* EDIT INLINE */
+.meal-edit-wrap{padding:0 16px 14px;display:none;}
+.meal-edit-wrap.open{display:block;}
+.meal-input{width:100%;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:400;color:var(--text);background:var(--sand);border:1.5px solid var(--sand-dark);border-radius:10px;padding:10px 14px;outline:none;transition:border-color .15s;}
+.meal-input:focus{border-color:var(--ocean);background:var(--white);}
+.edit-actions{display:flex;gap:8px;margin-top:8px;}
+.save-btn{flex:1;background:var(--ocean-deep);color:var(--seafoam);border:none;border-radius:9px;padding:10px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;cursor:pointer;}
+.cancel-btn{background:var(--sand);color:var(--text-light);border:1.5px solid var(--sand-dark);border-radius:9px;padding:10px 16px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer;}
+.saving-indicator{font-size:11px;color:var(--text-light);margin-top:6px;min-height:16px;text-align:center;}
+
+/* ACTIVITY CARDS */
+.act-card{background:var(--white);border-radius:14px;border:1.5px solid var(--sand-mid);box-shadow:0 2px 12px rgba(26,67,96,.04);}
+.act-hdr{display:flex;align-items:center;gap:12px;padding:14px 16px;}
+.act-icon{width:38px;height:38px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
+.act-icon.beach{background:#fff0e0;}
+.act-icon.pool{background:#e0f4ff;}
+.act-icon.offsite{background:#f0eaff;}
+.act-icon.sport{background:#e8ffe8;}
+.act-icon.golf{background:#eaf2e8;}
+.act-icon.photo{background:#fff0f5;}
+.act-icon.free{background:#f5f5f0;}
+.act-meta{flex:1;}
+.act-slot{font-size:10px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--text-light);}
+.act-name{font-family:'Playfair Display',serif;font-size:16px;font-weight:700;color:var(--text);margin-top:1px;}
+.act-desc{font-size:12px;color:var(--text-light);margin-top:2px;line-height:1.45;}
+.act-footer{padding:0 16px 12px;display:flex;gap:6px;flex-wrap:wrap;}
+.act-chip{font-size:11px;padding:3px 10px;border-radius:6px;font-weight:500;border:1px solid;}
+.act-chip.beach{background:#fff5e8;color:#a06020;border-color:#f0d8a0;}
+.act-chip.pool{background:#e8f5ff;color:#2060a0;border-color:#b0d8f8;}
+.act-chip.offsite{background:#f5f0ff;color:#6040a0;border-color:#d0c0f0;}
+.act-chip.sport{background:#f0fff0;color:#307030;border-color:#b0d8b0;}
+.act-chip.golf{background:#f0f5ee;color:#407030;border-color:#b8d4a8;}
+.act-chip.photo{background:#fff0f5;color:#a04060;border-color:#f0b8cc;}
+.act-chip.open{background:#f8f8f4;color:var(--text-light);border-color:var(--sand-mid);}
+
+/* TOAST */
+.toast{position:fixed;bottom:32px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--ocean-deep);color:var(--seafoam);font-size:13px;font-weight:500;padding:10px 20px;border-radius:20px;opacity:0;transition:all .3s ease;pointer-events:none;z-index:999;white-space:nowrap;}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
+/* FOOTER */
+.foot{max-width:980px;margin:0 auto 100px;padding:0 24px;}
+.foot-box{background:var(--ocean-deep);color:var(--white);border-radius:18px;padding:28px 30px;}
+.foot-box h3{font-family:'Playfair Display',serif;font-size:20px;color:var(--seafoam);margin-bottom:18px;}
+.foot-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(255px,1fr));gap:14px;}
+.foot-item{font-size:13px;line-height:1.6;color:rgba(253,250,245,.76);padding-left:14px;border-left:2px solid rgba(109,189,189,.35);}
+.foot-item strong{color:var(--seafoam);display:block;font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;margin-bottom:3px;}
+
+/* LOADING STATE */
+.loading-bar{height:2px;background:var(--seafoam);position:fixed;top:0;left:0;width:0;transition:width .3s;z-index:1000;}
+
+/* BOTTOM NAV */
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;background:var(--white);border-top:1.5px solid var(--sand-mid);display:flex;z-index:100;padding-bottom:env(safe-area-inset-bottom);}
+.nav-btn{flex:1;padding:12px 0 10px;border:none;background:transparent;font-family:'DM Sans',sans-serif;font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--text-light);cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px;transition:color .15s;}
+.nav-btn.active{color:var(--ocean-deep);}
+.nav-btn svg{width:22px;height:22px;}
+.nav-indicator{width:4px;height:4px;border-radius:50%;background:var(--seafoam);opacity:0;transition:opacity .15s;}
+.nav-btn.active .nav-indicator{opacity:1;}
+.view{display:none;min-height:100vh;}
+.view.active{display:block;}
+.photo-hero{background:linear-gradient(150deg,#12293d 0%,#1a4360 50%,#215f7a 100%);color:var(--white);padding:calc(env(safe-area-inset-top) + 48px) 32px 72px;position:relative;overflow:hidden;}
+.photo-hero .hero-glow{position:absolute;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(109,189,189,.14) 0%,transparent 70%);top:-130px;right:-100px;pointer-events:none;}
+.photo-hero .eyebrow{font-size:10px;font-weight:600;letter-spacing:.28em;text-transform:uppercase;color:var(--seafoam);margin-bottom:14px;}
+.photo-hero-row{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;}
+.photo-hero-title{font-family:'Playfair Display',serif;font-size:clamp(32px,6vw,52px);font-weight:700;line-height:1.02;}
+.photo-hero-title em{font-style:italic;color:var(--coral-light);}
+.photo-hero-sub{font-size:13px;color:rgba(253,250,245,.52);letter-spacing:.07em;margin-top:6px;}
+.photo-hero .hero-wave{position:absolute;bottom:-1px;left:0;right:0;}
+.photo-grid-wrap{padding:20px 12px 100px;max-width:980px;margin:0 auto;}
+.upload-btn{background:rgba(255,255,255,.15);color:var(--white);border:1.5px solid rgba(255,255,255,.25);border-radius:12px;padding:12px 20px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:8px;flex-shrink:0;backdrop-filter:blur(4px);}
+.upload-btn:active{opacity:.7;}
+.photo-view-hdr{display:none;}
+.photo-view-title{display:none;}
+.photo-view-sub{display:none;}
+.photo-view{display:none;}
+.photo-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:3px;}
+@media(min-width:500px){.photo-grid{grid-template-columns:repeat(4,1fr);}}
+@media(min-width:700px){.photo-grid{grid-template-columns:repeat(5,1fr);}}
+.photo-item{aspect-ratio:1;overflow:hidden;border-radius:6px;background:var(--sand-mid);cursor:pointer;position:relative;}
+.photo-item img{width:100%;height:100%;object-fit:cover;display:block;}
+.photo-meta{position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,rgba(0,0,0,.55));padding:8px 6px 5px;}
+.photo-uploader{font-size:10px;color:#fff;font-weight:500;}
+.photo-empty{text-align:center;padding:60px 20px;color:var(--text-light);}
+.photo-empty-icon{font-size:48px;margin-bottom:12px;}
+.photo-empty p{font-size:14px;margin-bottom:4px;}
+.photo-empty small{font-size:12px;opacity:.7;}
+.uploading-overlay{display:none;position:fixed;inset:0;background:rgba(26,67,96,.75);z-index:200;align-items:center;justify-content:center;flex-direction:column;gap:16px;}
+.uploading-overlay.show{display:flex;}
+.upload-spinner{width:44px;height:44px;border:3px solid rgba(109,189,189,.3);border-top-color:var(--seafoam);border-radius:50%;animation:spin .8s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg);}}
+.upload-progress-text{font-size:14px;font-weight:500;color:var(--seafoam);}
+.lightbox{display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:300;align-items:flex-end;justify-content:center;}
+.lightbox.show{display:flex;}
+.lightbox-inner{width:100%;max-width:520px;background:#1a2f42;border-radius:20px 20px 0 0;height:72vh;display:flex;flex-direction:column;overflow:hidden;position:relative;}
+.lightbox-img-wrap{width:100%;flex-shrink:0;background:#0f1e2a;max-height:28vh;overflow:hidden;}
+.lightbox-img-wrap img{width:100%;height:28vh;object-fit:contain;display:block;}
+.lightbox-close{position:absolute;top:8px;right:10px;background:rgba(0,0,0,.6);border:none;color:#fff;font-size:16px;width:30px;height:30px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:10;}
+.lightbox-info{color:rgba(255,255,255,.55);font-size:11px;padding:6px 12px 0;flex-shrink:0;}
+.reactions-row{display:flex;gap:5px;padding:6px 12px;flex-shrink:0;}
+.reaction-btn{background:rgba(255,255,255,.1);border:1.5px solid transparent;font-size:18px;border-radius:50%;width:36px;height:36px;cursor:pointer;transition:all .15s;display:flex;align-items:center;justify-content:center;}
+.reaction-btn:active{transform:scale(1.25);}
+.reaction-btn.used{border-color:var(--seafoam);background:rgba(109,189,189,.2);}
+.reaction-counts{display:flex;gap:5px;flex-wrap:wrap;padding:0 12px 4px;min-height:20px;flex-shrink:0;}
+.reaction-count{background:rgba(255,255,255,.1);border-radius:20px;padding:2px 8px;font-size:11px;color:#fff;display:flex;align-items:center;gap:3px;}
+.comments-section{flex:1;display:flex;flex-direction:column;overflow:hidden;padding:0 10px 10px;}
+.comments-list{flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:5px;margin-bottom:8px;}
+.comment-bubble{background:rgba(255,255,255,.07);border-radius:9px;padding:6px 10px;flex-shrink:0;}
+.comment-author{font-size:10px;font-weight:600;color:var(--seafoam);margin-bottom:1px;}
+.comment-text{font-size:12px;color:rgba(255,255,255,.88);line-height:1.4;}
+.comment-time{font-size:9px;color:rgba(255,255,255,.3);margin-top:1px;}
+.comment-empty{font-size:12px;color:rgba(255,255,255,.3);text-align:center;padding:8px 0;}
+.comment-input-row{display:flex;gap:7px;align-items:center;flex-shrink:0;}
+.comment-input{flex:1;background:rgba(255,255,255,.1);border:1.5px solid rgba(255,255,255,.15);border-radius:20px;padding:8px 13px;font-family:'DM Sans',sans-serif;font-size:13px;color:#fff;outline:none;}
+.comment-input::placeholder{color:rgba(255,255,255,.3);}
+.comment-input:focus{border-color:var(--seafoam);}
+.comment-send-btn{background:var(--ocean);border:none;border-radius:50%;width:34px;height:34px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--seafoam);flex-shrink:0;}
+.comment-send-btn:active{opacity:.7;}
+.name-prompt{display:none;position:fixed;inset:0;background:rgba(26,67,96,.8);z-index:250;align-items:center;justify-content:center;}
+.name-prompt.show{display:flex;}
+.name-prompt-box{background:var(--white);border-radius:18px;padding:28px 24px;width:min(340px,90vw);}
+.name-prompt-box h3{font-family:'Playfair Display',serif;font-size:20px;color:var(--ocean-deep);margin-bottom:6px;}
+.name-prompt-box p{font-size:13px;color:var(--text-light);margin-bottom:16px;}
+.name-input{width:100%;font-family:'DM Sans',sans-serif;font-size:14px;color:var(--text);background:var(--sand);border:1.5px solid var(--sand-dark);border-radius:10px;padding:10px 14px;outline:none;margin-bottom:12px;}
+.name-input:focus{border-color:var(--ocean);}
+.name-actions{display:flex;gap:8px;}
+
+/* PASSWORD GATE */
+.gate{position:fixed;inset:0;background:linear-gradient(150deg,#12293d 0%,#1a4360 50%,#215f7a 100%);z-index:500;display:flex;align-items:center;justify-content:center;padding:24px;}
+.gate.hidden{display:none;}
+.gate-glow{position:absolute;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(109,189,189,.14) 0%,transparent 70%);top:-130px;right:-100px;pointer-events:none;}
+.gate-box{width:min(360px,100%);display:flex;flex-direction:column;align-items:center;text-align:center;position:relative;z-index:1;}
+.gate-icon{font-size:52px;margin-bottom:20px;}
+.gate-eyebrow{font-size:10px;font-weight:600;letter-spacing:.28em;text-transform:uppercase;color:var(--seafoam);margin-bottom:12px;}
+.gate-title{font-family:'Playfair Display',serif;font-size:clamp(32px,7vw,48px);font-weight:700;color:var(--white);line-height:1.02;margin-bottom:6px;}
+.gate-title em{font-style:italic;color:var(--coral-light);}
+.gate-sub{font-size:13px;color:rgba(253,250,245,.5);letter-spacing:.06em;margin-bottom:36px;}
+.gate-input{width:100%;background:rgba(255,255,255,.1);border:1.5px solid rgba(255,255,255,.2);border-radius:14px;padding:14px 18px;font-family:'DM Sans',sans-serif;font-size:16px;color:var(--white);outline:none;text-align:center;letter-spacing:.08em;margin-bottom:12px;transition:border-color .2s;}
+.gate-input::placeholder{color:rgba(255,255,255,.3);}
+.gate-input:focus{border-color:var(--seafoam);}
+.gate-input.error{border-color:var(--coral);animation:shake .3s ease;}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
+.gate-btn{width:100%;background:var(--seafoam);color:var(--ocean-deep);border:none;border-radius:14px;padding:15px;font-family:'DM Sans',sans-serif;font-size:15px;font-weight:700;cursor:pointer;letter-spacing:.05em;transition:opacity .15s;}
+.gate-btn:active{opacity:.8;}
+.gate-error{font-size:12px;color:var(--coral-light);margin-top:10px;min-height:18px;}
+.name-confirm-btn{flex:1;background:var(--ocean-deep);color:var(--seafoam);border:none;border-radius:9px;padding:12px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600;cursor:pointer;}
+.name-cancel-btn{background:var(--sand);color:var(--text-light);border:1.5px solid var(--sand-dark);border-radius:9px;padding:12px 16px;font-family:'DM Sans',sans-serif;font-size:14px;cursor:pointer;}
+
+/* RESORT VIEW */
+.resort-hero{background:linear-gradient(150deg,#12293d 0%,#1a4360 50%,#215f7a 100%);color:var(--white);padding:calc(env(safe-area-inset-top) + 48px) 32px 72px;position:relative;overflow:hidden;}
+.resort-hero .hero-glow{position:absolute;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(109,189,189,.14) 0%,transparent 70%);top:-130px;right:-100px;pointer-events:none;}
+.resort-hero .eyebrow{font-size:10px;font-weight:600;letter-spacing:.28em;text-transform:uppercase;color:var(--seafoam);margin-bottom:12px;}
+.resort-hero-title{font-family:'Playfair Display',serif;font-size:clamp(32px,6vw,52px);font-weight:700;line-height:1.02;color:var(--white);}
+.resort-hero-title em{font-style:italic;color:var(--coral-light);}
+.resort-hero-sub{font-size:13px;color:rgba(253,250,245,.5);margin-top:6px;}
+.resort-hero .hero-wave{position:absolute;bottom:-1px;left:0;right:0;}
+.resort-frame-wrap{position:relative;height:calc(100vh - 220px);}
+#resortFrame{width:100%;height:100%;border:none;display:block;}
+.resort-fallback{display:block;padding:24px 24px 100px;max-width:480px;margin:0 auto;}
+.resort-fallback-icon{display:none;}
+.resort-fallback p{display:none;}
+.resort-open-btn{display:block;background:var(--ocean-deep);color:var(--seafoam);text-decoration:none;border-radius:14px;padding:14px 20px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600;margin-bottom:28px;}
+.resort-links-label{font-size:10px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--text-light);margin-bottom:12px;}
+.resort-links{display:flex;flex-direction:column;gap:10px;}
+.resort-link-btn{display:block;background:var(--white);border:1.5px solid var(--sand-mid);border-radius:12px;padding:13px 16px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;color:var(--text);text-decoration:none;text-align:left;}
+
+/* FEED VIEW */
+.feed-hero{background:linear-gradient(150deg,#12293d 0%,#1a4360 50%,#215f7a 100%);color:var(--white);padding:calc(env(safe-area-inset-top) + 48px) 32px 72px;position:relative;overflow:hidden;}
+.feed-hero .hero-glow{position:absolute;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(109,189,189,.14) 0%,transparent 70%);top:-130px;right:-100px;pointer-events:none;}
+.feed-hero .eyebrow{font-size:10px;font-weight:600;letter-spacing:.28em;text-transform:uppercase;color:var(--seafoam);margin-bottom:12px;}
+.feed-hero-title{font-family:'Playfair Display',serif;font-size:clamp(32px,6vw,52px);font-weight:700;color:var(--white);line-height:1.02;}
+.feed-hero-title em{font-style:italic;color:var(--coral-light);}
+.feed-hero-sub{font-size:13px;color:rgba(253,250,245,.5);margin-top:6px;}
+.feed-hero .hero-wave{position:absolute;bottom:-1px;left:0;right:0;}
+.feed-wrap{max-width:640px;margin:0 auto;padding:20px 16px 100px;}
+.post-composer{background:var(--white);border-radius:16px;border:1.5px solid var(--sand-mid);padding:14px;margin-bottom:20px;box-shadow:0 2px 12px rgba(26,67,96,.05);position:relative;}
+.composer-author{font-size:11px;color:var(--text-light);margin-bottom:8px;}
+.composer-change{color:var(--ocean);cursor:pointer;text-decoration:underline;}
+.composer-input{width:100%;font-family:'DM Sans',sans-serif;font-size:14px;color:var(--text);background:transparent;border:none;outline:none;resize:none;line-height:1.5;}
+.composer-footer{display:flex;align-items:center;justify-content:space-between;margin-top:10px;padding-top:10px;border-top:1px solid var(--sand-mid);}
+.composer-count{font-size:11px;color:var(--text-light);}
+.composer-post-btn{background:var(--ocean-deep);color:var(--seafoam);border:none;border-radius:10px;padding:8px 20px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;cursor:pointer;}
+.composer-post-btn:active{opacity:.8;}
+.mention-dropdown{position:absolute;background:var(--white);border:1.5px solid var(--sand-mid);border-radius:12px;box-shadow:0 4px 20px rgba(0,0,0,.12);z-index:50;width:200px;display:none;overflow:hidden;}
+.mention-dropdown.open{display:block;}
+.mention-option{padding:10px 14px;font-size:13px;cursor:pointer;color:var(--text);border-bottom:1px solid var(--sand-mid);}
+.mention-option:last-child{border-bottom:none;}
+.mention-option:hover{background:var(--sand);}
+.feed-list{display:flex;flex-direction:column;gap:14px;}
+.feed-empty{text-align:center;padding:48px 20px;color:var(--text-light);}
+.feed-empty-icon{font-size:44px;margin-bottom:12px;}
+.feed-empty p{font-size:14px;margin-bottom:4px;}
+.feed-empty small{font-size:12px;opacity:.7;}
+.post-card{background:var(--white);border-radius:16px;border:1.5px solid var(--sand-mid);padding:14px;box-shadow:0 2px 10px rgba(26,67,96,.04);}
+.post-top{display:flex;align-items:flex-start;gap:10px;margin-bottom:8px;}
+.post-avatar{width:36px;height:36px;border-radius:50%;background:var(--ocean-deep);color:var(--seafoam);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;flex-shrink:0;}
+.post-meta{flex:1;}
+.post-author{font-size:13px;font-weight:600;color:var(--text);}
+.post-time{font-size:11px;color:var(--text-light);margin-top:1px;}
+.post-body{font-size:14px;color:var(--text);line-height:1.55;margin-bottom:10px;word-break:break-word;}
+.post-body .mention{color:var(--ocean);font-weight:600;}
+.post-actions{display:flex;align-items:center;gap:14px;padding-top:8px;border-top:1px solid var(--sand-mid);}
+.post-reply-btn{background:none;border:none;font-size:12px;color:var(--text-light);cursor:pointer;font-family:'DM Sans',sans-serif;font-weight:500;display:flex;align-items:center;gap:5px;padding:0;}
+.post-reply-btn:active{color:var(--ocean);}
+.post-comment-preview{margin-top:8px;padding-top:8px;border-top:1px solid var(--sand-mid);font-size:12px;color:var(--text-mid);cursor:pointer;}
+.post-comment-preview .preview-author{font-weight:600;color:var(--text);}
+.post-more-comments{font-size:11px;color:var(--ocean);cursor:pointer;margin-top:4px;}
+
+/* THREAD MODAL */
+.thread-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:400;align-items:flex-end;justify-content:center;}
+.thread-modal.show{display:flex;}
+.thread-inner{width:100%;max-width:560px;background:var(--white);border-radius:20px 20px 0 0;max-height:88vh;display:flex;flex-direction:column;overflow:hidden;}
+.thread-header{display:flex;align-items:center;padding:14px 16px;border-bottom:1px solid var(--sand-mid);flex-shrink:0;}
+.thread-close{background:none;border:none;font-size:18px;color:var(--text-light);cursor:pointer;margin-right:12px;padding:0;}
+.thread-title{font-weight:600;font-size:15px;color:var(--text);}
+.thread-post{padding:14px 16px;border-bottom:1.5px solid var(--sand-mid);flex-shrink:0;}
+.thread-comments{flex:1;overflow-y:auto;padding:12px 16px;display:flex;flex-direction:column;gap:10px;}
+.thread-comment{display:flex;gap:9px;}
+.thread-comment-avatar{width:28px;height:28px;border-radius:50%;background:var(--sand-mid);color:var(--text-mid);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;}
+.thread-comment-bubble{background:var(--sand);border-radius:12px;padding:8px 12px;flex:1;}
+.thread-comment-author{font-size:11px;font-weight:600;color:var(--ocean-deep);margin-bottom:2px;}
+.thread-comment-body{font-size:13px;color:var(--text);line-height:1.4;word-break:break-word;}
+.thread-comment-body .mention{color:var(--ocean);font-weight:600;}
+.thread-comment-time{font-size:10px;color:var(--text-light);margin-top:3px;}
+.thread-empty{font-size:13px;color:var(--text-light);text-align:center;padding:20px 0;}
+.thread-input-row{display:flex;gap:8px;padding:10px 12px;border-top:1px solid var(--sand-mid);flex-shrink:0;position:relative;}
+.thread-input{flex:1;background:var(--sand);border:1.5px solid var(--sand-mid);border-radius:20px;padding:9px 14px;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--text);outline:none;}
+.thread-input:focus{border-color:var(--ocean);}
+.thread-send{background:var(--ocean-deep);border:none;border-radius:50%;width:36px;height:36px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--seafoam);flex-shrink:0;}
+.thread-send:active{opacity:.7;}
+#threadMentionDropdown{bottom:60px;left:12px;top:auto;}
+
+/* PROFILE VIEW */
+.profile-hero{background:linear-gradient(150deg,#12293d 0%,#1a4360 50%,#215f7a 100%);padding:calc(env(safe-area-inset-top) + 24px) 24px 72px;position:relative;overflow:hidden;}
+.profile-hero .hero-glow{position:absolute;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(109,189,189,.14) 0%,transparent 70%);top:-130px;right:-100px;pointer-events:none;}
+.profile-hero .hero-wave{position:absolute;bottom:-1px;left:0;right:0;}
+.my-profile-card{display:flex;align-items:center;gap:16px;position:relative;z-index:1;}
+.my-avatar-wrap{position:relative;flex-shrink:0;cursor:pointer;}
+.my-avatar{width:72px;height:72px;border-radius:50%;background:rgba(255,255,255,.15);border:2.5px solid rgba(109,189,189,.6);display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.6);overflow:hidden;}
+.my-avatar img{width:100%;height:100%;object-fit:cover;}
+.avatar-edit-badge{position:absolute;bottom:0;right:0;background:var(--seafoam);color:var(--ocean-deep);border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-size:11px;border:2px solid var(--ocean-deep);}
+.my-profile-info{flex:1;}
+.my-profile-name{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;color:var(--white);line-height:1.1;}
+.my-profile-bio{font-size:12px;color:rgba(253,250,245,.55);margin-top:4px;line-height:1.4;}
+.profile-edit-btn{background:rgba(255,255,255,.12);border:1.5px solid rgba(255,255,255,.2);color:var(--white);border-radius:10px;padding:7px 16px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;cursor:pointer;flex-shrink:0;}
+.profile-edit-btn:active{opacity:.7;}
+
+/* CREW GRID */
+.crew-wrap{max-width:640px;margin:0 auto;padding:24px 16px 100px;}
+.crew-label{font-size:10px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--ocean);margin-bottom:14px;}
+.crew-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:12px;}
+.crew-loading{font-size:13px;color:var(--text-light);padding:20px 0;}
+.crew-card{background:var(--white);border:1.5px solid var(--sand-mid);border-radius:14px;padding:16px 12px;text-align:center;box-shadow:0 2px 8px rgba(26,67,96,.04);}
+.crew-avatar{width:56px;height:56px;border-radius:50%;background:var(--sand-mid);margin:0 auto 10px;overflow:hidden;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:700;color:var(--ocean-deep);}
+.crew-avatar img{width:100%;height:100%;object-fit:cover;}
+.crew-name{font-size:13px;font-weight:600;color:var(--text);margin-bottom:3px;}
+.crew-bio{font-size:11px;color:var(--text-light);line-height:1.4;}
+
+/* PROFILE SETUP MODAL */
+.profile-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:450;align-items:flex-end;justify-content:center;}
+.profile-modal.show{display:flex;}
+.profile-modal-inner{width:100%;max-width:520px;background:var(--white);border-radius:20px 20px 0 0;padding:0 0 32px;max-height:90vh;overflow-y:auto;}
+.profile-modal-header{display:flex;align-items:center;justify-content:space-between;padding:18px 20px 14px;border-bottom:1px solid var(--sand-mid);position:sticky;top:0;background:var(--white);z-index:1;}
+.profile-modal-title{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:var(--ocean-deep);}
+.profile-modal-close{background:none;border:none;font-size:20px;color:var(--text-light);cursor:pointer;padding:0;}
+.profile-avatar-section{display:flex;flex-direction:column;align-items:center;padding:20px 20px 8px;}
+.profile-avatar-preview{width:88px;height:88px;border-radius:50%;background:var(--sand-mid);border:2px dashed var(--sand-dark);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--text-light);overflow:hidden;margin-bottom:8px;}
+.profile-avatar-preview img{width:100%;height:100%;object-fit:cover;}
+.profile-avatar-hint{font-size:12px;color:var(--text-light);}
+.profile-field{padding:10px 20px 0;}
+.profile-label{display:block;font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--text-light);margin-bottom:6px;}
+.profile-input{width:100%;font-family:'DM Sans',sans-serif;font-size:14px;color:var(--text);background:var(--sand);border:1.5px solid var(--sand-mid);border-radius:10px;padding:10px 14px;outline:none;resize:none;}
+.profile-input:focus{border-color:var(--ocean);}
+.profile-field-hint{font-size:11px;color:var(--text-light);margin-top:5px;padding-left:2px;}
+.profile-bio-input{resize:none;}
+.profile-save-btn{display:block;width:calc(100% - 40px);margin:20px 20px 0;background:var(--ocean-deep);color:var(--seafoam);border:none;border-radius:12px;padding:14px;font-family:'DM Sans',sans-serif;font-size:15px;font-weight:700;cursor:pointer;}
+.profile-save-btn:active{opacity:.8;}
+.profile-save-status{text-align:center;font-size:12px;color:var(--text-light);margin-top:10px;min-height:18px;padding:0 20px;}
+
+/* ACTIVITY SIGNUPS */
+.act-signup-section{padding:8px 16px 12px;border-top:1px solid var(--sand-mid);margin-top:2px;}
+.act-signup-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+.act-signup-names{display:flex;flex-wrap:wrap;gap:5px;flex:1;}
+.act-signup-name{font-size:11px;font-weight:500;background:var(--sand);border:1px solid var(--sand-mid);border-radius:20px;padding:3px 10px;color:var(--text-mid);}
+.act-signup-name.mine{background:var(--ocean-deep);color:var(--seafoam);border-color:var(--ocean-deep);}
+.act-signup-btn{font-size:11px;padding:4px 14px;border-radius:20px;font-weight:600;border:1.5px solid var(--green);color:var(--green);background:#f0fff0;cursor:pointer;font-family:'DM Sans',sans-serif;white-space:nowrap;flex-shrink:0;}
+.act-signup-btn.joined{background:var(--green);color:#fff;border-color:var(--green);}
+.act-signup-btn:active{opacity:.7;}
+.act-signup-empty{font-size:11px;color:var(--text-light);font-style:italic;}
+.reassign-btn{font-size:11px;padding:3px 10px;border-radius:6px;font-weight:500;background:#fff5ee;color:var(--coral);border:1px solid #f8c8b0;cursor:pointer;font-family:'DM Sans',sans-serif;}
+.reassign-btn:active{opacity:.7;}
+
+/* REASSIGN MODAL */
+.reassign-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:450;align-items:center;justify-content:center;padding:24px;}
+.reassign-modal.show{display:flex;}
+.reassign-inner{width:100%;max-width:400px;background:var(--white);border-radius:20px;padding:28px 24px 24px;max-height:85vh;overflow-y:auto;}
+.reassign-warning{text-align:center;margin-bottom:20px;}
+.reassign-warning-icon{font-size:36px;margin-bottom:10px;}
+.reassign-warning-title{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:var(--text);margin-bottom:8px;}
+.reassign-warning-msg{font-size:13px;color:var(--text-mid);line-height:1.6;}
+.reassign-warning-msg strong{color:var(--coral);}
+.reassign-confirm-row{display:flex;gap:10px;margin-bottom:0;}
+.reassign-cancel-btn{flex:1;background:var(--sand);color:var(--text-mid);border:1.5px solid var(--sand-dark);border-radius:12px;padding:13px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;cursor:pointer;}
+.reassign-proceed-btn{flex:1;background:var(--coral);color:#fff;border:none;border-radius:12px;padding:13px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:700;cursor:pointer;}
+.reassign-proceed-btn:active{opacity:.8;}
+.reassign-picker{margin-top:20px;}
+.reassign-picker-label{font-size:11px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:var(--text-light);margin-bottom:10px;}
+.reassign-couples-list{display:flex;flex-direction:column;gap:8px;}
+.reassign-couple-opt{background:var(--sand);border:1.5px solid var(--sand-mid);border-radius:12px;padding:13px 16px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;color:var(--text);cursor:pointer;text-align:left;transition:all .15s;width:100%;}
+.reassign-couple-opt:hover,.reassign-couple-opt:active{background:var(--ocean-deep);color:var(--seafoam);border-color:var(--ocean-deep);}
+.reassign-couple-opt.current{opacity:.4;cursor:not-allowed;pointer-events:none;}
+</style>
+</head>
+<body>
+
+<div class="loading-bar" id="loadingBar"></div>
+<div class="toast" id="toast"></div>
+
+<!-- PASSWORD GATE -->
+<div class="gate" id="gate">
+  <div class="gate-glow"></div>
+  <div class="gate-box">
+    <div class="gate-icon">🌊</div>
+    <div class="gate-eyebrow">📍 Port Aransas · July 2026</div>
+    <div class="gate-title">2026 Justus<br><em>Beach Trip</em></div>
+    <div class="gate-sub">Enter the group password to continue</div>
+    <input class="gate-input" id="gateInput" type="password" placeholder="Password" autocomplete="off">
+    <button class="gate-btn" onclick="checkPassword()">Enter</button>
+    <div class="gate-error" id="gateError"></div>
+  </div>
+</div>
+
+<!-- BOTTOM NAV -->
+<nav class="bottom-nav">
+  <button class="nav-btn active" id="nav-planner" onclick="switchView('planner')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+    Planner
+    <div class="nav-indicator"></div>
+  </button>
+  <button class="nav-btn" id="nav-photos" onclick="switchView('photos')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+    Photos
+    <div class="nav-indicator"></div>
+  </button>
+  <button class="nav-btn" id="nav-feed" onclick="switchView('feed')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+    Feed
+    <div class="nav-indicator"></div>
+  </button>
+  <button class="nav-btn" id="nav-resort" onclick="switchView('resort')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+    Resort
+    <div class="nav-indicator"></div>
+  </button>
+  <button class="nav-btn" id="nav-profile" onclick="switchView('profile')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+    Profile
+    <div class="nav-indicator"></div>
+  </button>
+</nav>
+
+<!-- NAME PROMPT -->
+<div class="name-prompt" id="namePrompt">
+  <div class="name-prompt-box">
+    <h3>Who's posting?</h3>
+    <p>Enter your name so everyone knows who uploaded this photo.</p>
+    <input class="name-input" id="nameInput" type="text" placeholder="e.g. Riley & Anna" maxlength="30">
+    <div class="name-actions">
+      <button class="name-cancel-btn" onclick="cancelUpload()">Cancel</button>
+      <button class="name-confirm-btn" onclick="confirmUpload()">Upload Photo</button>
+    </div>
+  </div>
+</div>
+
+<!-- UPLOADING OVERLAY -->
+<div class="uploading-overlay" id="uploadingOverlay">
+  <div class="upload-spinner"></div>
+  <div class="upload-progress-text">Uploading photo…</div>
+</div>
+
+<!-- LIGHTBOX WITH COMMENTS -->
+<div class="lightbox" id="lightbox">
+  <div class="lightbox-inner">
+    <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+    <div class="lightbox-img-wrap">
+      <img id="lightboxImg" src="" alt="">
+    </div>
+    <div class="lightbox-info" id="lightboxInfo"></div>
+
+    <!-- REACTIONS -->
+    <div class="reactions-row" id="reactionsRow">
+      <button class="reaction-btn" data-emoji="❤️" onclick="addReaction('❤️')">❤️</button>
+      <button class="reaction-btn" data-emoji="🔥" onclick="addReaction('🔥')">🔥</button>
+      <button class="reaction-btn" data-emoji="😂" onclick="addReaction('😂')">😂</button>
+      <button class="reaction-btn" data-emoji="🌊" onclick="addReaction('🌊')">🌊</button>
+      <button class="reaction-btn" data-emoji="😎" onclick="addReaction('😎')">😎</button>
+      <button class="reaction-btn" data-emoji="🤙" onclick="addReaction('🤙')">🤙</button>
+    </div>
+    <div class="reaction-counts" id="reactionCounts"></div>
+
+    <!-- COMMENTS -->
+    <div class="comments-section">
+      <div class="comments-list" id="commentsList"></div>
+      <div class="comment-input-row">
+        <input class="comment-input" id="commentInput" type="text" placeholder="Add a comment…" maxlength="200">
+        <button class="comment-send-btn" onclick="submitComment()">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- HIDDEN FILE INPUT -->
+<input type="file" id="fileInput" accept="image/*" multiple style="display:none" onchange="handleFileSelected(event)">
+
+<!-- PLANNER VIEW -->
+<div class="view active" id="view-planner">
+
+<div class="hero">
+  <div class="hero-glow"></div>
+  <div class="eyebrow">📍 Palmilla Beach · 166 Sunrise Ave, Port Aransas · July 2026</div>
+  <h1>The <em>Beach Week</em><br>Trip Planner</h1>
+  <div class="hero-sub">July 24 – 29 &nbsp;·&nbsp; Meals + Activities &nbsp;·&nbsp; 7 couples, 2 babies</div>
+  <div class="stats">
+    <div><span class="stat-num">14</span><span class="stat-lbl">Adults</span></div>
+    <div><span class="stat-num">2</span><span class="stat-lbl">Babies</span></div>
+    <div><span class="stat-num">7</span><span class="stat-lbl">Couples</span></div>
+    <div><span class="stat-num">15</span><span class="stat-lbl">Meals</span></div>
+  </div>
+  <svg class="hero-wave" viewBox="0 0 1200 55" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,28 C220,58 440,0 660,30 C880,58 1040,4 1200,28 L1200,56 L0,56 Z" fill="#f4ede0"/>
+  </svg>
+</div>
+
+<!-- ROSTER -->
+<div class="roster">
+  <div class="sect-label">Couples &amp; Cooking Assignments</div>
+  <div class="couples-grid">
+    <div class="couple-card early">
+      <div class="c-names">Connor &amp; Bethany</div>
+      <div class="c-note">Depart Jul 28 morning</div>
+      <div class="badges">
+        <span class="badge breakfast">Breakfast · Jul 25</span>
+        <span class="badge dinner">Dinner · Jul 25</span>
+        <span class="badge warn">Leaves Jul 28</span>
+      </div>
+    </div>
+    <div class="couple-card">
+      <div class="c-names">Dan &amp; Andrea</div>
+      <div class="c-note">Full stay</div>
+      <div class="badges">
+        <span class="badge dinner">Dinner · Jul 24</span>
+        <span class="badge breakfast">Breakfast · Jul 29</span>
+      </div>
+    </div>
+    <div class="couple-card">
+      <div class="c-names">Levi &amp; Maddie</div>
+      <div class="c-note">Full stay</div>
+      <div class="badges">
+        <span class="badge breakfast">Breakfast · Jul 26</span>
+        <span class="badge dinner">Dinner · Jul 26</span>
+      </div>
+    </div>
+    <div class="couple-card">
+      <div class="c-names">Colton &amp; Abby</div>
+      <div class="c-note">Full stay</div>
+      <div class="badges">
+        <span class="badge breakfast">Breakfast · Jul 27</span>
+        <span class="badge dinner">Dinner · Jul 27</span>
+      </div>
+    </div>
+    <div class="couple-card">
+      <div class="c-names">Anna &amp; Riley</div>
+      <div class="c-note">+ baby Amelia · Full stay</div>
+      <div class="badges">
+        <span class="badge breakfast">Breakfast · Jul 28</span>
+        <span class="badge dinner">Dinner · Jul 28</span>
+      </div>
+    </div>
+    <div class="couple-card">
+      <div class="c-names">Cooper &amp; Em</div>
+      <div class="c-note">+ baby River · Full stay</div>
+      <div class="badges">
+        <span class="badge lunch">Lunch · Jul 25</span>
+        <span class="badge lunch">Lunch · Jul 27</span>
+        <span class="badge lunch">Farewell Lunch · Jul 29</span>
+      </div>
+    </div>
+    <div class="couple-card">
+      <div class="c-names">Codi &amp; Adriel</div>
+      <div class="c-note">Full stay</div>
+      <div class="badges">
+        <span class="badge lunch">Lunch · Jul 26</span>
+        <span class="badge lunch">Lunch · Jul 28</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="legend">
+  <div class="legend-row">
+    <div class="legend-item"><div class="legend-dot" style="background:#f0d8a0;border:1px solid #d8b870;"></div>Beach</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#b0d8f8;border:1px solid #80b8e8;"></div>Pool / Splash Pad</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#d0c0f0;border:1px solid #b090e0;"></div>Off-site</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#b0d8b0;border:1px solid #80c080;"></div>Group Sport</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#b8d4a8;border:1px solid #90c080;"></div>Golf</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#f0b8cc;border:1px solid #d080a0;"></div>Group Photos</div>
+  </div>
+</div>
+
+<!-- TABS -->
+<div class="tabs-wrap">
+  <div class="tabs">
+    <button class="tab active" onclick="showDay(event,'d24')"><span class="tab-day">Fri</span><span class="tab-date">Jul 24</span></button>
+    <button class="tab" onclick="showDay(event,'d25')"><span class="tab-day">Sat</span><span class="tab-date">Jul 25</span></button>
+    <button class="tab" onclick="showDay(event,'d26')"><span class="tab-day">Sun</span><span class="tab-date">Jul 26</span></button>
+    <button class="tab" onclick="showDay(event,'d27')"><span class="tab-day">Mon</span><span class="tab-date">Jul 27</span></button>
+    <button class="tab" onclick="showDay(event,'d28')"><span class="tab-day">Tue</span><span class="tab-date">Jul 28</span></button>
+    <button class="tab" onclick="showDay(event,'d29')"><span class="tab-day">Wed</span><span class="tab-date">Jul 29</span></button>
+  </div>
+</div>
+
+<!-- DAY PANELS -->
+<div class="days-wrap">
+
+  <!-- JUL 24 -->
+  <div class="day-panel active" id="d24">
+    <div class="day-hdr">
+      <div class="day-title">Friday, July 24</div>
+      <div class="day-sub">Arrival Day · Midday check-in</div>
+      <div class="headcount">16 guests arriving</div>
+    </div>
+    <div class="day-section-label">Activities</div>
+    <div class="cards-col">
+      <div class="act-card" id="act-d24-act1">
+        <div class="act-hdr">
+          <div class="act-icon beach">🏖️</div>
+          <div class="act-meta">
+            <div class="act-slot">Afternoon · Activity 1</div>
+            <div class="act-name">Hit the Beach</div>
+            <div class="act-desc">First look at the Gulf — drop bags, get sandy. No agenda.</div>
+          </div>
+        </div>
+        <div class="act-footer"><span class="act-chip beach">Beach</span><span class="act-chip beach">All 16</span></div>
+        <div class="act-signup-section" id="signup-section-d24-act1">
+          <div class="act-signup-row">
+            <div class="act-signup-names" id="signup-names-d24-act1"></div>
+            <button class="act-signup-btn" id="signup-btn-d24-act1" onclick="toggleSignup('d24-act1')">Join</button>
+          </div>
+        </div>
+      </div>
+      <div class="act-card" id="act-d24-act2">
+        <div class="act-hdr">
+          <div class="act-icon pool">🏊</div>
+          <div class="act-meta">
+            <div class="act-slot">Late Afternoon · Activity 2</div>
+            <div class="act-name">Resort Pool &amp; Splash Pad</div>
+            <div class="act-desc">Get the babies in the splash pad. Settle into the resort before dinner.</div>
+          </div>
+        </div>
+        <div class="act-footer"><span class="act-chip pool">Pool / Splash Pad</span><span class="act-chip pool">On-site · Palmilla</span></div>
+        <div class="act-signup-section" id="signup-section-d24-act2">
+          <div class="act-signup-row">
+            <div class="act-signup-names" id="signup-names-d24-act2"></div>
+            <button class="act-signup-btn" id="signup-btn-d24-act2" onclick="toggleSignup('d24-act2')">Join</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="day-section-label">Meals</div>
+    <div class="cards-col">
+      <div class="card" id="card-d24-dinner">
+        <div class="meal-hdr">
+          <div class="meal-icon dinner">🌙</div>
+          <div class="meal-meta">
+            <div class="meal-type-lbl dinner">Dinner</div>
+            <div class="meal-name" id="meal-d24-dinner">TBD</div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <span class="chip chef" id="chef-d24-dinner">👨‍🍳 Dan &amp; Andrea</span>
+          <span class="chip note">📝 No breakfast — arrival day</span>
+          <button class="edit-btn" onclick="toggleEdit('d24-dinner')">Edit</button>
+          <button class="reassign-btn" onclick="startReassign('d24-dinner')">Reassign</button>
+        </div>
+        <div class="meal-edit-wrap" id="edit-d24-dinner">
+          <input class="meal-input" id="input-d24-dinner" type="text" placeholder="What's for dinner?">
+          <div class="edit-actions">
+            <button class="cancel-btn" onclick="cancelEdit('d24-dinner')">Cancel</button>
+            <button class="save-btn" onclick="saveMeal('d24-dinner')">Save</button>
+          </div>
+          <div class="saving-indicator" id="status-d24-dinner"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- JUL 25 -->
+  <div class="day-panel" id="d25">
+    <div class="day-hdr">
+      <div class="day-title">Saturday, July 25</div>
+      <div class="day-sub">Beach Day 1</div>
+      <div class="headcount">16 guests</div>
+    </div>
+    <div class="day-section-label">Activities</div>
+    <div class="cards-col">
+      <div class="act-card" id="act-d25-act1">
+        <div class="act-hdr">
+          <div class="act-icon beach">🏖️</div>
+          <div class="act-meta">
+            <div class="act-slot">Morning · Activity 1</div>
+            <div class="act-name">Beach Day</div>
+            <div class="act-desc">First full beach morning. Set up chairs, get in the water.</div>
+          </div>
+        </div>
+        <div class="act-footer"><span class="act-chip beach">Beach</span><span class="act-chip beach">All 16</span></div>
+        <div class="act-signup-section" id="signup-section-d25-act1">
+          <div class="act-signup-row">
+            <div class="act-signup-names" id="signup-names-d25-act1"></div>
+            <button class="act-signup-btn" id="signup-btn-d25-act1" onclick="toggleSignup('d25-act1')">Join</button>
+          </div>
+        </div>
+      </div>
+      <div class="act-card" id="act-d25-act2">
+        <div class="act-hdr">
+          <div class="act-icon sport">🏐</div>
+          <div class="act-meta">
+            <div class="act-slot">Afternoon · Activity 2</div>
+            <div class="act-name">Dodgeball Tournament</div>
+            <div class="act-desc">Split into teams and settle it on the beach or resort grounds.</div>
+          </div>
+        </div>
+        <div class="act-footer"><span class="act-chip sport">Group Sport</span><span class="act-chip sport">All couples</span></div>
+        <div class="act-signup-section" id="signup-section-d25-act2">
+          <div class="act-signup-row">
+            <div class="act-signup-names" id="signup-names-d25-act2"></div>
+            <button class="act-signup-btn" id="signup-btn-d25-act2" onclick="toggleSignup('d25-act2')">Join</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="day-section-label">Meals</div>
+    <div class="cards-col">
+      <div class="card" id="card-d25-breakfast">
+        <div class="meal-hdr">
+          <div class="meal-icon breakfast">☀️</div>
+          <div class="meal-meta">
+            <div class="meal-type-lbl breakfast">Breakfast</div>
+            <div class="meal-name" id="meal-d25-breakfast">TBD</div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <span class="chip chef" id="chef-d25-breakfast">👨‍🍳 Connor &amp; Bethany</span>
+          <button class="edit-btn" onclick="toggleEdit('d25-breakfast')">Edit</button>
+          <button class="reassign-btn" onclick="startReassign('d25-breakfast')">Reassign</button>
+        </div>
+        <div class="meal-edit-wrap" id="edit-d25-breakfast">
+          <input class="meal-input" id="input-d25-breakfast" type="text" placeholder="What's for breakfast?">
+          <div class="edit-actions">
+            <button class="cancel-btn" onclick="cancelEdit('d25-breakfast')">Cancel</button>
+            <button class="save-btn" onclick="saveMeal('d25-breakfast')">Save</button>
+          </div>
+          <div class="saving-indicator" id="status-d25-breakfast"></div>
+        </div>
+      </div>
+      <div class="card" id="card-d25-lunch">
+        <div class="meal-hdr">
+          <div class="meal-icon lunch">🌿</div>
+          <div class="meal-meta">
+            <div class="meal-type-lbl lunch">Lunch</div>
+            <div class="meal-name" id="meal-d25-lunch">TBD</div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <span class="chip chef" id="chef-d25-lunch">👨‍🍳 Cooper &amp; Em</span>
+          <button class="edit-btn" onclick="toggleEdit('d25-lunch')">Edit</button>
+          <button class="reassign-btn" onclick="startReassign('d25-lunch')">Reassign</button>
+        </div>
+        <div class="meal-edit-wrap" id="edit-d25-lunch">
+          <input class="meal-input" id="input-d25-lunch" type="text" placeholder="What's for lunch?">
+          <div class="edit-actions">
+            <button class="cancel-btn" onclick="cancelEdit('d25-lunch')">Cancel</button>
+            <button class="save-btn" onclick="saveMeal('d25-lunch')">Save</button>
+          </div>
+          <div class="saving-indicator" id="status-d25-lunch"></div>
+        </div>
+      </div>
+      <div class="card" id="card-d25-dinner">
+        <div class="meal-hdr">
+          <div class="meal-icon dinner">🌙</div>
+          <div class="meal-meta">
+            <div class="meal-type-lbl dinner">Dinner</div>
+            <div class="meal-name" id="meal-d25-dinner">TBD</div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <span class="chip chef" id="chef-d25-dinner">👨‍🍳 Connor &amp; Bethany</span>
+          <button class="edit-btn" onclick="toggleEdit('d25-dinner')">Edit</button>
+          <button class="reassign-btn" onclick="startReassign('d25-dinner')">Reassign</button>
+        </div>
+        <div class="meal-edit-wrap" id="edit-d25-dinner">
+          <input class="meal-input" id="input-d25-dinner" type="text" placeholder="What's for dinner?">
+          <div class="edit-actions">
+            <button class="cancel-btn" onclick="cancelEdit('d25-dinner')">Cancel</button>
+            <button class="save-btn" onclick="saveMeal('d25-dinner')">Save</button>
+          </div>
+          <div class="saving-indicator" id="status-d25-dinner"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- JUL 26 -->
+  <div class="day-panel" id="d26">
+    <div class="day-hdr">
+      <div class="day-title">Sunday, July 26</div>
+      <div class="day-sub">Beach Day 2 · Aquarium Day</div>
+      <div class="headcount">16 guests</div>
+    </div>
+    <div class="day-section-label">Activities</div>
+    <div class="cards-col">
+      <div class="act-card" id="act-d26-act1">
+        <div class="act-hdr">
+          <div class="act-icon offsite">🐠</div>
+          <div class="act-meta">
+            <div class="act-slot">Morning · Activity 1</div>
+            <div class="act-name">Texas State Aquarium — Corpus Christi</div>
+            <div class="act-desc">~45 min drive. Open 10 AM–5 PM. Anna &amp; Riley + Cooper &amp; Em take the babies. Others can join or hold down the resort.</div>
+          </div>
+        </div>
+        <div class="act-footer">
+          <span class="act-chip offsite">Off-site</span>
+          <span class="act-chip offsite">2710 N Shoreline Blvd, Corpus Christi</span>
+          <span class="act-chip offsite">⭐ 4.6 · 361-881-1200</span>
+        </div>
+      </div>
+      <div class="act-card" id="act-d26-act2">
+        <div class="act-hdr">
+          <div class="act-icon beach">🏖️</div>
+          <div class="act-meta">
+            <div class="act-slot">Afternoon · Activity 2</div>
+            <div class="act-name">Beach &amp; Pool Afternoon</div>
+            <div class="act-desc">Back from Corpus in time for the afternoon. Beach or resort pool — everyone's call.</div>
+          </div>
+        </div>
+        <div class="act-footer"><span class="act-chip beach">Beach</span><span class="act-chip pool">Pool / Splash Pad</span></div>
+        <div class="act-signup-section" id="signup-section-d26-act2">
+          <div class="act-signup-row">
+            <div class="act-signup-names" id="signup-names-d26-act2"></div>
+            <button class="act-signup-btn" id="signup-btn-d26-act2" onclick="toggleSignup('d26-act2')">Join</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="day-section-label">Meals</div>
+    <div class="cards-col">
+      <div class="card" id="card-d26-breakfast">
+        <div class="meal-hdr">
+          <div class="meal-icon breakfast">☀️</div>
+          <div class="meal-meta">
+            <div class="meal-type-lbl breakfast">Breakfast</div>
+            <div class="meal-name" id="meal-d26-breakfast">TBD</div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <span class="chip chef" id="chef-d26-breakfast">👨‍🍳 Levi &amp; Maddie</span>
+          <button class="edit-btn" onclick="toggleEdit('d26-breakfast')">Edit</button>
+          <button class="reassign-btn" onclick="startReassign('d26-breakfast')">Reassign</button>
+        </div>
+        <div class="meal-edit-wrap" id="edit-d26-breakfast">
+          <input class="meal-input" id="input-d26-breakfast" type="text" placeholder="What's for breakfast?">
+          <div class="edit-actions">
+            <button class="cancel-btn" onclick="cancelEdit('d26-breakfast')">Cancel</button>
+            <button class="save-btn" onclick="saveMeal('d26-breakfast')">Save</button>
+          </div>
+          <div class="saving-indicator" id="status-d26-breakfast"></div>
+        </div>
+      </div>
+      <div class="card" id="card-d26-lunch">
+        <div class="meal-hdr">
+          <div class="meal-icon lunch">🌿</div>
+          <div class="meal-meta">
+            <div class="meal-type-lbl lunch">Lunch</div>
+            <div class="meal-name" id="meal-d26-lunch">TBD</div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <span class="chip chef" id="chef-d26-lunch">👨‍🍳 Codi &amp; Adriel</span>
+          <span class="chip note">Cooper &amp; Em at aquarium</span>
+          <button class="edit-btn" onclick="toggleEdit('d26-lunch')">Edit</button>
+          <button class="reassign-btn" onclick="startReassign('d26-lunch')">Reassign</button>
+        </div>
+        <div class="meal-edit-wrap" id="edit-d26-lunch">
+          <input class="meal-input" id="input-d26-lunch" type="text" placeholder="What's for lunch?">
+          <div class="edit-actions">
+            <button class="cancel-btn" onclick="cancelEdit('d26-lunch')">Cancel</button>
+            <button class="save-btn" onclick="saveMeal('d26-lunch')">Save</button>
+          </div>
+          <div class="saving-indicator" id="status-d26-lunch"></div>
+        </div>
+      </div>
+      <div class="card" id="card-d26-dinner">
+        <div class="meal-hdr">
+          <div class="meal-icon dinner">🌙</div>
+          <div class="meal-meta">
+            <div class="meal-type-lbl dinner">Dinner</div>
+            <div class="meal-name" id="meal-d26-dinner">TBD</div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <span class="chip chef" id="chef-d26-dinner">👨‍🍳 Levi &amp; Maddie</span>
+          <button class="edit-btn" onclick="toggleEdit('d26-dinner')">Edit</button>
+          <button class="reassign-btn" onclick="startReassign('d26-dinner')">Reassign</button>
+        </div>
+        <div class="meal-edit-wrap" id="edit-d26-dinner">
+          <input class="meal-input" id="input-d26-dinner" type="text" placeholder="What's for dinner?">
+          <div class="edit-actions">
+            <button class="cancel-btn" onclick="cancelEdit('d26-dinner')">Cancel</button>
+            <button class="save-btn" onclick="saveMeal('d26-dinner')">Save</button>
+          </div>
+          <div class="saving-indicator" id="status-d26-dinner"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- JUL 27 -->
+  <div class="day-panel" id="d27">
+    <div class="day-hdr">
+      <div class="day-title">Monday, July 27</div>
+      <div class="day-sub">Beach Day 3 · Connor &amp; Bethany's Last Night</div>
+      <div class="headcount">16 guests</div>
+    </div>
+    <div class="day-section-label">Activities</div>
+    <div class="cards-col">
+      <div class="act-card" id="act-d27-act1">
+        <div class="act-hdr">
+          <div class="act-icon beach">🏖️</div>
+          <div class="act-meta">
+            <div class="act-slot">Morning · Activity 1</div>
+            <div class="act-name">Beach Day</div>
+            <div class="act-desc">Morning on the Gulf. First beach day with just the 14.</div>
+          </div>
+        </div>
+        <div class="act-footer"><span class="act-chip beach">Beach</span><span class="act-chip beach">14 guests</span></div>
+        <div class="act-signup-section" id="signup-section-d27-act1">
+          <div class="act-signup-row">
+            <div class="act-signup-names" id="signup-names-d27-act1"></div>
+            <button class="act-signup-btn" id="signup-btn-d27-act1" onclick="toggleSignup('d27-act1')">Join</button>
+          </div>
+        </div>
+      </div>
+      <div class="act-card" id="act-d27-act2">
+        <div class="act-hdr">
+          <div class="act-icon sport">🏓</div>
+          <div class="act-meta">
+            <div class="act-slot">Afternoon · Activity 2</div>
+            <div class="act-name">Pickleball Tournament</div>
+            <div class="act-desc">Round-robin tournament at the resort courts. 7 couples, bracket TBD.</div>
+          </div>
+        </div>
+        <div class="act-footer"><span class="act-chip sport">Group Sport</span><span class="act-chip sport">14 guests</span></div>
+        <div class="act-signup-section" id="signup-section-d27-act2">
+          <div class="act-signup-row">
+            <div class="act-signup-names" id="signup-names-d27-act2"></div>
+            <button class="act-signup-btn" id="signup-btn-d27-act2" onclick="toggleSignup('d27-act2')">Join</button>
+          </div>
+        </div>
+      </div>
+      <div class="act-card" id="act-d27-act3">
+        <div class="act-hdr">
+          <div class="act-icon pool">🏊</div>
+          <div class="act-meta">
+            <div class="act-slot">Evening · Activity 3</div>
+            <div class="act-name">Pool &amp; Splash Pad Wind-Down</div>
+            <div class="act-desc">Cool off after pickleball. Babies in the splash pad, adults in the pool.</div>
+          </div>
+        </div>
+        <div class="act-footer"><span class="act-chip pool">Pool / Splash Pad</span><span class="act-chip pool">On-site · Palmilla</span></div>
+        <div class="act-signup-section" id="signup-section-d27-act3">
+          <div class="act-signup-row">
+            <div class="act-signup-names" id="signup-names-d27-act3"></div>
+            <button class="act-signup-btn" id="signup-btn-d27-act3" onclick="toggleSignup('d27-act3')">Join</button>
+          </div>
+        </div>
+      </div>
+      <div class="act-card" id="act-d27-act4">
+        <div class="act-hdr">
+          <div class="act-icon photo">📸</div>
+          <div class="act-meta">
+            <div class="act-slot">Evening · Activity 4</div>
+            <div class="act-name">Full Group Photos</div>
+            <div class="act-desc">Connor &amp; Bethany's last night — golden hour on the beach. Get the full group shot while all 16 are together.</div>
+          </div>
+        </div>
+        <div class="act-footer">
+          <span class="act-chip photo">Group Photos</span>
+          <span class="act-chip photo">All 16 — full group</span>
+          <span class="act-chip photo">📍 Beach · Golden Hour</span>
+        </div>
+        <div class="act-signup-section" id="signup-section-d27-act4">
+          <div class="act-signup-row">
+            <div class="act-signup-names" id="signup-names-d27-act4"></div>
+            <button class="act-signup-btn" id="signup-btn-d27-act4" onclick="toggleSignup('d27-act4')">Join</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="day-section-label">Meals</div>
+    <div class="cards-col">
+      <div class="card" id="card-d27-breakfast">
+        <div class="meal-hdr">
+          <div class="meal-icon breakfast">☀️</div>
+          <div class="meal-meta">
+            <div class="meal-type-lbl breakfast">Breakfast</div>
+            <div class="meal-name" id="meal-d27-breakfast">TBD</div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <span class="chip chef" id="chef-d27-breakfast">👨‍🍳 Colton &amp; Abby</span>
+          <button class="edit-btn" onclick="toggleEdit('d27-breakfast')">Edit</button>
+          <button class="reassign-btn" onclick="startReassign('d27-breakfast')">Reassign</button>
+        </div>
+        <div class="meal-edit-wrap" id="edit-d27-breakfast">
+          <input class="meal-input" id="input-d27-breakfast" type="text" placeholder="What's for breakfast?">
+          <div class="edit-actions">
+            <button class="cancel-btn" onclick="cancelEdit('d27-breakfast')">Cancel</button>
+            <button class="save-btn" onclick="saveMeal('d27-breakfast')">Save</button>
+          </div>
+          <div class="saving-indicator" id="status-d27-breakfast"></div>
+        </div>
+      </div>
+      <div class="card" id="card-d27-lunch">
+        <div class="meal-hdr">
+          <div class="meal-icon lunch">🌿</div>
+          <div class="meal-meta">
+            <div class="meal-type-lbl lunch">Lunch</div>
+            <div class="meal-name" id="meal-d27-lunch">TBD</div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <span class="chip chef" id="chef-d27-lunch">👨‍🍳 Cooper &amp; Em</span>
+          <button class="edit-btn" onclick="toggleEdit('d27-lunch')">Edit</button>
+          <button class="reassign-btn" onclick="startReassign('d27-lunch')">Reassign</button>
+        </div>
+        <div class="meal-edit-wrap" id="edit-d27-lunch">
+          <input class="meal-input" id="input-d27-lunch" type="text" placeholder="What's for lunch?">
+          <div class="edit-actions">
+            <button class="cancel-btn" onclick="cancelEdit('d27-lunch')">Cancel</button>
+            <button class="save-btn" onclick="saveMeal('d27-lunch')">Save</button>
+          </div>
+          <div class="saving-indicator" id="status-d27-lunch"></div>
+        </div>
+      </div>
+      <div class="card" id="card-d27-dinner">
+        <div class="meal-hdr">
+          <div class="meal-icon dinner">🌙</div>
+          <div class="meal-meta">
+            <div class="meal-type-lbl dinner">Dinner</div>
+            <div class="meal-name" id="meal-d27-dinner">TBD</div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <span class="chip chef" id="chef-d27-dinner">👨‍🍳 Colton &amp; Abby</span>
+          <button class="edit-btn" onclick="toggleEdit('d27-dinner')">Edit</button>
+          <button class="reassign-btn" onclick="startReassign('d27-dinner')">Reassign</button>
+        </div>
+        <div class="meal-edit-wrap" id="edit-d27-dinner">
+          <input class="meal-input" id="input-d27-dinner" type="text" placeholder="What's for dinner?">
+          <div class="edit-actions">
+            <button class="cancel-btn" onclick="cancelEdit('d27-dinner')">Cancel</button>
+            <button class="save-btn" onclick="saveMeal('d27-dinner')">Save</button>
+          </div>
+          <div class="saving-indicator" id="status-d27-dinner"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- JUL 28 -->
+  <div class="day-panel" id="d28">
+    <div class="day-hdr">
+      <div class="day-title">Tuesday, July 28</div>
+      <div class="day-sub">Beach Day 4 · Connor &amp; Bethany depart AM</div>
+      <div class="headcount">14 guests after departure</div>
+    </div>
+    <div class="day-section-label">Activities</div>
+    <div class="cards-col">
+      <div class="act-card" id="act-d28-act1">
+        <div class="act-hdr">
+          <div class="act-icon golf">⛳</div>
+          <div class="act-meta">
+            <div class="act-slot">Morning · Activity 1</div>
+            <div class="act-name">Golf — Palmilla Beach Course</div>
+            <div class="act-desc">9-hole on-site course. Open 7:30 AM. ~$63 to walk. Barefoot-friendly fairways. Clubhouse bar to wrap up the round.</div>
+          </div>
+        </div>
+        <div class="act-footer">
+          <span class="act-chip golf">Golf · Half Day</span>
+          <span class="act-chip golf">On-site · 258 Snapdragon</span>
+          <span class="act-chip golf">⭐ 4.5 · 361-749-4653</span>
+        </div>
+      </div>
+      <div class="act-card" id="act-d28-act2">
+        <div class="act-hdr">
+          <div class="act-icon beach">🏖️</div>
+          <div class="act-meta">
+            <div class="act-slot">Afternoon · Activity 2</div>
+            <div class="act-name">Last Full Beach Day</div>
+            <div class="act-desc">Final real beach afternoon. Make it count — last time in the Gulf this trip.</div>
+          </div>
+        </div>
+        <div class="act-footer"><span class="act-chip beach">Beach</span><span class="act-chip beach">All 14</span></div>
+        <div class="act-signup-section" id="signup-section-d28-act2">
+          <div class="act-signup-row">
+            <div class="act-signup-names" id="signup-names-d28-act2"></div>
+            <button class="act-signup-btn" id="signup-btn-d28-act2" onclick="toggleSignup('d28-act2')">Join</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="day-section-label">Meals</div>
+    <div class="cards-col">
+      <div class="card" id="card-d28-breakfast">
+        <div class="meal-hdr">
+          <div class="meal-icon breakfast">☀️</div>
+          <div class="meal-meta">
+            <div class="meal-type-lbl breakfast">Breakfast</div>
+            <div class="meal-name" id="meal-d28-breakfast">TBD</div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <span class="chip chef" id="chef-d28-breakfast">👨‍🍳 Anna &amp; Riley</span>
+          <button class="edit-btn" onclick="toggleEdit('d28-breakfast')">Edit</button>
+          <button class="reassign-btn" onclick="startReassign('d28-breakfast')">Reassign</button>
+        </div>
+        <div class="meal-edit-wrap" id="edit-d28-breakfast">
+          <input class="meal-input" id="input-d28-breakfast" type="text" placeholder="What's for breakfast?">
+          <div class="edit-actions">
+            <button class="cancel-btn" onclick="cancelEdit('d28-breakfast')">Cancel</button>
+            <button class="save-btn" onclick="saveMeal('d28-breakfast')">Save</button>
+          </div>
+          <div class="saving-indicator" id="status-d28-breakfast"></div>
+        </div>
+      </div>
+      <div class="card" id="card-d28-lunch">
+        <div class="meal-hdr">
+          <div class="meal-icon lunch">🌿</div>
+          <div class="meal-meta">
+            <div class="meal-type-lbl lunch">Lunch</div>
+            <div class="meal-name" id="meal-d28-lunch">TBD</div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <span class="chip chef" id="chef-d28-lunch">👨‍🍳 Codi &amp; Adriel</span>
+          <button class="edit-btn" onclick="toggleEdit('d28-lunch')">Edit</button>
+          <button class="reassign-btn" onclick="startReassign('d28-lunch')">Reassign</button>
+        </div>
+        <div class="meal-edit-wrap" id="edit-d28-lunch">
+          <input class="meal-input" id="input-d28-lunch" type="text" placeholder="What's for lunch?">
+          <div class="edit-actions">
+            <button class="cancel-btn" onclick="cancelEdit('d28-lunch')">Cancel</button>
+            <button class="save-btn" onclick="saveMeal('d28-lunch')">Save</button>
+          </div>
+          <div class="saving-indicator" id="status-d28-lunch"></div>
+        </div>
+      </div>
+      <div class="card" id="card-d28-dinner">
+        <div class="meal-hdr">
+          <div class="meal-icon dinner">🌙</div>
+          <div class="meal-meta">
+            <div class="meal-type-lbl dinner">Dinner</div>
+            <div class="meal-name" id="meal-d28-dinner">TBD</div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <span class="chip chef" id="chef-d28-dinner">👨‍🍳 Anna &amp; Riley</span>
+          <button class="edit-btn" onclick="toggleEdit('d28-dinner')">Edit</button>
+          <button class="reassign-btn" onclick="startReassign('d28-dinner')">Reassign</button>
+        </div>
+        <div class="meal-edit-wrap" id="edit-d28-dinner">
+          <input class="meal-input" id="input-d28-dinner" type="text" placeholder="What's for dinner?">
+          <div class="edit-actions">
+            <button class="cancel-btn" onclick="cancelEdit('d28-dinner')">Cancel</button>
+            <button class="save-btn" onclick="saveMeal('d28-dinner')">Save</button>
+          </div>
+          <div class="saving-indicator" id="status-d28-dinner"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- JUL 29 -->
+  <div class="day-panel" id="d29">
+    <div class="day-hdr">
+      <div class="day-title">Wednesday, July 29</div>
+      <div class="day-sub">Departure Day · Midday checkout</div>
+      <div class="headcount">14 guests</div>
+    </div>
+    <div class="day-section-label">Activities</div>
+    <div class="cards-col">
+      <div class="act-card" id="act-d29-act1">
+        <div class="act-hdr">
+          <div class="act-icon beach">🏖️</div>
+          <div class="act-meta">
+            <div class="act-slot">Early Morning · Activity 1</div>
+            <div class="act-name">Last Morning Beach Walk</div>
+            <div class="act-desc">One final walk on the Gulf before packing up. Low-key, no agenda.</div>
+          </div>
+        </div>
+        <div class="act-footer"><span class="act-chip beach">Beach</span></div>
+        <div class="act-signup-section" id="signup-section-d29-act1">
+          <div class="act-signup-row">
+            <div class="act-signup-names" id="signup-names-d29-act1"></div>
+            <button class="act-signup-btn" id="signup-btn-d29-act1" onclick="toggleSignup('d29-act1')">Join</button>
+          </div>
+        </div>
+      </div>
+      <div class="act-card" id="act-d29-act2">
+        <div class="act-hdr">
+          <div class="act-icon free">🧳</div>
+          <div class="act-meta">
+            <div class="act-slot">Mid-Morning · Activity 2</div>
+            <div class="act-name">Pack Up &amp; Check Out</div>
+            <div class="act-desc">Clean the house, load the cars, say your goodbyes. Checkout by midday.</div>
+          </div>
+        </div>
+        <div class="act-footer"><span class="act-chip open">Departure</span></div>
+        <div class="act-signup-section" id="signup-section-d29-act2">
+          <div class="act-signup-row">
+            <div class="act-signup-names" id="signup-names-d29-act2"></div>
+            <button class="act-signup-btn" id="signup-btn-d29-act2" onclick="toggleSignup('d29-act2')">Join</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="day-section-label">Meals</div>
+    <div class="cards-col">
+      <div class="card" id="card-d29-breakfast">
+        <div class="meal-hdr">
+          <div class="meal-icon breakfast">☀️</div>
+          <div class="meal-meta">
+            <div class="meal-type-lbl breakfast">Breakfast</div>
+            <div class="meal-name" id="meal-d29-breakfast">TBD</div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <span class="chip chef" id="chef-d29-breakfast">👨‍🍳 Dan &amp; Andrea</span>
+          <button class="edit-btn" onclick="toggleEdit('d29-breakfast')">Edit</button>
+          <button class="reassign-btn" onclick="startReassign('d29-breakfast')">Reassign</button>
+        </div>
+        <div class="meal-edit-wrap" id="edit-d29-breakfast">
+          <input class="meal-input" id="input-d29-breakfast" type="text" placeholder="What's for breakfast?">
+          <div class="edit-actions">
+            <button class="cancel-btn" onclick="cancelEdit('d29-breakfast')">Cancel</button>
+            <button class="save-btn" onclick="saveMeal('d29-breakfast')">Save</button>
+          </div>
+          <div class="saving-indicator" id="status-d29-breakfast"></div>
+        </div>
+      </div>
+      <div class="card" id="card-d29-lunch">
+        <div class="meal-hdr">
+          <div class="meal-icon lunch">🌿</div>
+          <div class="meal-meta">
+            <div class="meal-type-lbl lunch">Farewell Lunch</div>
+            <div class="meal-name" id="meal-d29-lunch">TBD</div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <span class="chip chef" id="chef-d29-lunch">👨‍🍳 Cooper &amp; Em</span>
+          <button class="edit-btn" onclick="toggleEdit('d29-lunch')">Edit</button>
+          <button class="reassign-btn" onclick="startReassign('d29-lunch')">Reassign</button>
+        </div>
+        <div class="meal-edit-wrap" id="edit-d29-lunch">
+          <input class="meal-input" id="input-d29-lunch" type="text" placeholder="What's for the farewell lunch?">
+          <div class="edit-actions">
+            <button class="cancel-btn" onclick="cancelEdit('d29-lunch')">Cancel</button>
+            <button class="save-btn" onclick="saveMeal('d29-lunch')">Save</button>
+          </div>
+          <div class="saving-indicator" id="status-d29-lunch"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /days-wrap -->
+
+<!-- FOOTER -->
+<div class="foot">
+  <div class="foot-box">
+    <h3>Notes &amp; Logistics</h3>
+    <div class="foot-grid">
+      <div class="foot-item"><strong>Home Base</strong>166 Sunrise Ave, Port Aransas, TX 78373 — Palmilla Beach Resort. Gas cooktops, stacked ovens, outdoor grill.</div>
+      <div class="foot-item"><strong>Aquarium Lunch Swap</strong>Cooper &amp; Em at the aquarium with the babies on Jul 26. Codi &amp; Adriel cover lunch that day instead.</div>
+      <div class="foot-item"><strong>Group Photos — Jul 27 Evening</strong>Connor &amp; Bethany's last night — get the full group shot on the beach before they leave in the morning.</div>
+      <div class="foot-item"><strong>Connor &amp; Bethany</strong>Depart morning of Jul 28. Last meal they attend is dinner Jul 27.</div>
+      <div class="foot-item"><strong>Golf — Jul 28 (Tuesday)</strong>Palmilla Beach course, on-site. Open 7:30 AM, ~$63 to walk 9 holes. Barefoot play allowed. 361-749-4653.</div>
+      <div class="foot-item"><strong>Aquarium — Jul 26</strong>Texas State Aquarium, Corpus Christi. ~45 min drive. Open 10 AM–5 PM. 361-881-1200.</div>
+    </div>
+  </div>
+</div>
+
+</div><!-- /view-planner -->
+
+<!-- PHOTO VIEW -->
+<div class="view" id="view-photos">
+  <div class="photo-hero">
+    <div class="hero-glow"></div>
+    <div class="eyebrow">📍 Palmilla Beach · Port Aransas · July 2026</div>
+    <div class="photo-hero-row">
+      <div>
+        <h2 class="photo-hero-title">Photo <em>Library</em></h2>
+        <div class="photo-hero-sub">Shared memories · 7 couples</div>
+      </div>
+      <button class="upload-btn" onclick="startUpload()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        Add Photos
+      </button>
+    </div>
+    <svg class="hero-wave" viewBox="0 0 1200 55" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0,28 C220,58 440,0 660,30 C880,58 1040,4 1200,28 L1200,56 L0,56 Z" fill="#f4ede0"/>
+    </svg>
+  </div>
+  <div class="photo-grid-wrap">
+    <div class="photo-grid" id="photoGrid">
+      <div class="photo-empty" style="grid-column:1/-1">
+        <div class="photo-empty-icon">🏖️</div>
+        <p>No photos yet</p>
+        <small>Be the first to post one!</small>
+      </div>
+    </div>
+  </div>
+</div><!-- /view-photos -->
+
+<!-- RESORT VIEW -->
+<div class="view" id="view-resort">
+  <div class="resort-hero">
+    <div class="hero-glow"></div>
+    <div class="eyebrow">🏖️ Port Aransas · Texas</div>
+    <div class="resort-hero-title">Palmilla <em>Beach</em></div>
+    <div class="resort-hero-sub">166 Sunrise Ave · palmillabeach.com</div>
+    <svg class="hero-wave" viewBox="0 0 1200 55" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0,28 C220,58 440,0 660,30 C880,58 1040,4 1200,28 L1200,56 L0,56 Z" fill="#f4ede0"/>
+    </svg>
+  </div>
+  <div class="resort-frame-wrap" style="display:none">
+    <iframe id="resortFrame" src="" frameborder="0"></iframe>
+  </div>
+  <div class="resort-fallback" id="resortFallback">
+    <a href="https://www.palmillabeach.com" target="_blank" class="resort-open-btn">Open palmillabeach.com ↗</a>
+    <div class="resort-links">
+      <div class="resort-links-label">Quick Links</div>
+      <a href="https://www.palmillabeach.com/dining" target="_blank" class="resort-link-btn">🍽️ Dining &amp; Menus</a>
+      <a href="https://www.palmillabeach.com/activities" target="_blank" class="resort-link-btn">🏄 Activities</a>
+      <a href="https://www.palmillabeach.com/golf" target="_blank" class="resort-link-btn">⛳ Golf Course</a>
+      <a href="https://www.palmillabeach.com/map" target="_blank" class="resort-link-btn">🗺️ Resort Map</a>
+      <a href="https://www.palmillabeach.com/pool" target="_blank" class="resort-link-btn">🏊 Pool &amp; Amenities</a>
+    </div>
+  </div>
+</div><!-- /view-resort -->
+
+<!-- FEED VIEW -->
+<div class="view" id="view-feed">
+  <div class="feed-hero">
+    <div class="hero-glow"></div>
+    <div class="eyebrow">💬 Group Chat · July 2026</div>
+    <div class="feed-hero-title">The <em>Feed</em></div>
+    <div class="feed-hero-sub">Post updates, tag your crew, start a thread</div>
+    <svg class="hero-wave" viewBox="0 0 1200 55" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0,28 C220,58 440,0 660,30 C880,58 1040,4 1200,28 L1200,56 L0,56 Z" fill="#f4ede0"/>
+    </svg>
+  </div>
+  <div class="feed-wrap">
+    <!-- NEW POST COMPOSER -->
+    <div class="post-composer">
+      <div class="composer-author" id="composerAuthor">posting as <strong id="composerName">—</strong> · <span class="composer-change" onclick="changePostName()">change</span></div>
+      <textarea class="composer-input" id="composerInput" placeholder="What's happening at the beach? Use @ to tag someone…" rows="3" maxlength="500" oninput="handleComposerInput(event)"></textarea>
+      <div class="mention-dropdown" id="mentionDropdown"></div>
+      <div class="composer-footer">
+        <span class="composer-count" id="composerCount">0/500</span>
+        <button class="composer-post-btn" onclick="submitPost()">Post</button>
+      </div>
+    </div>
+    <!-- FEED LIST -->
+    <div class="feed-list" id="feedList">
+      <div class="feed-empty">
+        <div class="feed-empty-icon">🌊</div>
+        <p>No posts yet</p>
+        <small>Be the first to post something!</small>
+      </div>
+    </div>
+  </div>
+</div><!-- /view-feed -->
+
+<!-- PROFILE VIEW -->
+<div class="view" id="view-profile">
+  <div class="profile-hero">
+    <div class="hero-glow"></div>
+    <svg class="hero-wave" viewBox="0 0 1200 55" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0,28 C220,58 440,0 660,30 C880,58 1040,4 1200,28 L1200,56 L0,56 Z" fill="#f4ede0"/>
+    </svg>
+    <!-- My profile card inside hero -->
+    <div class="my-profile-card">
+      <div class="my-avatar-wrap" onclick="triggerAvatarUpload()">
+        <div class="my-avatar" id="myAvatar">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        </div>
+        <div class="avatar-edit-badge">📷</div>
+      </div>
+      <div class="my-profile-info">
+        <div class="my-profile-name" id="myProfileName">Set up your profile</div>
+        <div class="my-profile-bio" id="myProfileBio">Tap to add a bio</div>
+      </div>
+      <button class="profile-edit-btn" onclick="openProfileSetup()">Edit</button>
+    </div>
+  </div>
+
+  <!-- CREW SECTION -->
+  <div class="crew-wrap">
+    <div class="crew-label">The Crew 🌊</div>
+    <div class="crew-grid" id="crewGrid">
+      <div class="crew-loading">Loading…</div>
+    </div>
+  </div>
+</div><!-- /view-profile -->
+
+<!-- PROFILE SETUP MODAL -->
+<div class="profile-modal" id="profileModal">
+  <div class="profile-modal-inner">
+    <div class="profile-modal-header">
+      <div class="profile-modal-title">Your Profile</div>
+      <button class="profile-modal-close" onclick="closeProfileSetup()">✕</button>
+    </div>
+
+    <!-- Avatar upload -->
+    <div class="profile-avatar-section">
+      <div class="profile-avatar-preview" id="profileAvatarPreview" onclick="triggerAvatarUpload()">
+        <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      </div>
+      <div class="profile-avatar-hint">Tap to upload photo</div>
+      <input type="file" id="avatarInput" accept="image/*" style="display:none" onchange="handleAvatarSelected(event)">
+    </div>
+
+    <!-- Name -->
+    <div class="profile-field">
+      <label class="profile-label">First Name</label>
+      <input class="profile-input" id="profileNameInput" type="text" placeholder="e.g. Riley" maxlength="20">
+      <div class="profile-field-hint">Use your first name so others can @tag you in posts</div>
+    </div>
+
+    <!-- Bio -->
+    <div class="profile-field">
+      <label class="profile-label">Bio <span style="opacity:.5;font-weight:400">(optional)</span></label>
+      <textarea class="profile-input profile-bio-input" id="profileBioInput" placeholder="Something about you…" maxlength="100" rows="2"></textarea>
+    </div>
+
+    <button class="profile-save-btn" onclick="saveProfile()">Save Profile</button>
+    <div class="profile-save-status" id="profileSaveStatus"></div>
+  </div>
+</div>
+
+<!-- HIDDEN AVATAR FILE INPUT -->
+<input type="file" id="avatarInputGlobal" accept="image/*" style="display:none" onchange="handleAvatarSelected(event)">
+
+<!-- REASSIGN MODAL -->
+<div class="reassign-modal" id="reassignModal">
+  <div class="reassign-inner">
+    <div class="reassign-warning">
+      <div class="reassign-warning-icon">⚠️</div>
+      <div class="reassign-warning-title">Reassign Meal?</div>
+      <div class="reassign-warning-msg" id="reassignWarningMsg"></div>
+    </div>
+    <div class="reassign-confirm-row">
+      <button class="reassign-cancel-btn" onclick="closeReassign()">Cancel</button>
+      <button class="reassign-proceed-btn" onclick="showReassignPicker()">Yes, Reassign</button>
+    </div>
+    <!-- Couple picker (hidden until confirmed) -->
+    <div class="reassign-picker" id="reassignPicker" style="display:none">
+      <div class="reassign-picker-label">Select new couple:</div>
+      <div class="reassign-couples-list" id="reassignCouplesList"></div>
+    </div>
+  </div>
+</div>
+
+<!-- POST THREAD MODAL -->
+<div class="thread-modal" id="threadModal">
+  <div class="thread-inner">
+    <div class="thread-header">
+      <button class="thread-close" onclick="closeThread()">✕</button>
+      <div class="thread-title">Thread</div>
+    </div>
+    <div class="thread-post" id="threadPost"></div>
+    <div class="thread-comments" id="threadComments"></div>
+    <div class="thread-input-row">
+      <input class="thread-input" id="threadInput" type="text" placeholder="Reply… use @ to tag" maxlength="300" oninput="handleThreadInput(event)">
+      <button class="thread-send" onclick="submitThreadComment()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+      </button>
+    </div>
+    <div class="mention-dropdown" id="threadMentionDropdown"></div>
+  </div>
+</div>
+
+<script>
+  // ── Supabase config ──────────────────────────────────────────
+  const SUPABASE_URL = 'https://zhzgddeyffadrrvpvfbu.supabase.co';
+  const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpoemdkZGV5ZmZhZHJydnB2ZmJ1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ4MTczNjksImV4cCI6MjA5MDM5MzM2OX0.KigjYCOb4-ib69ui9g6reuz4nKKsEyNj5pxMHqYUVAw';
+  const API = `${SUPABASE_URL}/rest/v1/meals`;
+  const HEADERS = {
+    'Content-Type': 'application/json',
+    'apikey': SUPABASE_KEY,
+    'Authorization': `Bearer ${SUPABASE_KEY}`,
+    'Prefer': 'resolution=merge-duplicates'
+  };
+
+  // All meal slot IDs
+  const MEAL_IDS = [
+    'd24-dinner',
+    'd25-breakfast','d25-lunch','d25-dinner',
+    'd26-breakfast','d26-lunch','d26-dinner',
+    'd27-breakfast','d27-lunch','d27-dinner',
+    'd28-breakfast','d28-lunch','d28-dinner',
+    'd29-breakfast','d29-lunch'
+  ];
+
+  // ── Tab switching ─────────────────────────────────────────────
+  function showDay(e, id) {
+    document.querySelectorAll('.day-panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    e.currentTarget.classList.add('active');
+  }
+
+  // ── Toast ─────────────────────────────────────────────────────
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 2500);
+  }
+
+  // ── Loading bar ───────────────────────────────────────────────
+  function setLoading(on) {
+    const bar = document.getElementById('loadingBar');
+    bar.style.width = on ? '70%' : '100%';
+    if (!on) setTimeout(() => bar.style.width = '0', 400);
+  }
+
+  // ── Load all meals from Supabase ──────────────────────────────
+  async function loadMeals() {
+    setLoading(true);
+    try {
+      const res = await fetch(`${API}?select=meal_id,meal_text`, { headers: HEADERS });
+      if (!res.ok) throw new Error('Load failed');
+      const rows = await res.json();
+      rows.forEach(row => {
+        const nameEl = document.getElementById(`meal-${row.meal_id}`);
+        const inputEl = document.getElementById(`input-${row.meal_id}`);
+        const btnEl = document.querySelector(`#card-${row.meal_id} .edit-btn`);
+        if (nameEl && row.meal_text) {
+          nameEl.textContent = row.meal_text;
+          if (inputEl) inputEl.value = row.meal_text;
+          if (btnEl) btnEl.classList.add('filled');
+        }
+      });
+    } catch (e) {
+      console.error('Could not load meals:', e);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  // ── Toggle edit panel ─────────────────────────────────────────
+  function toggleEdit(id) {
+    const wrap = document.getElementById(`edit-${id}`);
+    const input = document.getElementById(`input-${id}`);
+    const isOpen = wrap.classList.contains('open');
+    // Close all others first
+    document.querySelectorAll('.meal-edit-wrap.open').forEach(w => w.classList.remove('open'));
+    if (!isOpen) {
+      wrap.classList.add('open');
+      setTimeout(() => input.focus(), 50);
+    }
+  }
+
+  function cancelEdit(id) {
+    document.getElementById(`edit-${id}`).classList.remove('open');
+    document.getElementById(`status-${id}`).textContent = '';
+  }
+
+  // ── Save meal to Supabase ─────────────────────────────────────
+  async function saveMeal(id) {
+    const text = document.getElementById(`input-${id}`).value.trim();
+    const statusEl = document.getElementById(`status-${id}`);
+    const nameEl = document.getElementById(`meal-${id}`);
+    const btnEl = document.querySelector(`#card-${id} .edit-btn`);
+
+    if (!text) {
+      statusEl.textContent = 'Please enter a meal name.';
+      return;
+    }
+
+    statusEl.textContent = 'Saving…';
+    try {
+      const res = await fetch(API, {
+        method: 'POST',
+        headers: { ...HEADERS, 'Prefer': 'resolution=merge-duplicates' },
+        body: JSON.stringify({ meal_id: id, meal_text: text })
+      });
+      if (!res.ok) throw new Error('Save failed');
+      nameEl.textContent = text;
+      btnEl.classList.add('filled');
+      cancelEdit(id);
+      showToast('✓ Meal saved!');
+    } catch (e) {
+      statusEl.textContent = '⚠ Could not save. Try again.';
+      console.error(e);
+    }
+  }
+
+  // ── Enter key to save ─────────────────────────────────────────
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Enter') {
+      const openWrap = document.querySelector('.meal-edit-wrap.open');
+      if (openWrap) {
+        const id = openWrap.id.replace('edit-', '');
+        saveMeal(id);
+      }
+    }
+  });
+
+  // ── View switching ────────────────────────────────────────────
+  function switchView(name) {
+    document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+    document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById(`view-${name}`).classList.add('active');
+    document.getElementById(`nav-${name}`).classList.add('active');
+    if (name === 'photos') loadPhotos();
+    if (name === 'feed') { loadFeed(); initFeedComposer(); }
+    if (name === 'profile') { loadMyProfile(); loadCrew(); }
+    window.scrollTo(0, 0);
+  }
+
+  // ── Iframe block detection ────────────────────────────────────
+  function checkIframe() {
+    // Try to access iframe content — if blocked it throws
+    try {
+      const frame = document.getElementById('resortFrame');
+      // If src loaded but is blank due to X-Frame-Options, contentDocument will be null or restricted
+      const doc = frame.contentDocument || frame.contentWindow.document;
+      if (!doc || doc.body === null || doc.body.innerHTML === '') {
+        showResortFallback();
+      }
+    } catch(e) {
+      showResortFallback();
+    }
+  }
+
+  function showResortFallback() {
+    document.getElementById('resortFrame').style.display = 'none';
+    document.getElementById('resortFallback').style.display = 'block';
+  }
+
+  // Also detect via timeout — if iframe hasn't loaded in 5s, show fallback
+  function startResortTimeout() {
+    setTimeout(() => {
+      const frame = document.getElementById('resortFrame');
+      if (frame.style.display !== 'none') {
+        try {
+          const doc = frame.contentDocument || frame.contentWindow.document;
+          if (!doc || !doc.body || doc.body.innerHTML === '') showResortFallback();
+        } catch(e) { showResortFallback(); }
+      }
+    }, 5000);
+  }
+
+  // ── Photo upload flow ─────────────────────────────────────────
+  const STORAGE_URL = `${SUPABASE_URL}/storage/v1/object/photos`;
+  const STORAGE_LIST_URL = `${SUPABASE_URL}/storage/v1/object/list/photos`;
+  let pendingFiles = [];
+
+  function startUpload() {
+    document.getElementById('fileInput').click();
+  }
+
+  function handleFileSelected(e) {
+    const files = Array.from(e.target.files);
+    if (!files.length) return;
+    pendingFiles = files;
+    e.target.value = '';
+    const saved = localStorage.getItem('beach_uploader_name') || '';
+    document.getElementById('nameInput').value = saved;
+    const count = files.length;
+    document.querySelector('.name-prompt-box p').textContent =
+      count > 1
+        ? `You're uploading ${count} photos. Enter your name so everyone knows who posted them.`
+        : 'Enter your name so everyone knows who uploaded this photo.';
+    document.getElementById('namePrompt').classList.add('show');
+    setTimeout(() => document.getElementById('nameInput').focus(), 100);
+  }
+
+  function cancelUpload() {
+    pendingFiles = [];
+    document.getElementById('namePrompt').classList.remove('show');
+  }
+
+  async function confirmUpload() {
+    const name = document.getElementById('nameInput').value.trim();
+    if (!name) { document.getElementById('nameInput').focus(); return; }
+    localStorage.setItem('beach_uploader_name', name);
+    document.getElementById('namePrompt').classList.remove('show');
+    if (!pendingFiles.length) return;
+
+    const total = pendingFiles.length;
+    const overlay = document.getElementById('uploadingOverlay');
+    const progressText = overlay.querySelector('.upload-progress-text');
+    overlay.classList.add('show');
+
+    let uploaded = 0;
+    let failed = 0;
+
+    for (const file of pendingFiles) {
+      progressText.textContent = total > 1
+        ? `Uploading ${uploaded + 1} of ${total}…`
+        : 'Uploading photo…';
+      try {
+        const ext = file.name.split('.').pop() || 'jpg';
+        const filename = `${Date.now()}_${name.replace(/\s+/g, '-')}.${ext}`;
+        const res = await fetch(`${STORAGE_URL}/${filename}`, {
+          method: 'POST',
+          headers: {
+            'apikey': SUPABASE_KEY,
+            'Authorization': `Bearer ${SUPABASE_KEY}`,
+            'Content-Type': file.type,
+            'x-upsert': 'true'
+          },
+          body: file
+        });
+        if (!res.ok) throw new Error('Upload failed');
+        // Save record to photos table
+        const publicUrl = `${SUPABASE_URL}/storage/v1/object/public/photos/${encodeURIComponent(filename)}`;
+        await fetch(`${SUPABASE_URL}/rest/v1/photos`, {
+          method: 'POST',
+          headers: {
+            'apikey': SUPABASE_KEY,
+            'Authorization': `Bearer ${SUPABASE_KEY}`,
+            'Content-Type': 'application/json',
+            'Prefer': 'return=minimal'
+          },
+          body: JSON.stringify({ filename, uploader: name, url: publicUrl })
+        });
+        uploaded++;
+      } catch(e) {
+        console.error(e);
+        failed++;
+      }
+    }
+
+    overlay.classList.remove('show');
+    pendingFiles = [];
+
+    if (failed === 0) {
+      showToast(total > 1 ? `📸 ${uploaded} photos posted!` : '📸 Photo posted!');
+    } else {
+      showToast(`⚠ ${uploaded} uploaded, ${failed} failed.`);
+    }
+    loadPhotos();
+  }
+
+  // ── Load photos from database table ──────────────────────────
+  async function loadPhotos() {
+    try {
+      const res = await fetch(
+        `${SUPABASE_URL}/rest/v1/photos?select=filename,uploader,url&order=created_at.desc&limit=200`,
+        {
+          headers: {
+            'apikey': SUPABASE_KEY,
+            'Authorization': `Bearer ${SUPABASE_KEY}`
+          }
+        }
+      );
+      if (!res.ok) throw new Error('Load failed');
+      const rows = await res.json();
+      renderPhotos(rows);
+    } catch(e) {
+      console.error('Could not load photos:', e);
+      document.getElementById('photoGrid').innerHTML = `<div class="photo-empty" style="grid-column:1/-1">
+        <div class="photo-empty-icon">⚠️</div>
+        <p>Could not load photos</p>
+        <small>Try refreshing</small>
+      </div>`;
+    }
+  }
+
+  function renderPhotos(rows) {
+    const grid = document.getElementById('photoGrid');
+    if (!rows || !rows.length) {
+      grid.innerHTML = `<div class="photo-empty" style="grid-column:1/-1">
+        <div class="photo-empty-icon">🏖️</div>
+        <p>No photos yet</p>
+        <small>Be the first to post one!</small>
+      </div>`;
+      return;
+    }
+    grid.innerHTML = rows.map(r => {
+      const safeName = r.filename.replace(/'/g, "\\'");
+      const safeUploader = r.uploader.replace(/'/g, "\\'");
+      return `<div class="photo-item" onclick="openLightbox('${r.url}','${safeUploader}','${safeName}')">
+        <img src="${r.url}" loading="lazy" alt="Beach photo by ${r.uploader}">
+        <div class="photo-meta"><div class="photo-uploader">${r.uploader}</div></div>
+      </div>`;
+    }).join('');
+  }
+
+  // ── Lightbox + comments + reactions ───────────────────────────
+  const COMMENTS_API = `${SUPABASE_URL}/rest/v1/comments`;
+  let currentPhotoName = null;
+
+  function openLightbox(url, uploader, photoName) {
+    currentPhotoName = photoName;
+    document.getElementById('lightboxImg').src = url;
+    document.getElementById('lightboxInfo').textContent = `📸 ${uploader}`;
+    document.getElementById('lightbox').classList.add('show');
+    document.getElementById('commentInput').value = '';
+    loadComments(photoName);
+    loadReactions(photoName);
+  }
+
+  function closeLightbox() {
+    document.getElementById('lightbox').classList.remove('show');
+    document.getElementById('lightboxImg').src = '';
+    currentPhotoName = null;
+  }
+
+  // Close on backdrop tap
+  document.getElementById('lightbox').addEventListener('click', e => {
+    if (e.target === document.getElementById('lightbox')) closeLightbox();
+  });
+
+  // ── Load comments ─────────────────────────────────────────────
+  async function loadComments(photoName) {
+    const list = document.getElementById('commentsList');
+    list.innerHTML = '<div class="comment-empty">Loading…</div>';
+    try {
+      const res = await fetch(
+        `${COMMENTS_API}?photo_name=eq.${encodeURIComponent(photoName)}&body=not.like.reaction:%25&order=created_at.asc&select=author,body,created_at`,
+        { headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` } }
+      );
+      if (!res.ok) throw new Error('Failed');
+      const rows = await res.json();
+      if (!rows.length) {
+        list.innerHTML = '<div class="comment-empty">No comments yet — be first! 👇</div>';
+        return;
+      }
+      list.innerHTML = rows.map(r => {
+        const t = new Date(r.created_at);
+        const time = t.toLocaleDateString('en-US',{month:'short',day:'numeric'}) + ' · ' + t.toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'});
+        return `<div class="comment-bubble">
+          <div class="comment-author">${r.author}</div>
+          <div class="comment-text">${r.body}</div>
+          <div class="comment-time">${time}</div>
+        </div>`;
+      }).join('');
+      list.scrollTop = list.scrollHeight;
+    } catch(e) {
+      list.innerHTML = '<div class="comment-empty">Could not load comments.</div>';
+    }
+  }
+
+  // ── Submit comment ────────────────────────────────────────────
+  async function submitComment() {
+    const input = document.getElementById('commentInput');
+    const body = input.value.trim();
+    if (!body || !currentPhotoName) return;
+    let author = localStorage.getItem('beach_uploader_name');
+    if (!author) {
+      author = prompt('What\'s your name?');
+      if (!author) return;
+      localStorage.setItem('beach_uploader_name', author.trim());
+    }
+    input.value = '';
+    try {
+      const res = await fetch(COMMENTS_API, {
+        method: 'POST',
+        headers: {
+          'apikey': SUPABASE_KEY,
+          'Authorization': `Bearer ${SUPABASE_KEY}`,
+          'Content-Type': 'application/json',
+          'Prefer': 'return=minimal'
+        },
+        body: JSON.stringify({ photo_name: currentPhotoName, author, body })
+      });
+      if (!res.ok) { const t = await res.text(); console.error('Comment fail:', t); throw new Error('Failed'); }
+      loadComments(currentPhotoName);
+    } catch(e) { console.error('Comment error:', e); showToast('⚠ Could not post comment'); }
+  }
+
+  document.getElementById('commentInput').addEventListener('keydown', e => {
+    if (e.key === 'Enter') submitComment();
+  });
+
+  // ── Reactions ─────────────────────────────────────────────────
+  async function loadReactions(photoName) {
+    const countsEl = document.getElementById('reactionCounts');
+    countsEl.innerHTML = '';
+    const author = localStorage.getItem('beach_uploader_name') || '';
+    try {
+      const res = await fetch(
+        `${COMMENTS_API}?photo_name=eq.${encodeURIComponent(photoName)}&body=like.reaction:%25&select=author,body`,
+        { headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` } }
+      );
+      if (!res.ok) throw new Error('Failed');
+      const rows = await res.json();
+      // Track which emojis this user has already used
+      const myReactions = new Set(
+        rows.filter(r => r.author === author).map(r => r.body.replace('reaction:', ''))
+      );
+      // Update button states
+      document.querySelectorAll('.reaction-btn').forEach(btn => {
+        const emoji = btn.getAttribute('data-emoji');
+        if (myReactions.has(emoji)) btn.classList.add('used');
+        else btn.classList.remove('used');
+      });
+      // Count totals
+      const counts = {};
+      rows.forEach(r => {
+        const emoji = r.body.replace('reaction:', '');
+        counts[emoji] = (counts[emoji] || 0) + 1;
+      });
+      countsEl.innerHTML = Object.entries(counts).map(([emoji, count]) =>
+        `<div class="reaction-count">${emoji} <span>${count}</span></div>`
+      ).join('');
+    } catch(e) { console.error('Reaction load error:', e); }
+  }
+
+  async function addReaction(emoji) {
+    if (!currentPhotoName) return;
+    let author = localStorage.getItem('beach_uploader_name');
+    if (!author) {
+      author = prompt('What\'s your name?');
+      if (!author) return;
+      localStorage.setItem('beach_uploader_name', author.trim());
+    }
+    // Check if already reacted with this emoji
+    try {
+      const check = await fetch(
+        `${COMMENTS_API}?photo_name=eq.${encodeURIComponent(currentPhotoName)}&author=eq.${encodeURIComponent(author)}&body=eq.reaction:${encodeURIComponent(emoji)}&select=id`,
+        { headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` } }
+      );
+      const existing = await check.json();
+      if (existing.length > 0) {
+        showToast('You already reacted with ' + emoji);
+        return;
+      }
+      const res = await fetch(COMMENTS_API, {
+        method: 'POST',
+        headers: {
+          'apikey': SUPABASE_KEY,
+          'Authorization': `Bearer ${SUPABASE_KEY}`,
+          'Content-Type': 'application/json',
+          'Prefer': 'return=minimal'
+        },
+        body: JSON.stringify({ photo_name: currentPhotoName, author, body: `reaction:${emoji}` })
+      });
+      if (!res.ok) throw new Error('Failed');
+      loadReactions(currentPhotoName);
+    } catch(e) { console.error('Reaction error:', e); showToast('⚠ Could not save reaction'); }
+  }
+
+  // ── Enter key on name prompt ──────────────────────────────────
+  document.getElementById('nameInput').addEventListener('keydown', e => {
+    if (e.key === 'Enter') confirmUpload();
+  });
+
+  // ── Password gate ─────────────────────────────────────────────
+  const PASS = '166Beach';
+
+  function checkPassword() {
+    const val = document.getElementById('gateInput').value;
+    const input = document.getElementById('gateInput');
+    const error = document.getElementById('gateError');
+    if (val === PASS) {
+      localStorage.setItem('beach_auth', '166Beach2026');
+      document.getElementById('gate').classList.add('hidden');
+      error.textContent = '';
+      const name = getAuthor();
+      if (name) {
+        registerPush(name);
+      } else {
+        // First time — open profile setup
+        setTimeout(() => openProfileSetup(), 500);
+      }
+    } else {
+      input.classList.add('error');
+      error.textContent = 'Wrong password — try again.';
+      setTimeout(() => input.classList.remove('error'), 400);
+      input.value = '';
+      input.focus();
+    }
+  }
+
+  document.getElementById('gateInput').addEventListener('keydown', e => {
+    if (e.key === 'Enter') checkPassword();
+  });
+
+  function initGate() {
+    const auth = localStorage.getItem('beach_auth');
+    if (auth === '166Beach2026') {
+      document.getElementById('gate').classList.add('hidden');
+      const name = getAuthor();
+      if (name) setTimeout(() => registerPush(name), 1000);
+    } else {
+      setTimeout(() => document.getElementById('gateInput').focus(), 300);
+    }
+  }
+
+  // ── Push notifications ────────────────────────────────────────
+  function urlBase64ToUint8Array(base64String) {
+    const padding = '='.repeat((4 - base64String.length % 4) % 4);
+    const base64 = (base64String + padding).replace(/-/g, '+').replace(/_/g, '/');
+    const rawData = window.atob(base64);
+    return new Uint8Array([...rawData].map(c => c.charCodeAt(0)));
+  }
+
+  async function registerPush(name) {
+    if (!('serviceWorker' in navigator) || !('PushManager' in window)) return;
+    try {
+      const reg = await navigator.serviceWorker.ready;
+      const permission = await Notification.requestPermission();
+      if (permission !== 'granted') return;
+
+      const sub = await reg.pushManager.subscribe({
+        userVisibleOnly: true,
+        applicationServerKey: urlBase64ToUint8Array(VAPID_PUBLIC_KEY)
+      });
+
+      const { endpoint, keys } = sub.toJSON();
+
+      // Save subscription to Supabase — upsert by endpoint
+      await fetch(`${SUPABASE_URL}/rest/v1/push_subscriptions`, {
+        method: 'POST',
+        headers: {
+          'apikey': SUPABASE_KEY,
+          'Authorization': `Bearer ${SUPABASE_KEY}`,
+          'Content-Type': 'application/json',
+          'Prefer': 'resolution=merge-duplicates'
+        },
+        body: JSON.stringify({
+          endpoint,
+          p256dh: keys.p256dh,
+          auth: keys.auth,
+          name
+        })
+      });
+      console.log('Push registered for', name);
+    } catch(e) {
+      console.error('Push registration error:', e);
+    }
+  }
+
+  function extractMentions(text) {
+    const matches = [...text.matchAll(/@(\w+)/g)];
+    return [...new Set(matches.map(m => m[1]).filter(n =>
+      GROUP_MEMBERS.map(m => m.toLowerCase()).includes(n.toLowerCase())
+    ))];
+  }
+
+  async function sendPushNotifications(taggedNames, senderName, message, type = 'post') {
+    if (!taggedNames.length) return;
+    try {
+      await fetch('/.netlify/functions/send-push', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ taggedNames, senderName, message, type })
+      });
+    } catch(e) {
+      console.error('Push send error:', e);
+    }
+  }
+
+  // ── Feed ──────────────────────────────────────────────────────
+  const POSTS_API = `${SUPABASE_URL}/rest/v1/posts`;
+  const POST_COMMENTS_API = `${SUPABASE_URL}/rest/v1/post_comments`;
+  const DB_HEADERS = { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}`, 'Content-Type': 'application/json', 'Prefer': 'return=representation' };
+
+  const VAPID_PUBLIC_KEY = 'BMjz9yGa9Fwby3NdTMC_dTF8ovk4wth0xRlyoJYgz5ngt9Gp3OG2UJ42C0dFAYWk9Fz-UmfmguVKpvu6-XYlVJk';
+
+  const GROUP_MEMBERS = [
+    'Riley', 'Anna', 'Dan', 'Andrea', 'Levi', 'Maddie',
+    'Colton', 'Abby', 'Cooper', 'Em', 'Codi', 'Adriel',
+    'Connor', 'Bethany'
+  ];
+
+  let currentPostId = null;
+  let mentionTarget = null; // 'composer' or 'thread'
+  let mentionStart = -1;
+
+  function getAuthor() {
+    return localStorage.getItem('beach_uploader_name') || '';
+  }
+
+  function initFeedComposer() {
+    const name = getAuthor();
+    document.getElementById('composerName').textContent = name || 'Anonymous';
+  }
+
+  function changePostName() {
+    const n = prompt('Enter your name:');
+    if (n && n.trim()) {
+      localStorage.setItem('beach_uploader_name', n.trim());
+      document.getElementById('composerName').textContent = n.trim();
+      registerPush(n.trim());
+    }
+  }
+
+  // ── @ mention detection ───────────────────────────────────────
+  function handleComposerInput(e) {
+    const val = e.target.value;
+    document.getElementById('composerCount').textContent = `${val.length}/500`;
+    detectMention(val, e.target.selectionStart, 'composer');
+  }
+
+  function handleThreadInput(e) {
+    detectMention(e.target.value, e.target.selectionStart, 'thread');
+  }
+
+  function detectMention(text, cursor, target) {
+    const dropId = target === 'composer' ? 'mentionDropdown' : 'threadMentionDropdown';
+    const drop = document.getElementById(dropId);
+    const atIdx = text.lastIndexOf('@', cursor - 1);
+    if (atIdx === -1 || cursor - atIdx > 20) { drop.classList.remove('open'); return; }
+    const query = text.slice(atIdx + 1, cursor).toLowerCase();
+    const matches = GROUP_MEMBERS.filter(m => m.toLowerCase().startsWith(query) && m.includes(' ') === false || GROUP_MEMBERS.filter(m => m.toLowerCase().includes(query)).length > 0).filter(m => m.toLowerCase().includes(query));
+    const unique = [...new Set(matches)].slice(0, 6);
+    if (!unique.length) { drop.classList.remove('open'); return; }
+    mentionTarget = target;
+    mentionStart = atIdx;
+    drop.innerHTML = unique.map(m =>
+      `<div class="mention-option" onclick="insertMention('${m}')">${m}</div>`
+    ).join('');
+    drop.classList.add('open');
+  }
+
+  function insertMention(name) {
+    const inputId = mentionTarget === 'composer' ? 'composerInput' : 'threadInput';
+    const dropId = mentionTarget === 'composer' ? 'mentionDropdown' : 'threadMentionDropdown';
+    const input = document.getElementById(inputId);
+    const val = input.value;
+    const before = val.slice(0, mentionStart);
+    const after = val.slice(input.selectionStart);
+    input.value = `${before}@${name} ${after}`;
+    input.focus();
+    document.getElementById(dropId).classList.remove('open');
+  }
+
+  // ── Format body with highlighted mentions ─────────────────────
+  function formatBody(text) {
+    return text.replace(/@([\w&\s]+?)(?=\s|$|[^a-zA-Z&\s])/g, '<span class="mention">@$1</span>');
+  }
+
+  function timeAgo(dateStr) {
+    const diff = (Date.now() - new Date(dateStr)) / 1000;
+    if (diff < 60) return 'just now';
+    if (diff < 3600) return `${Math.floor(diff/60)}m ago`;
+    if (diff < 86400) return `${Math.floor(diff/3600)}h ago`;
+    return `${Math.floor(diff/86400)}d ago`;
+  }
+
+  function initials(name) {
+    return name.split(/\s+/).map(w => w[0]).join('').slice(0,2).toUpperCase();
+  }
+
+  // ── Load feed ─────────────────────────────────────────────────
+  async function loadFeed() {
+    const list = document.getElementById('feedList');
+    try {
+      const res = await fetch(`${POSTS_API}?select=id,author,body,created_at&order=created_at.desc&limit=50`,
+        { headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` } });
+      if (!res.ok) throw new Error('Failed');
+      const posts = await res.json();
+      if (!posts.length) {
+        list.innerHTML = `<div class="feed-empty"><div class="feed-empty-icon">🌊</div><p>No posts yet</p><small>Be the first to post something!</small></div>`;
+        return;
+      }
+      // Load comment previews for each post
+      const ids = posts.map(p => p.id);
+      const cRes = await fetch(`${POST_COMMENTS_API}?post_id=in.(${ids.join(',')})&select=post_id,author,body,created_at&order=created_at.asc`,
+        { headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` } });
+      const allComments = cRes.ok ? await cRes.json() : [];
+      const commentsByPost = {};
+      allComments.forEach(c => {
+        if (!commentsByPost[c.post_id]) commentsByPost[c.post_id] = [];
+        commentsByPost[c.post_id].push(c);
+      });
+      list.innerHTML = posts.map(p => {
+        const comments = commentsByPost[p.id] || [];
+        const preview = comments.slice(-1)[0];
+        const moreCount = comments.length - 1;
+        return `<div class="post-card">
+          <div class="post-top">
+            <div class="post-avatar">${initials(p.author)}</div>
+            <div class="post-meta">
+              <div class="post-author">${p.author}</div>
+              <div class="post-time">${timeAgo(p.created_at)}</div>
+            </div>
+          </div>
+          <div class="post-body">${formatBody(p.body)}</div>
+          ${preview ? `<div class="post-comment-preview" onclick="openThread(${p.id})">
+            <span class="preview-author">${preview.author}:</span> ${preview.body.slice(0,80)}${preview.body.length > 80 ? '…' : ''}
+            ${moreCount > 0 ? `<div class="post-more-comments">View all ${comments.length} replies</div>` : ''}
+          </div>` : ''}
+          <div class="post-actions">
+            <button class="post-reply-btn" onclick="openThread(${p.id})">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+              ${comments.length ? comments.length + ' ' : ''}Reply
+            </button>
+          </div>
+        </div>`;
+      }).join('');
+    } catch(e) {
+      console.error('Feed error:', e);
+      list.innerHTML = `<div class="feed-empty"><p>Could not load feed</p></div>`;
+    }
+  }
+
+  // ── Submit post ───────────────────────────────────────────────
+  async function submitPost() {
+    const input = document.getElementById('composerInput');
+    const body = input.value.trim();
+    if (!body) return;
+    let author = getAuthor();
+    if (!author) {
+      author = prompt('What\'s your name?');
+      if (!author) return;
+      localStorage.setItem('beach_uploader_name', author.trim());
+      author = author.trim();
+    }
+    input.value = '';
+    document.getElementById('composerCount').textContent = '0/500';
+    document.getElementById('mentionDropdown').classList.remove('open');
+    try {
+      const res = await fetch(POSTS_API, {
+        method: 'POST',
+        headers: DB_HEADERS,
+        body: JSON.stringify({ author, body })
+      });
+      if (!res.ok) throw new Error('Failed');
+      const tagged = extractMentions(body);
+      if (tagged.length) sendPushNotifications(tagged, author, body, 'post');
+      showToast('✓ Posted!');
+      loadFeed();
+    } catch(e) { console.error(e); showToast('⚠ Could not post'); }
+  }
+
+  // ── Thread modal ──────────────────────────────────────────────
+  async function openThread(postId) {
+    currentPostId = postId;
+    document.getElementById('threadModal').classList.add('show');
+    document.getElementById('threadInput').value = '';
+    document.getElementById('threadMentionDropdown').classList.remove('open');
+    // Load the post
+    try {
+      const pRes = await fetch(`${POSTS_API}?id=eq.${postId}&select=id,author,body,created_at`,
+        { headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` } });
+      const posts = await pRes.json();
+      const p = posts[0];
+      document.getElementById('threadPost').innerHTML = `
+        <div class="post-top">
+          <div class="post-avatar">${initials(p.author)}</div>
+          <div class="post-meta"><div class="post-author">${p.author}</div><div class="post-time">${timeAgo(p.created_at)}</div></div>
+        </div>
+        <div class="post-body" style="margin-bottom:0">${formatBody(p.body)}</div>`;
+    } catch(e) {}
+    loadThreadComments(postId);
+  }
+
+  async function loadThreadComments(postId) {
+    const container = document.getElementById('threadComments');
+    try {
+      const res = await fetch(`${POST_COMMENTS_API}?post_id=eq.${postId}&select=author,body,created_at&order=created_at.asc`,
+        { headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` } });
+      const comments = await res.json();
+      if (!comments.length) {
+        container.innerHTML = `<div class="thread-empty">No replies yet — be first!</div>`;
+        return;
+      }
+      container.innerHTML = comments.map(c => `
+        <div class="thread-comment">
+          <div class="thread-comment-avatar">${initials(c.author)}</div>
+          <div class="thread-comment-bubble">
+            <div class="thread-comment-author">${c.author}</div>
+            <div class="thread-comment-body">${formatBody(c.body)}</div>
+            <div class="thread-comment-time">${timeAgo(c.created_at)}</div>
+          </div>
+        </div>`).join('');
+      container.scrollTop = container.scrollHeight;
+    } catch(e) { container.innerHTML = `<div class="thread-empty">Could not load replies.</div>`; }
+  }
+
+  async function submitThreadComment() {
+    const input = document.getElementById('threadInput');
+    const body = input.value.trim();
+    if (!body || !currentPostId) return;
+    let author = getAuthor();
+    if (!author) {
+      author = prompt('What\'s your name?');
+      if (!author) return;
+      localStorage.setItem('beach_uploader_name', author.trim());
+      author = author.trim();
+    }
+    input.value = '';
+    document.getElementById('threadMentionDropdown').classList.remove('open');
+    try {
+      const res = await fetch(POST_COMMENTS_API, {
+        method: 'POST',
+        headers: DB_HEADERS,
+        body: JSON.stringify({ post_id: currentPostId, author, body })
+      });
+      if (!res.ok) throw new Error('Failed');
+      const tagged = extractMentions(body);
+      if (tagged.length) sendPushNotifications(tagged, author, body, 'reply');
+      loadThreadComments(currentPostId);
+      loadFeed();
+    } catch(e) { console.error(e); showToast('⚠ Could not post reply'); }
+  }
+
+  function closeThread() {
+    document.getElementById('threadModal').classList.remove('show');
+    currentPostId = null;
+  }
+
+  document.getElementById('threadInput').addEventListener('keydown', e => {
+    if (e.key === 'Enter') submitThreadComment();
+  });
+
+  document.getElementById('threadModal').addEventListener('click', e => {
+    if (e.target === document.getElementById('threadModal')) closeThread();
+  });
+
+  // ── Activity signups ──────────────────────────────────────────
+  const SIGNUPS_API = `${SUPABASE_URL}/rest/v1/activity_signups`;
+  let allSignups = {}; // activityId -> [names]
+
+  async function loadSignups() {
+    try {
+      const res = await fetch(`${SIGNUPS_API}?select=activity_id,name`,
+        { headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` } });
+      if (!res.ok) return;
+      const rows = await res.json();
+      allSignups = {};
+      rows.forEach(r => {
+        if (!allSignups[r.activity_id]) allSignups[r.activity_id] = [];
+        allSignups[r.activity_id].push(r.name);
+      });
+      renderAllSignups();
+    } catch(e) { console.error('Signup load error:', e); }
+  }
+
+  function renderAllSignups() {
+    const actIds = [
+      'd24-act1','d24-act2',
+      'd25-act1','d25-act2',
+      'd26-act1','d26-act2','d26-act3',
+      'd27-act1','d27-act2','d27-act3','d27-act4',
+      'd28-act1','d28-act2',
+      'd29-act1','d29-act2'
+    ];
+    const myName = getAuthor();
+    actIds.forEach(id => {
+      const namesEl = document.getElementById('signup-names-' + id);
+      const btnEl = document.getElementById('signup-btn-' + id);
+      if (!namesEl || !btnEl) return;
+      const names = allSignups[id] || [];
+      const isMine = myName && names.includes(myName);
+      if (names.length === 0) {
+        namesEl.innerHTML = '<span class="act-signup-empty">No one signed up yet</span>';
+      } else {
+        namesEl.innerHTML = names.map(n =>
+          `<span class="act-signup-name${n === myName ? ' mine' : ''}">${n}</span>`
+        ).join('');
+      }
+      btnEl.textContent = isMine ? '✓ Joined' : 'Join';
+      btnEl.className = 'act-signup-btn' + (isMine ? ' joined' : '');
+    });
+  }
+
+  async function toggleSignup(actId) {
+    let myName = getAuthor();
+    if (!myName) {
+      myName = prompt("What's your name?");
+      if (!myName) return;
+      localStorage.setItem('beach_uploader_name', myName.trim());
+      myName = myName.trim();
+    }
+    const names = allSignups[actId] || [];
+    const alreadyIn = names.includes(myName);
+    try {
+      if (alreadyIn) {
+        // Remove signup
+        await fetch(
+          `${SIGNUPS_API}?activity_id=eq.${encodeURIComponent(actId)}&name=eq.${encodeURIComponent(myName)}`,
+          { method: 'DELETE', headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` } }
+        );
+        allSignups[actId] = names.filter(n => n !== myName);
+        showToast('Removed from activity');
+      } else {
+        // Add signup
+        await fetch(SIGNUPS_API, {
+          method: 'POST',
+          headers: {
+            'apikey': SUPABASE_KEY,
+            'Authorization': `Bearer ${SUPABASE_KEY}`,
+            'Content-Type': 'application/json',
+            'Prefer': 'return=minimal'
+          },
+          body: JSON.stringify({ activity_id: actId, name: myName })
+        });
+        if (!allSignups[actId]) allSignups[actId] = [];
+        allSignups[actId].push(myName);
+        showToast('✓ Signed up!');
+      }
+      renderAllSignups();
+    } catch(e) {
+      console.error('Signup error:', e);
+      showToast('⚠ Could not update. Try again.');
+    }
+  }
+
+  // ── Meal reassignment ─────────────────────────────────────────
+  const ASSIGNMENTS_API = `${SUPABASE_URL}/rest/v1/meal_assignments`;
+  const COUPLES = [
+    'Connor & Bethany',
+    'Dan & Andrea',
+    'Levi & Maddie',
+    'Colton & Abby',
+    'Anna & Riley',
+    'Cooper & Em',
+    'Codi & Adriel'
+  ];
+
+  // Default assignments (fallback if nothing in DB)
+  const DEFAULT_ASSIGNMENTS = {
+    'd24-dinner': 'Dan & Andrea',
+    'd25-breakfast': 'Connor & Bethany',
+    'd25-lunch': 'Cooper & Em',
+    'd25-dinner': 'Connor & Bethany',
+    'd26-breakfast': 'Levi & Maddie',
+    'd26-lunch': 'Codi & Adriel',
+    'd26-dinner': 'Levi & Maddie',
+    'd27-breakfast': 'Colton & Abby',
+    'd27-lunch': 'Cooper & Em',
+    'd27-dinner': 'Colton & Abby',
+    'd28-breakfast': 'Anna & Riley',
+    'd28-lunch': 'Codi & Adriel',
+    'd28-dinner': 'Anna & Riley',
+    'd29-breakfast': 'Dan & Andrea',
+    'd29-lunch': 'Cooper & Em'
+  };
+
+  let currentAssignments = { ...DEFAULT_ASSIGNMENTS };
+  let reassignMealId = null;
+
+  async function loadAssignments() {
+    try {
+      const res = await fetch(`${ASSIGNMENTS_API}?select=meal_id,assigned_to`,
+        { headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` } });
+      if (!res.ok) return;
+      const rows = await res.json();
+      rows.forEach(r => { currentAssignments[r.meal_id] = r.assigned_to; });
+      renderAllAssignments();
+    } catch(e) { console.error('Assignment load error:', e); }
+  }
+
+  function renderAllAssignments() {
+    Object.entries(currentAssignments).forEach(([mealId, couple]) => {
+      const el = document.getElementById('chef-' + mealId);
+      if (el) el.textContent = '👨‍🍳 ' + couple;
+    });
+  }
+
+  function getMealLabel(mealId) {
+    const labels = {
+      'd24-dinner': 'Dinner · Jul 24',
+      'd25-breakfast': 'Breakfast · Jul 25', 'd25-lunch': 'Lunch · Jul 25', 'd25-dinner': 'Dinner · Jul 25',
+      'd26-breakfast': 'Breakfast · Jul 26', 'd26-lunch': 'Lunch · Jul 26', 'd26-dinner': 'Dinner · Jul 26',
+      'd27-breakfast': 'Breakfast · Jul 27', 'd27-lunch': 'Lunch · Jul 27', 'd27-dinner': 'Dinner · Jul 27',
+      'd28-breakfast': 'Breakfast · Jul 28', 'd28-lunch': 'Lunch · Jul 28', 'd28-dinner': 'Dinner · Jul 28',
+      'd29-breakfast': 'Breakfast · Jul 29', 'd29-lunch': 'Farewell Lunch · Jul 29'
+    };
+    return labels[mealId] || mealId;
+  }
+
+  function startReassign(mealId) {
+    reassignMealId = mealId;
+    const current = currentAssignments[mealId] || '—';
+    const label = getMealLabel(mealId);
+    document.getElementById('reassignWarningMsg').innerHTML =
+      `You're about to reassign <strong>${label}</strong> from <strong>${current}</strong>.<br>This will update for everyone in the group.`;
+    document.getElementById('reassignPicker').style.display = 'none';
+    document.querySelector('.reassign-confirm-row').style.display = 'flex';
+    document.querySelector('.reassign-warning').style.display = 'block';
+    document.getElementById('reassignModal').classList.add('show');
+  }
+
+  function closeReassign() {
+    document.getElementById('reassignModal').classList.remove('show');
+    reassignMealId = null;
+  }
+
+  function showReassignPicker() {
+    const current = currentAssignments[reassignMealId] || '';
+    const list = document.getElementById('reassignCouplesList');
+    list.innerHTML = COUPLES.map(c =>
+      `<button class="reassign-couple-opt${c === current ? ' current' : ''}" onclick="confirmReassign('${c}')">${c === current ? '✓ ' : ''}${c}</button>`
+    ).join('');
+    document.getElementById('reassignPicker').style.display = 'block';
+    document.querySelector('.reassign-confirm-row').style.display = 'none';
+    document.querySelector('.reassign-warning').style.display = 'none';
+  }
+
+  async function confirmReassign(couple) {
+    if (!reassignMealId) return;
+    const mealId = reassignMealId;
+    closeReassign();
+    try {
+      // Delete existing assignment for this meal then insert new
+      await fetch(`${ASSIGNMENTS_API}?meal_id=eq.${encodeURIComponent(mealId)}`, {
+        method: 'DELETE',
+        headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` }
+      });
+      await fetch(ASSIGNMENTS_API, {
+        method: 'POST',
+        headers: {
+          'apikey': SUPABASE_KEY,
+          'Authorization': `Bearer ${SUPABASE_KEY}`,
+          'Content-Type': 'application/json',
+          'Prefer': 'return=minimal'
+        },
+        body: JSON.stringify({ meal_id: mealId, assigned_to: couple })
+      });
+      currentAssignments[mealId] = couple;
+      renderAllAssignments();
+      showToast('✓ Meal reassigned to ' + couple);
+    } catch(e) {
+      console.error('Reassign error:', e);
+      showToast('⚠ Could not reassign. Try again.');
+    }
+  }
+
+  // Close reassign modal on backdrop tap
+  document.getElementById('reassignModal').addEventListener('click', e => {
+    if (e.target === document.getElementById('reassignModal')) closeReassign();
+  });
+  const PROFILES_API = `${SUPABASE_URL}/rest/v1/profiles`;
+  const AVATAR_STORAGE = `${SUPABASE_URL}/storage/v1/object/avatars`;
+  let pendingAvatarFile = null;
+  let pendingAvatarPreviewUrl = null;
+
+  // Load my profile from Supabase or localStorage
+  async function loadMyProfile() {
+    const name = getAuthor();
+    if (!name) return;
+    try {
+      const res = await fetch(`${PROFILES_API}?name=eq.${encodeURIComponent(name)}&select=name,avatar_url,bio`,
+        { headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` } });
+      const rows = await res.json();
+      if (rows.length) {
+        const p = rows[0];
+        renderMyProfile(p);
+        localStorage.setItem('my_profile', JSON.stringify(p));
+      }
+    } catch(e) { console.error('Profile load error:', e); }
+  }
+
+  function renderMyProfile(p) {
+    document.getElementById('myProfileName').textContent = p.name || 'Set up your profile';
+    document.getElementById('myProfileBio').textContent = p.bio || 'Tap Edit to add a bio';
+    const avatarEl = document.getElementById('myAvatar');
+    if (p.avatar_url) {
+      avatarEl.innerHTML = `<img src="${p.avatar_url}" alt="${p.name}">`;
+    } else {
+      avatarEl.innerHTML = `<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>`;
+    }
+  }
+
+  // Load all crew profiles
+  async function loadCrew() {
+    const grid = document.getElementById('crewGrid');
+    try {
+      const res = await fetch(`${PROFILES_API}?select=name,avatar_url,bio&order=name.asc`,
+        { headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` } });
+      const profiles = await res.json();
+      if (!profiles.length) {
+        grid.innerHTML = `<div class="crew-loading">No profiles yet — be first!</div>`;
+        return;
+      }
+      grid.innerHTML = profiles.map(p => {
+        const avatarHtml = p.avatar_url
+          ? `<img src="${p.avatar_url}" alt="${p.name}">`
+          : `<span>${initials(p.name)}</span>`;
+        return `<div class="crew-card">
+          <div class="crew-avatar">${avatarHtml}</div>
+          <div class="crew-name">${p.name}</div>
+          ${p.bio ? `<div class="crew-bio">${p.bio}</div>` : ''}
+        </div>`;
+      }).join('');
+    } catch(e) {
+      grid.innerHTML = `<div class="crew-loading">Could not load crew.</div>`;
+    }
+  }
+
+  // Profile setup modal
+  function openProfileSetup() {
+    const name = getAuthor();
+    const cached = localStorage.getItem('my_profile');
+    const p = cached ? JSON.parse(cached) : null;
+    document.getElementById('profileNameInput').value = p ? p.name : (name || '');
+    document.getElementById('profileBioInput').value = p ? (p.bio || '') : '';
+    const preview = document.getElementById('profileAvatarPreview');
+    if (p && p.avatar_url) {
+      preview.innerHTML = `<img src="${p.avatar_url}" style="width:100%;height:100%;object-fit:cover;border-radius:50%">`;
+    } else {
+      preview.innerHTML = `<svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>`;
+    }
+    pendingAvatarFile = null;
+    pendingAvatarPreviewUrl = null;
+    document.getElementById('profileModal').classList.add('show');
+  }
+
+  function closeProfileSetup() {
+    document.getElementById('profileModal').classList.remove('show');
+    document.getElementById('profileSaveStatus').textContent = '';
+  }
+
+  function triggerAvatarUpload() {
+    document.getElementById('avatarInputGlobal').click();
+  }
+
+  function handleAvatarSelected(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+    pendingAvatarFile = file;
+    const reader = new FileReader();
+    reader.onload = ev => {
+      pendingAvatarPreviewUrl = ev.target.result;
+      const preview = document.getElementById('profileAvatarPreview');
+      if (preview) {
+        preview.innerHTML = `<img src="${ev.target.result}" style="width:100%;height:100%;object-fit:cover;border-radius:50%">`;
+      }
+    };
+    reader.readAsDataURL(file);
+    e.target.value = '';
+  }
+
+  async function saveProfile() {
+    const name = document.getElementById('profileNameInput').value.trim();
+    const bio = document.getElementById('profileBioInput').value.trim();
+    const statusEl = document.getElementById('profileSaveStatus');
+    if (!name) { statusEl.textContent = 'Please enter your name.'; return; }
+    statusEl.textContent = 'Saving…';
+
+    let avatar_url = null;
+    const cached = localStorage.getItem('my_profile');
+    if (cached) avatar_url = JSON.parse(cached).avatar_url || null;
+
+    // Upload avatar if new one selected
+    if (pendingAvatarFile) {
+      try {
+        const ext = pendingAvatarFile.name.split('.').pop() || 'jpg';
+        const filename = `${name.toLowerCase().replace(/\s+/g,'-')}-${Date.now()}.${ext}`;
+        const upRes = await fetch(`${AVATAR_STORAGE}/${filename}`, {
+          method: 'POST',
+          headers: {
+            'apikey': SUPABASE_KEY,
+            'Authorization': `Bearer ${SUPABASE_KEY}`,
+            'Content-Type': pendingAvatarFile.type,
+            'x-upsert': 'true'
+          },
+          body: pendingAvatarFile
+        });
+        if (upRes.ok) {
+          avatar_url = `${SUPABASE_URL}/storage/v1/object/public/avatars/${filename}`;
+        }
+      } catch(e) { console.error('Avatar upload error:', e); }
+    }
+
+    // Upsert profile
+    try {
+      const oldName = getAuthor();
+      const res = await fetch(`${PROFILES_API}?name=eq.${encodeURIComponent(name)}`, {
+        method: 'DELETE',
+        headers: {
+          'apikey': SUPABASE_KEY,
+          'Authorization': `Bearer ${SUPABASE_KEY}`
+        }
+      });
+      await fetch(PROFILES_API, {
+        method: 'POST',
+        headers: {
+          'apikey': SUPABASE_KEY,
+          'Authorization': `Bearer ${SUPABASE_KEY}`,
+          'Content-Type': 'application/json',
+          'Prefer': 'return=minimal'
+        },
+        body: JSON.stringify({ name, bio, avatar_url })
+      });
+      if (!res.ok) throw new Error('Save failed');
+
+      // Update local name
+      localStorage.setItem('beach_uploader_name', name);
+      const profile = { name, bio, avatar_url };
+      localStorage.setItem('my_profile', JSON.stringify(profile));
+      renderMyProfile(profile);
+      document.getElementById('composerName').textContent = name;
+      statusEl.textContent = '✓ Profile saved!';
+      setTimeout(() => { closeProfileSetup(); loadCrew(); }, 800);
+
+      // Re-register push with new name
+      registerPush(name);
+    } catch(e) {
+      console.error(e);
+      statusEl.textContent = '⚠ Could not save. Try again.';
+    }
+  }
+
+  // Get avatar URL for a given name (for posts/comments)
+  function getAvatarHtml(name, size = 36) {
+    const cached = localStorage.getItem('my_profile');
+    if (cached) {
+      const p = JSON.parse(cached);
+      if (p.name === name && p.avatar_url) {
+        return `<img src="${p.avatar_url}" style="width:${size}px;height:${size}px;border-radius:50%;object-fit:cover;" alt="${name}">`;
+      }
+    }
+    return `<span style="font-size:${Math.floor(size*0.38)}px">${initials(name)}</span>`;
+  }
+
+  // ── PWA service worker ────────────────────────────────────────
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/sw.js').catch(() => {});
+  }
+
+  // ── Init ──────────────────────────────────────────────────────
+  initGate();
+  loadMeals();
+  loadAssignments();
+  loadSignups();
+  startResortTimeout();
+</script>
+</body>
+</html>

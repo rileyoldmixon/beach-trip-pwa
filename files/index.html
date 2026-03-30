@@ -551,7 +551,7 @@ body{background:var(--sand);color:var(--text);font-family:'DM Sans',sans-serif;f
     <div class="couple-card early">
       <div class="c-names">Connor &amp; Bethany</div>
       <div class="c-note">Depart Jul 28 morning</div>
-      <div class="badges">
+      <div class="badges" id="roster-Connor-&-Bethany">
         <span class="badge breakfast">Breakfast · Jul 25</span>
         <span class="badge dinner">Dinner · Jul 25</span>
         <span class="badge warn">Leaves Jul 28</span>
@@ -560,7 +560,7 @@ body{background:var(--sand);color:var(--text);font-family:'DM Sans',sans-serif;f
     <div class="couple-card">
       <div class="c-names">Dan &amp; Andrea</div>
       <div class="c-note">Full stay</div>
-      <div class="badges">
+      <div class="badges" id="roster-Dan-&-Andrea">
         <span class="badge dinner">Dinner · Jul 24</span>
         <span class="badge breakfast">Breakfast · Jul 29</span>
       </div>
@@ -568,7 +568,7 @@ body{background:var(--sand);color:var(--text);font-family:'DM Sans',sans-serif;f
     <div class="couple-card">
       <div class="c-names">Levi &amp; Maddie</div>
       <div class="c-note">Full stay</div>
-      <div class="badges">
+      <div class="badges" id="roster-Levi-&-Maddie">
         <span class="badge breakfast">Breakfast · Jul 26</span>
         <span class="badge dinner">Dinner · Jul 26</span>
       </div>
@@ -576,7 +576,7 @@ body{background:var(--sand);color:var(--text);font-family:'DM Sans',sans-serif;f
     <div class="couple-card">
       <div class="c-names">Colton &amp; Abby</div>
       <div class="c-note">Full stay</div>
-      <div class="badges">
+      <div class="badges" id="roster-Colton-&-Abby">
         <span class="badge breakfast">Breakfast · Jul 27</span>
         <span class="badge dinner">Dinner · Jul 27</span>
       </div>
@@ -584,7 +584,7 @@ body{background:var(--sand);color:var(--text);font-family:'DM Sans',sans-serif;f
     <div class="couple-card">
       <div class="c-names">Anna &amp; Riley</div>
       <div class="c-note">+ baby Amelia · Full stay</div>
-      <div class="badges">
+      <div class="badges" id="roster-Anna-&-Riley">
         <span class="badge breakfast">Breakfast · Jul 28</span>
         <span class="badge dinner">Dinner · Jul 28</span>
       </div>
@@ -592,7 +592,7 @@ body{background:var(--sand);color:var(--text);font-family:'DM Sans',sans-serif;f
     <div class="couple-card">
       <div class="c-names">Cooper &amp; Em</div>
       <div class="c-note">+ baby River · Full stay</div>
-      <div class="badges">
+      <div class="badges" id="roster-Cooper-&-Em">
         <span class="badge lunch">Lunch · Jul 25</span>
         <span class="badge lunch">Lunch · Jul 27</span>
         <span class="badge lunch">Farewell Lunch · Jul 29</span>
@@ -601,7 +601,7 @@ body{background:var(--sand);color:var(--text);font-family:'DM Sans',sans-serif;f
     <div class="couple-card">
       <div class="c-names">Codi &amp; Adriel</div>
       <div class="c-note">Full stay</div>
-      <div class="badges">
+      <div class="badges" id="roster-Codi-&-Adriel">
         <span class="badge lunch">Lunch · Jul 26</span>
         <span class="badge lunch">Lunch · Jul 28</span>
       </div>
@@ -844,6 +844,12 @@ body{background:var(--sand);color:var(--text);font-family:'DM Sans',sans-serif;f
           <span class="act-chip offsite">Off-site</span>
           <span class="act-chip offsite">2710 N Shoreline Blvd, Corpus Christi</span>
           <span class="act-chip offsite">⭐ 4.6 · 361-881-1200</span>
+        </div>
+        <div class="act-signup-section" id="signup-section-d26-act1">
+          <div class="act-signup-row">
+            <div class="act-signup-names" id="signup-names-d26-act1"></div>
+            <button class="act-signup-btn" id="signup-btn-d26-act1" onclick="toggleSignup('d26-act1')">Join</button>
+          </div>
         </div>
       </div>
       <div class="act-card" id="act-d26-act2">
@@ -1112,6 +1118,12 @@ body{background:var(--sand);color:var(--text);font-family:'DM Sans',sans-serif;f
           <span class="act-chip golf">On-site · 258 Snapdragon</span>
           <span class="act-chip golf">⭐ 4.5 · 361-749-4653</span>
         </div>
+        <div class="act-signup-section" id="signup-section-d28-act1">
+          <div class="act-signup-row">
+            <div class="act-signup-names" id="signup-names-d28-act1"></div>
+            <button class="act-signup-btn" id="signup-btn-d28-act1" onclick="toggleSignup('d28-act1')">Join</button>
+          </div>
+        </div>
       </div>
       <div class="act-card" id="act-d28-act2">
         <div class="act-hdr">
@@ -1303,7 +1315,6 @@ body{background:var(--sand);color:var(--text);font-family:'DM Sans',sans-serif;f
     <h3>Notes &amp; Logistics</h3>
     <div class="foot-grid">
       <div class="foot-item"><strong>Home Base</strong>166 Sunrise Ave, Port Aransas, TX 78373 — Palmilla Beach Resort. Gas cooktops, stacked ovens, outdoor grill.</div>
-      <div class="foot-item"><strong>Aquarium Lunch Swap</strong>Cooper &amp; Em at the aquarium with the babies on Jul 26. Codi &amp; Adriel cover lunch that day instead.</div>
       <div class="foot-item"><strong>Group Photos — Jul 27 Evening</strong>Connor &amp; Bethany's last night — get the full group shot on the beach before they leave in the morning.</div>
       <div class="foot-item"><strong>Connor &amp; Bethany</strong>Depart morning of Jul 28. Last meal they attend is dinner Jul 27.</div>
       <div class="foot-item"><strong>Golf — Jul 28 (Tuesday)</strong>Palmilla Beach course, on-site. Open 7:30 AM, ~$63 to walk 9 holes. Barefoot play allowed. 361-749-4653.</div>
@@ -2484,9 +2495,61 @@ body{background:var(--sand);color:var(--text);font-family:'DM Sans',sans-serif;f
   }
 
   function renderAllAssignments() {
+    // Update chef chips on meal cards
     Object.entries(currentAssignments).forEach(([mealId, couple]) => {
       const el = document.getElementById('chef-' + mealId);
       if (el) el.textContent = '👨‍🍳 ' + couple;
+    });
+
+    // Rebuild roster badges based on current assignments
+    const mealLabels = {
+      'd24-dinner': { label: 'Dinner · Jul 24', type: 'dinner' },
+      'd25-breakfast': { label: 'Breakfast · Jul 25', type: 'breakfast' },
+      'd25-lunch': { label: 'Lunch · Jul 25', type: 'lunch' },
+      'd25-dinner': { label: 'Dinner · Jul 25', type: 'dinner' },
+      'd26-breakfast': { label: 'Breakfast · Jul 26', type: 'breakfast' },
+      'd26-lunch': { label: 'Lunch · Jul 26', type: 'lunch' },
+      'd26-dinner': { label: 'Dinner · Jul 26', type: 'dinner' },
+      'd27-breakfast': { label: 'Breakfast · Jul 27', type: 'breakfast' },
+      'd27-lunch': { label: 'Lunch · Jul 27', type: 'lunch' },
+      'd27-dinner': { label: 'Dinner · Jul 27', type: 'dinner' },
+      'd28-breakfast': { label: 'Breakfast · Jul 28', type: 'breakfast' },
+      'd28-lunch': { label: 'Lunch · Jul 28', type: 'lunch' },
+      'd28-dinner': { label: 'Dinner · Jul 28', type: 'dinner' },
+      'd29-breakfast': { label: 'Breakfast · Jul 29', type: 'breakfast' },
+      'd29-lunch': { label: 'Farewell Lunch · Jul 29', type: 'lunch' }
+    };
+
+    // Build map of couple -> their meal badges
+    const coupleMap = {};
+    Object.entries(currentAssignments).forEach(([mealId, couple]) => {
+      if (!coupleMap[couple]) coupleMap[couple] = [];
+      coupleMap[couple].push(mealId);
+    });
+
+    // For each couple, rebuild their badges div
+    COUPLES.forEach(couple => {
+      const rosterId = 'roster-' + couple.replace(/ & /g, '-&-').replace(/ /g, '-');
+      const badgesEl = document.getElementById(rosterId);
+      if (!badgesEl) return;
+
+      const meals = coupleMap[couple] || [];
+      // Sort meals by date order
+      const order = Object.keys(mealLabels);
+      meals.sort((a, b) => order.indexOf(a) - order.indexOf(b));
+
+      // Keep any warn badges (departure notices)
+      const warnBadges = Array.from(badgesEl.querySelectorAll('.badge.warn'))
+        .map(b => b.outerHTML).join('');
+
+      if (meals.length === 0) {
+        badgesEl.innerHTML = warnBadges || '<span style="font-size:11px;color:#aaa">No assignments</span>';
+      } else {
+        badgesEl.innerHTML = meals.map(mealId => {
+          const { label, type } = mealLabels[mealId];
+          return `<span class="badge ${type}">${label}</span>`;
+        }).join('') + warnBadges;
+      }
     });
   }
 

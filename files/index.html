@@ -165,10 +165,34 @@ body{background:var(--sand);color:var(--text);font-family:'DM Sans',sans-serif;f
 /* LOADING STATE */
 .loading-bar{height:2px;background:var(--seafoam);position:fixed;top:0;left:0;width:0;transition:width .3s;z-index:1000;}
 
-/* SYNC INDICATOR */
-.sync-bar{position:fixed;top:0;left:0;right:0;z-index:90;display:flex;align-items:center;justify-content:center;pointer-events:none;}
-.sync-pill{background:rgba(26,67,96,.9);color:var(--seafoam);font-size:10px;font-weight:500;padding:4px 12px;border-radius:0 0 10px 10px;letter-spacing:.06em;opacity:0;transition:opacity .3s;backdrop-filter:blur(4px);}
-.sync-pill.show{opacity:1;}
+/* SYNC LABEL BAR */
+.sync-label-bar{position:fixed;bottom:0;left:0;right:0;z-index:99;text-align:center;padding:2px 0 calc(2px + env(safe-area-inset-bottom));background:var(--white);border-top:none;}
+#syncLabel{font-size:9px;color:var(--text-light);letter-spacing:.04em;opacity:.7;}
+
+/* BELL BUTTON */
+.bell-btn{position:fixed;top:calc(env(safe-area-inset-top) + 12px);right:16px;z-index:200;background:rgba(26,67,96,.7);border:none;border-radius:50%;width:38px;height:38px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--white);backdrop-filter:blur(6px);}
+.bell-btn:active{opacity:.7;}
+.bell-badge{position:absolute;top:-2px;right:-2px;background:var(--coral);color:#fff;font-size:9px;font-weight:700;border-radius:50%;width:16px;height:16px;display:flex;align-items:center;justify-content:center;border:1.5px solid var(--white);}
+
+/* NOTIFICATION PANEL */
+.notif-backdrop{display:none;position:fixed;inset:0;z-index:201;}
+.notif-backdrop.show{display:block;}
+.notif-panel{position:fixed;top:calc(env(safe-area-inset-top) + 58px);right:12px;width:min(320px,90vw);background:var(--white);border-radius:16px;box-shadow:0 8px 32px rgba(0,0,0,.18);z-index:202;max-height:70vh;display:flex;flex-direction:column;overflow:hidden;opacity:0;transform:translateY(-8px) scale(.97);transition:all .2s ease;pointer-events:none;}
+.notif-panel.show{opacity:1;transform:translateY(0) scale(1);pointer-events:all;}
+.notif-header{display:flex;align-items:center;justify-content:space-between;padding:14px 16px 10px;border-bottom:1px solid var(--sand-mid);flex-shrink:0;}
+.notif-title{font-family:'Playfair Display',serif;font-size:16px;font-weight:700;color:var(--ocean-deep);}
+.notif-clear-btn{font-size:11px;font-weight:600;color:var(--coral);background:none;border:none;cursor:pointer;font-family:'DM Sans',sans-serif;padding:0;}
+.notif-list{overflow-y:auto;flex:1;}
+.notif-empty{font-size:13px;color:var(--text-light);text-align:center;padding:24px 16px;}
+.notif-item{display:flex;align-items:flex-start;gap:10px;padding:11px 16px;border-bottom:1px solid var(--sand-mid);cursor:pointer;}
+.notif-item:last-child{border-bottom:none;}
+.notif-item.unseen{background:#f8f4ff;}
+.notif-icon{width:32px;height:32px;border-radius:50%;background:var(--sand-mid);display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;}
+.notif-body{flex:1;}
+.notif-text{font-size:12px;color:var(--text);line-height:1.45;}
+.notif-text strong{color:var(--ocean-deep);}
+.notif-time{font-size:10px;color:var(--text-light);margin-top:2px;}
+.notif-dot{width:7px;height:7px;border-radius:50%;background:var(--coral);flex-shrink:0;margin-top:5px;}
 
 /* PULL TO REFRESH */
 .ptr-indicator{position:fixed;top:0;left:50%;transform:translateX(-50%) translateY(-48px);background:var(--ocean-deep);color:var(--seafoam);width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;z-index:91;transition:transform .2s ease;box-shadow:0 2px 12px rgba(0,0,0,.3);}
@@ -176,7 +200,7 @@ body{background:var(--sand);color:var(--text);font-family:'DM Sans',sans-serif;f
 .ptr-indicator.refreshing{transform:translateX(-50%) translateY(16px);animation:spin .8s linear infinite;}
 
 /* BOTTOM NAV */
-.bottom-nav{position:fixed;bottom:0;left:0;right:0;background:var(--white);border-top:1.5px solid var(--sand-mid);display:flex;z-index:100;padding-bottom:env(safe-area-inset-bottom);}
+.bottom-nav{position:fixed;bottom:calc(16px + env(safe-area-inset-bottom));left:0;right:0;background:var(--white);border-top:1.5px solid var(--sand-mid);display:flex;z-index:100;}
 .nav-btn{flex:1;padding:12px 0 10px;border:none;background:transparent;font-family:'DM Sans',sans-serif;font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--text-light);cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px;transition:color .15s;}
 .nav-btn.active{color:var(--ocean-deep);}
 .nav-btn svg{width:22px;height:22px;}
@@ -465,8 +489,25 @@ body{background:var(--sand);color:var(--text);font-family:'DM Sans',sans-serif;f
 
 <div class="loading-bar" id="loadingBar"></div>
 <div class="toast" id="toast"></div>
-<div class="sync-bar"><div class="sync-pill" id="syncPill">↻ Syncing…</div></div>
 <div class="ptr-indicator" id="ptrIndicator">↓</div>
+
+<!-- BELL ICON - fixed top right -->
+<button class="bell-btn" id="bellBtn" onclick="toggleNotifPanel()">
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+  <span class="bell-badge" id="bellBadge" style="display:none">0</span>
+</button>
+
+<!-- NOTIFICATION PANEL -->
+<div class="notif-panel" id="notifPanel">
+  <div class="notif-header">
+    <div class="notif-title">Notifications</div>
+    <button class="notif-clear-btn" onclick="clearAllNotifications()">Clear all</button>
+  </div>
+  <div class="notif-list" id="notifList">
+    <div class="notif-empty">No notifications yet</div>
+  </div>
+</div>
+<div class="notif-backdrop" id="notifBackdrop" onclick="closeNotifPanel()"></div>
 
 <!-- PASSWORD GATE -->
 <div class="gate" id="gate">
@@ -510,6 +551,9 @@ body{background:var(--sand);color:var(--text);font-family:'DM Sans',sans-serif;f
     <div class="nav-indicator"></div>
   </button>
 </nav>
+<div class="sync-label-bar" id="syncLabelBar">
+  <span id="syncLabel">Synced just now</span>
+</div>
 
 <!-- NAME PROMPT -->
 <div class="name-prompt" id="namePrompt">
@@ -604,6 +648,7 @@ body{background:var(--sand);color:var(--text);font-family:'DM Sans',sans-serif;f
       <div class="badges" id="roster-Dan-&-Andrea">
         <span class="badge dinner">Dinner · Jul 24</span>
         <span class="badge breakfast">Breakfast · Jul 29</span>
+        <span class="badge lunch">Farewell Lunch · Jul 29</span>
       </div>
     </div>
     <div class="couple-card">
@@ -636,7 +681,6 @@ body{background:var(--sand);color:var(--text);font-family:'DM Sans',sans-serif;f
       <div class="badges" id="roster-Cooper-&-Em">
         <span class="badge lunch">Lunch · Jul 25</span>
         <span class="badge lunch">Lunch · Jul 27</span>
-        <span class="badge lunch">Farewell Lunch · Jul 29</span>
       </div>
     </div>
     <div class="couple-card">
@@ -1346,7 +1390,7 @@ body{background:var(--sand);color:var(--text);font-family:'DM Sans',sans-serif;f
           </div>
         </div>
         <div class="card-footer">
-          <span class="chip chef" id="chef-d29-lunch">👨‍🍳 Cooper &amp; Em</span>
+          <span class="chip chef" id="chef-d29-lunch">👨‍🍳 Dan &amp; Andrea</span>
           <button class="edit-btn" onclick="toggleEdit('d29-lunch')">Edit</button>
           <button class="reassign-btn" onclick="startReassign('d29-lunch')">Reassign</button>
         </div>
@@ -1642,13 +1686,14 @@ body{background:var(--sand);color:var(--text);font-family:'DM Sans',sans-serif;f
       rows.forEach(row => {
         const nameEl = document.getElementById(`meal-${row.meal_id}`);
         const inputEl = document.getElementById(`input-${row.meal_id}`);
+        const editWrap = document.getElementById(`edit-${row.meal_id}`);
         const btnEl = document.querySelector(`#card-${row.meal_id} .edit-btn`);
-        const expandBtn = document.getElementById(`expand-${row.meal_id}`);
         if (nameEl && row.meal_text) {
           nameEl.textContent = row.meal_text;
-          if (inputEl) inputEl.value = row.meal_text;
+          // Only update input if user isn't actively editing this field
+          const isEditing = editWrap && editWrap.classList.contains('open');
+          if (inputEl && !isEditing && document.activeElement !== inputEl) inputEl.value = row.meal_text;
           if (btnEl) btnEl.classList.add('filled');
-          // Apply collapsible if text is long
           applyCollapsible(row.meal_id, row.meal_text);
         }
       });
@@ -1725,6 +1770,7 @@ body{background:var(--sand);color:var(--text);font-family:'DM Sans',sans-serif;f
       btnEl.classList.add('filled');
       cancelEdit(id);
       showToast('✓ Meal saved!');
+      postNotification(getAuthor() || 'Someone', `updated ${getMealLabel(id)}: "${text.slice(0,50)}${text.length>50?'…':''}"`);
     } catch (e) {
       statusEl.textContent = '⚠ Could not save. Try again.';
       console.error(e);
@@ -1875,6 +1921,7 @@ body{background:var(--sand);color:var(--text);font-family:'DM Sans',sans-serif;f
 
     if (failed === 0) {
       showToast(total > 1 ? `📸 ${uploaded} photos posted!` : '📸 Photo posted!');
+      postNotification(name, total > 1 ? `uploaded ${uploaded} photos` : 'uploaded a photo');
     } else {
       showToast(`⚠ ${uploaded} uploaded, ${failed} failed.`);
     }
@@ -2006,6 +2053,7 @@ body{background:var(--sand);color:var(--text);font-family:'DM Sans',sans-serif;f
       });
       if (!res.ok) { const t = await res.text(); console.error('Comment fail:', t); throw new Error('Failed'); }
       loadComments(currentPhotoName);
+      postNotification(author, `commented on a photo: "${body.slice(0,40)}${body.length>40?'…':''}"`);
     } catch(e) { console.error('Comment error:', e); showToast('⚠ Could not post comment'); }
   }
 
@@ -2362,6 +2410,7 @@ body{background:var(--sand);color:var(--text);font-family:'DM Sans',sans-serif;f
       const tagged = extractMentions(body);
       if (tagged.length) sendPushNotifications(tagged, author, body, 'post');
       showToast('✓ Posted!');
+      postNotification(author, `posted in the Feed: "${body.slice(0,50)}${body.length>50?'…':''}"`);
       loadFeed();
     } catch(e) { console.error(e); showToast('⚠ Could not post'); }
   }
@@ -2433,6 +2482,7 @@ body{background:var(--sand);color:var(--text);font-family:'DM Sans',sans-serif;f
       if (!res.ok) throw new Error('Failed');
       const tagged = extractMentions(body);
       if (tagged.length) sendPushNotifications(tagged, author, body, 'reply');
+      postNotification(author, `replied in the Feed: "${body.slice(0,50)}${body.length>50?'…':''}"`);
       loadThreadComments(currentPostId);
       loadFeed();
     } catch(e) { console.error(e); showToast('⚠ Could not post reply'); }
@@ -2568,7 +2618,7 @@ body{background:var(--sand);color:var(--text);font-family:'DM Sans',sans-serif;f
     'd28-lunch': 'Codi & Adriel',
     'd28-dinner': 'Anna & Riley',
     'd29-breakfast': 'Dan & Andrea',
-    'd29-lunch': 'Cooper & Em'
+    'd29-lunch': 'Dan & Andrea'
   };
 
   let currentAssignments = { ...DEFAULT_ASSIGNMENTS };
@@ -2707,6 +2757,7 @@ body{background:var(--sand);color:var(--text);font-family:'DM Sans',sans-serif;f
       currentAssignments[mealId] = couple;
       renderAllAssignments();
       showToast('✓ Meal reassigned to ' + couple);
+      postNotification(getAuthor() || 'Someone', `reassigned ${getMealLabel(mealId)} to ${couple}`);
     } catch(e) {
       console.error('Reassign error:', e);
       showToast('⚠ Could not reassign. Try again.');
@@ -3015,63 +3066,199 @@ body{background:var(--sand);color:var(--text);font-family:'DM Sans',sans-serif;f
     return `<span style="font-size:${Math.floor(size*0.38)}px">${initials(name)}</span>`;
   }
 
-  // ── Background sync & polling ─────────────────────────────────
-  let currentViewName = 'planner';
+  // ── Notifications ─────────────────────────────────────────────
+  const NOTIFS_API = `${SUPABASE_URL}/rest/v1/notifications`;
+  let lastNotifId = 0;
+  let notifPollInterval = null;
   let lastSyncTime = Date.now();
-  let pollInterval = null;
 
-  function getActiveView() {
-    const active = document.querySelector('.view.active');
-    return active ? active.id.replace('view-', '') : 'planner';
-  }
-
-  function showSyncPill(msg) {
-    const pill = document.getElementById('syncPill');
-    pill.textContent = msg;
-    pill.classList.add('show');
-    setTimeout(() => pill.classList.remove('show'), 2000);
-  }
-
-  async function syncAll(silent = true) {
-    if (!silent) showSyncPill('↻ Syncing…');
-    try {
-      await Promise.all([
-        loadMeals(),
-        loadAssignments(),
-        loadSignups()
-      ]);
-      const view = getActiveView();
-      if (view === 'photos') await loadPhotos();
-      if (view === 'feed') await loadFeed();
-      if (view === 'profile') { await loadMyProfile(); await loadCrew(); buildMyItinerary(); }
-      lastSyncTime = Date.now();
-      if (!silent) showSyncPill('✓ Up to date');
-    } catch(e) {
-      console.error('Sync error:', e);
-      if (!silent) showSyncPill('⚠ Sync failed');
-    }
-  }
-
-  function startPolling() {
-    if (pollInterval) clearInterval(pollInterval);
-    pollInterval = setInterval(() => {
-      syncAll(true);
-      updateLastSyncLabel();
-    }, 30000); // every 30 seconds
-  }
-
-  function updateLastSyncLabel() {
+  function updateSyncLabel() {
     const secs = Math.round((Date.now() - lastSyncTime) / 1000);
-    const pill = document.getElementById('syncPill');
-    if (secs < 5) return;
-    // Only show if pill isn't already showing something
-    if (!pill.classList.contains('show')) {
-      pill.textContent = `Last synced ${secs < 60 ? secs + 's' : Math.round(secs/60) + 'm'} ago`;
+    const el = document.getElementById('syncLabel');
+    if (!el) return;
+    if (secs < 10) el.textContent = 'Synced just now';
+    else if (secs < 60) el.textContent = `Synced ${secs}s ago`;
+    else el.textContent = `Synced ${Math.round(secs/60)}m ago`;
+  }
+
+  setInterval(updateSyncLabel, 10000);
+
+  function notifIcon(action) {
+    if (action.includes('meal')) return '🍽️';
+    if (action.includes('photo') || action.includes('comment')) return '📸';
+    if (action.includes('post') || action.includes('feed')) return '💬';
+    if (action.includes('assign')) return '👨‍🍳';
+    return '🌊';
+  }
+
+  function timeAgoShort(dateStr) {
+    const diff = (Date.now() - new Date(dateStr)) / 1000;
+    if (diff < 60) return 'just now';
+    if (diff < 3600) return `${Math.floor(diff/60)}m ago`;
+    if (diff < 86400) return `${Math.floor(diff/3600)}h ago`;
+    return `${Math.floor(diff/86400)}d ago`;
+  }
+
+  async function loadNotifications() {
+    const myName = getAuthor() || '';
+    try {
+      const res = await fetch(
+        `${NOTIFS_API}?select=id,actor,action,created_at,seen_by&order=created_at.desc&limit=30`,
+        { headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` } }
+      );
+      if (!res.ok) return;
+      const notifs = await res.json();
+
+      // Count unseen
+      const unseen = notifs.filter(n => {
+        const seenBy = n.seen_by ? n.seen_by.split(',').map(s => s.trim()) : [];
+        return !seenBy.includes(myName);
+      });
+
+      // Update badge
+      const badge = document.getElementById('bellBadge');
+      if (unseen.length > 0) {
+        badge.textContent = unseen.length > 9 ? '9+' : unseen.length;
+        badge.style.display = 'flex';
+      } else {
+        badge.style.display = 'none';
+      }
+
+      // Render list
+      const list = document.getElementById('notifList');
+      if (!notifs.length) {
+        list.innerHTML = '<div class="notif-empty">No notifications yet</div>';
+        return;
+      }
+      list.innerHTML = notifs.map(n => {
+        const seenBy = n.seen_by ? n.seen_by.split(',').map(s => s.trim()) : [];
+        const isSeen = seenBy.includes(myName);
+        return `<div class="notif-item${isSeen ? '' : ' unseen'}" onclick="markSeen(${n.id})">
+          <div class="notif-icon">${notifIcon(n.action)}</div>
+          <div class="notif-body">
+            <div class="notif-text"><strong>${n.actor}</strong> ${n.action}</div>
+            <div class="notif-time">${timeAgoShort(n.created_at)}</div>
+          </div>
+          ${!isSeen ? '<div class="notif-dot"></div>' : ''}
+        </div>`;
+      }).join('');
+
+      // Update last notif ID for polling
+      if (notifs.length > 0) lastNotifId = Math.max(...notifs.map(n => n.id));
+      lastSyncTime = Date.now();
+      updateSyncLabel();
+    } catch(e) { console.error('Notif load error:', e); }
+  }
+
+  async function markSeen(notifId) {
+    const myName = getAuthor();
+    if (!myName) return;
+    try {
+      // Get current seen_by
+      const res = await fetch(`${NOTIFS_API}?id=eq.${notifId}&select=seen_by`,
+        { headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` } });
+      const rows = await res.json();
+      if (!rows.length) return;
+      const current = rows[0].seen_by || '';
+      const names = current ? current.split(',').map(s => s.trim()) : [];
+      if (!names.includes(myName)) {
+        names.push(myName);
+        await fetch(`${NOTIFS_API}?id=eq.${notifId}`, {
+          method: 'PATCH',
+          headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}`, 'Content-Type': 'application/json' },
+          body: JSON.stringify({ seen_by: names.join(', ') })
+        });
+      }
+      loadNotifications();
+    } catch(e) { console.error('Mark seen error:', e); }
+  }
+
+  async function clearAllNotifications() {
+    const myName = getAuthor();
+    if (!myName) return;
+    try {
+      // Mark all as seen by this user
+      const res = await fetch(`${NOTIFS_API}?select=id,seen_by&limit=50`,
+        { headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` } });
+      const notifs = await res.json();
+      await Promise.all(notifs.map(async n => {
+        const names = n.seen_by ? n.seen_by.split(',').map(s => s.trim()) : [];
+        if (!names.includes(myName)) {
+          names.push(myName);
+          return fetch(`${NOTIFS_API}?id=eq.${n.id}`, {
+            method: 'PATCH',
+            headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}`, 'Content-Type': 'application/json' },
+            body: JSON.stringify({ seen_by: names.join(', ') })
+          });
+        }
+      }));
+      loadNotifications();
+      showToast('✓ Notifications cleared');
+    } catch(e) { console.error('Clear notifs error:', e); }
+  }
+
+  function toggleNotifPanel() {
+    const panel = document.getElementById('notifPanel');
+    const backdrop = document.getElementById('notifBackdrop');
+    const isOpen = panel.classList.contains('show');
+    if (isOpen) {
+      panel.classList.remove('show');
+      backdrop.classList.remove('show');
+    } else {
+      panel.classList.add('show');
+      backdrop.classList.add('show');
+      loadNotifications();
     }
   }
 
-  // Update the sync label every 10 seconds
-  setInterval(updateLastSyncLabel, 10000);
+  function closeNotifPanel() {
+    document.getElementById('notifPanel').classList.remove('show');
+    document.getElementById('notifBackdrop').classList.remove('show');
+  }
+
+  // Post a notification to Supabase
+  async function postNotification(actor, action) {
+    if (!actor) return;
+    try {
+      await fetch(NOTIFS_API, {
+        method: 'POST',
+        headers: {
+          'apikey': SUPABASE_KEY,
+          'Authorization': `Bearer ${SUPABASE_KEY}`,
+          'Content-Type': 'application/json',
+          'Prefer': 'return=minimal'
+        },
+        body: JSON.stringify({ actor, action, seen_by: actor })
+      });
+      // Refresh bell badge
+      loadNotifications();
+    } catch(e) { console.error('Post notif error:', e); }
+  }
+
+  // Poll for new notifications every 15 seconds
+  function userIsTyping() {
+    const el = document.activeElement;
+    if (!el) return false;
+    const tag = el.tagName;
+    return tag === 'TEXTAREA' || tag === 'INPUT';
+  }
+
+  function startNotifPolling() {
+    loadNotifications();
+    notifPollInterval = setInterval(() => {
+      loadNotifications();
+      // Only refresh data if user isn't actively typing anywhere
+      if (!userIsTyping()) {
+        loadMeals();
+        loadAssignments();
+        loadSignups();
+        const view = getActiveView();
+        if (view === 'photos') loadPhotos();
+        if (view === 'feed') loadFeed();
+        if (view === 'profile') { loadMyProfile(); loadCrew(); buildMyItinerary(); }
+      }
+    }, 60000);
+  }
 
   // ── Pull to refresh ───────────────────────────────────────────
   let ptrStartY = 0;
@@ -3102,17 +3289,36 @@ body{background:var(--sand);color:var(--text);font-family:'DM Sans',sans-serif;f
     if (!ptrActive) return;
     ptrActive = false;
     const pullDist = e.changedTouches[0].clientY - ptrStartY;
-    if (pullDist > PTR_THRESHOLD && window.scrollY === 0) {
+    if (pullDist > PTR_THRESHOLD && window.scrollY === 0 && !userIsTyping()) {
       ptr.classList.remove('ready');
       ptr.classList.add('refreshing');
       ptr.textContent = '↻';
-      await syncAll(false);
+      // Manual refresh
+      await loadMeals();
+      await loadAssignments();
+      await loadSignups();
+      const view = getActiveView();
+      if (view === 'photos') await loadPhotos();
+      if (view === 'feed') await loadFeed();
+      lastSyncTime = Date.now();
+      updateSyncLabel();
+      showToast('✓ Refreshed');
       ptr.classList.remove('refreshing');
       ptr.textContent = '↓';
     }
     ptr.style.transform = '';
     ptr.classList.remove('ready', 'refreshing');
   }, { passive: true });
+
+  function getActiveView() {
+    const active = document.querySelector('.view.active');
+    return active ? active.id.replace('view-', '') : 'planner';
+  }
+
+  function getActiveView() {
+    const active = document.querySelector('.view.active');
+    return active ? active.id.replace('view-', '') : 'planner';
+  }
 
   // ── PWA service worker ────────────────────────────────────────
   if ('serviceWorker' in navigator) {
@@ -3124,8 +3330,9 @@ body{background:var(--sand);color:var(--text);font-family:'DM Sans',sans-serif;f
   loadMeals();
   loadAssignments();
   loadSignups();
-  startPolling();
+  startNotifPolling();
   startResortTimeout();
+  updateSyncLabel();
 </script>
 </body>
 </html>

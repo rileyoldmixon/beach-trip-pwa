@@ -165,6 +165,16 @@ body{background:var(--sand);color:var(--text);font-family:'DM Sans',sans-serif;f
 /* LOADING STATE */
 .loading-bar{height:2px;background:var(--seafoam);position:fixed;top:0;left:0;width:0;transition:width .3s;z-index:1000;}
 
+/* SYNC INDICATOR */
+.sync-bar{position:fixed;top:0;left:0;right:0;z-index:90;display:flex;align-items:center;justify-content:center;pointer-events:none;}
+.sync-pill{background:rgba(26,67,96,.9);color:var(--seafoam);font-size:10px;font-weight:500;padding:4px 12px;border-radius:0 0 10px 10px;letter-spacing:.06em;opacity:0;transition:opacity .3s;backdrop-filter:blur(4px);}
+.sync-pill.show{opacity:1;}
+
+/* PULL TO REFRESH */
+.ptr-indicator{position:fixed;top:0;left:50%;transform:translateX(-50%) translateY(-48px);background:var(--ocean-deep);color:var(--seafoam);width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;z-index:91;transition:transform .2s ease;box-shadow:0 2px 12px rgba(0,0,0,.3);}
+.ptr-indicator.ready{transform:translateX(-50%) translateY(16px);}
+.ptr-indicator.refreshing{transform:translateX(-50%) translateY(16px);animation:spin .8s linear infinite;}
+
 /* BOTTOM NAV */
 .bottom-nav{position:fixed;bottom:0;left:0;right:0;background:var(--white);border-top:1.5px solid var(--sand-mid);display:flex;z-index:100;padding-bottom:env(safe-area-inset-bottom);}
 .nav-btn{flex:1;padding:12px 0 10px;border:none;background:transparent;font-family:'DM Sans',sans-serif;font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--text-light);cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px;transition:color .15s;}
@@ -455,6 +465,8 @@ body{background:var(--sand);color:var(--text);font-family:'DM Sans',sans-serif;f
 
 <div class="loading-bar" id="loadingBar"></div>
 <div class="toast" id="toast"></div>
+<div class="sync-bar"><div class="sync-pill" id="syncPill">↻ Syncing…</div></div>
+<div class="ptr-indicator" id="ptrIndicator">↓</div>
 
 <!-- PASSWORD GATE -->
 <div class="gate" id="gate">
@@ -1732,6 +1744,7 @@ body{background:var(--sand);color:var(--text);font-family:'DM Sans',sans-serif;f
 
   // ── View switching ────────────────────────────────────────────
   function switchView(name) {
+    currentViewName = name;
     document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
     document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
     document.getElementById(`view-${name}`).classList.add('active');
@@ -3002,6 +3015,105 @@ body{background:var(--sand);color:var(--text);font-family:'DM Sans',sans-serif;f
     return `<span style="font-size:${Math.floor(size*0.38)}px">${initials(name)}</span>`;
   }
 
+  // ── Background sync & polling ─────────────────────────────────
+  let currentViewName = 'planner';
+  let lastSyncTime = Date.now();
+  let pollInterval = null;
+
+  function getActiveView() {
+    const active = document.querySelector('.view.active');
+    return active ? active.id.replace('view-', '') : 'planner';
+  }
+
+  function showSyncPill(msg) {
+    const pill = document.getElementById('syncPill');
+    pill.textContent = msg;
+    pill.classList.add('show');
+    setTimeout(() => pill.classList.remove('show'), 2000);
+  }
+
+  async function syncAll(silent = true) {
+    if (!silent) showSyncPill('↻ Syncing…');
+    try {
+      await Promise.all([
+        loadMeals(),
+        loadAssignments(),
+        loadSignups()
+      ]);
+      const view = getActiveView();
+      if (view === 'photos') await loadPhotos();
+      if (view === 'feed') await loadFeed();
+      if (view === 'profile') { await loadMyProfile(); await loadCrew(); buildMyItinerary(); }
+      lastSyncTime = Date.now();
+      if (!silent) showSyncPill('✓ Up to date');
+    } catch(e) {
+      console.error('Sync error:', e);
+      if (!silent) showSyncPill('⚠ Sync failed');
+    }
+  }
+
+  function startPolling() {
+    if (pollInterval) clearInterval(pollInterval);
+    pollInterval = setInterval(() => {
+      syncAll(true);
+      updateLastSyncLabel();
+    }, 30000); // every 30 seconds
+  }
+
+  function updateLastSyncLabel() {
+    const secs = Math.round((Date.now() - lastSyncTime) / 1000);
+    const pill = document.getElementById('syncPill');
+    if (secs < 5) return;
+    // Only show if pill isn't already showing something
+    if (!pill.classList.contains('show')) {
+      pill.textContent = `Last synced ${secs < 60 ? secs + 's' : Math.round(secs/60) + 'm'} ago`;
+    }
+  }
+
+  // Update the sync label every 10 seconds
+  setInterval(updateLastSyncLabel, 10000);
+
+  // ── Pull to refresh ───────────────────────────────────────────
+  let ptrStartY = 0;
+  let ptrActive = false;
+  const PTR_THRESHOLD = 80;
+  const ptr = document.getElementById('ptrIndicator');
+
+  document.addEventListener('touchstart', e => {
+    if (window.scrollY === 0) {
+      ptrStartY = e.touches[0].clientY;
+      ptrActive = true;
+    }
+  }, { passive: true });
+
+  document.addEventListener('touchmove', e => {
+    if (!ptrActive) return;
+    const pullDist = e.touches[0].clientY - ptrStartY;
+    if (pullDist > 0 && window.scrollY === 0) {
+      const progress = Math.min(pullDist / PTR_THRESHOLD, 1);
+      ptr.style.transform = `translateX(-50%) translateY(${-48 + progress * 64}px)`;
+      ptr.textContent = pullDist > PTR_THRESHOLD ? '↑' : '↓';
+      if (pullDist > PTR_THRESHOLD) ptr.classList.add('ready');
+      else ptr.classList.remove('ready');
+    }
+  }, { passive: true });
+
+  document.addEventListener('touchend', async e => {
+    if (!ptrActive) return;
+    ptrActive = false;
+    const pullDist = e.changedTouches[0].clientY - ptrStartY;
+    if (pullDist > PTR_THRESHOLD && window.scrollY === 0) {
+      ptr.classList.remove('ready');
+      ptr.classList.add('refreshing');
+      ptr.textContent = '↻';
+      await syncAll(false);
+      ptr.classList.remove('refreshing');
+      ptr.textContent = '↓';
+    }
+    ptr.style.transform = '';
+    ptr.classList.remove('ready', 'refreshing');
+  }, { passive: true });
+
   // ── PWA service worker ────────────────────────────────────────
   if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('/sw.js').catch(() => {});
@@ -3012,6 +3124,7 @@ body{background:var(--sand);color:var(--text);font-family:'DM Sans',sans-serif;f
   loadMeals();
   loadAssignments();
   loadSignups();
+  startPolling();
   startResortTimeout();
 </script>
 </body>

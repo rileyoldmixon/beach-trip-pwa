@@ -165,7 +165,9 @@ body{background:var(--sand);color:var(--text);font-family:'DM Sans',sans-serif;f
 /* LOADING STATE */
 .loading-bar{height:2px;background:var(--seafoam);position:fixed;top:0;left:0;width:0;transition:width .3s;z-index:1000;}
 
-/* FOOD ALLERGIES */
+.download-all-btn{background:rgba(255,255,255,.12);color:var(--white);border:1.5px solid rgba(255,255,255,.25);border-radius:12px;padding:8px 14px;font-family:'DM Sans',sans-serif;font-size:11px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:6px;letter-spacing:.04em;}
+.download-all-btn:active{opacity:.7;}
+.download-all-btn.loading{opacity:.6;pointer-events:none;}
 .allergy-box{background:var(--white);border:1.5px solid #f0b8a0;border-radius:18px;padding:22px 24px;margin-top:14px;}
 .allergy-header{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:16px;}
 .allergy-title{font-family:'Playfair Display',serif;font-size:18px;font-weight:700;color:var(--text);line-height:1.1;}
@@ -319,6 +321,45 @@ body{background:var(--sand);color:var(--text);font-family:'DM Sans',sans-serif;f
 .name-cancel-btn{background:var(--sand);color:var(--text-light);border:1.5px solid var(--sand-dark);border-radius:9px;padding:12px 16px;font-family:'DM Sans',sans-serif;font-size:14px;cursor:pointer;}
 
 /* RESORT VIEW */
+/* INFO TAB */
+.info-hero{background:linear-gradient(150deg,#12293d 0%,#1a4360 50%,#215f7a 100%);color:var(--white);padding:calc(env(safe-area-inset-top) + 48px) 32px 72px;position:relative;overflow:hidden;}
+.info-hero .hero-glow{position:absolute;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(109,189,189,.14) 0%,transparent 70%);top:-130px;right:-100px;pointer-events:none;}
+.info-hero-title{font-family:'Playfair Display',serif;font-size:clamp(32px,6vw,52px);font-weight:700;line-height:1.02;color:var(--white);}
+.info-hero-title em{font-style:italic;color:var(--coral-light);}
+.info-hero-sub{font-size:13px;color:rgba(253,250,245,.52);letter-spacing:.07em;margin-top:6px;}
+.info-hero .hero-wave{position:absolute;bottom:-1px;left:0;right:0;}
+.info-wrap{max-width:640px;margin:0 auto;padding:24px 16px 120px;display:flex;flex-direction:column;gap:20px;}
+.info-section{background:var(--white);border:1.5px solid var(--sand-mid);border-radius:18px;padding:20px;}
+.info-section-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;}
+.info-section-title{font-family:'Playfair Display',serif;font-size:17px;font-weight:700;color:var(--text);}
+.info-section-sub{font-size:11px;color:var(--text-light);margin-bottom:14px;}
+.info-add-btn{background:var(--ocean-deep);color:var(--seafoam);border:none;border-radius:9px;padding:6px 13px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;cursor:pointer;flex-shrink:0;}
+.info-add-btn:active{opacity:.8;}
+
+/* NOTES LIST */
+.notes-loading{font-size:13px;color:var(--text-light);padding:8px 0;}
+.note-card{border:1px solid var(--sand-mid);border-radius:12px;padding:13px 14px;margin-bottom:10px;background:var(--sand);}
+.note-card:last-child{margin-bottom:0;}
+.note-card-title{font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ocean);margin-bottom:4px;}
+.note-card-body{font-size:13px;color:var(--text);line-height:1.55;}
+.note-card-actions{display:flex;gap:8px;margin-top:10px;}
+.note-action-btn{font-size:11px;padding:3px 10px;border-radius:6px;font-weight:500;background:var(--white);color:var(--text-mid);border:1px solid var(--sand-mid);cursor:pointer;font-family:'DM Sans',sans-serif;}
+.note-action-btn.danger{background:#fff5f5;color:var(--coral);border-color:#f8c0c0;}
+
+/* EDITOR MODAL */
+.editor-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:450;align-items:center;justify-content:center;padding:20px;}
+.editor-modal.show{display:flex;}
+.editor-inner{width:100%;max-width:440px;background:var(--white);border-radius:20px;padding:24px;max-height:88vh;overflow-y:auto;}
+.editor-title{font-family:'Playfair Display',serif;font-size:18px;font-weight:700;color:var(--ocean-deep);margin-bottom:18px;}
+.editor-field{margin-bottom:14px;}
+.editor-label{display:block;font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--text-light);margin-bottom:5px;}
+.editor-input{width:100%;font-family:'DM Sans',sans-serif;font-size:14px;color:var(--text);background:var(--sand);border:1.5px solid var(--sand-mid);border-radius:10px;padding:10px 13px;outline:none;resize:none;}
+.editor-input:focus{border-color:var(--ocean);}
+.editor-actions{display:flex;gap:10px;margin-top:18px;}
+.editor-cancel{flex:1;background:var(--sand);color:var(--text-mid);border:1.5px solid var(--sand-mid);border-radius:12px;padding:12px;font-family:'DM Sans',sans-serif;font-size:14px;cursor:pointer;}
+.editor-save{flex:1;background:var(--ocean-deep);color:var(--seafoam);border:none;border-radius:12px;padding:12px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:700;cursor:pointer;}
+.editor-save:active{opacity:.8;}
+
 .resort-hero{background:linear-gradient(150deg,#12293d 0%,#1a4360 50%,#215f7a 100%);color:var(--white);padding:calc(env(safe-area-inset-top) + 48px) 32px 72px;position:relative;overflow:hidden;}
 .resort-hero .hero-glow{position:absolute;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(109,189,189,.14) 0%,transparent 70%);top:-130px;right:-100px;pointer-events:none;}
 .resort-hero .eyebrow{font-size:10px;font-weight:600;letter-spacing:.28em;text-transform:uppercase;color:var(--seafoam);margin-bottom:12px;}
@@ -564,8 +605,8 @@ body{background:var(--sand);color:var(--text);font-family:'DM Sans',sans-serif;f
     <div class="nav-indicator"></div>
   </button>
   <button class="nav-btn" id="nav-resort" onclick="switchView('resort')">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
-    Resort
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+    Info
     <div class="nav-indicator"></div>
   </button>
   <button class="nav-btn" id="nav-profile" onclick="switchView('profile')">
@@ -1431,45 +1472,6 @@ body{background:var(--sand);color:var(--text);font-family:'DM Sans',sans-serif;f
 
 </div><!-- /days-wrap -->
 
-<!-- FOOTER -->
-<div class="foot">
-  <div class="foot-box">
-    <h3>Notes &amp; Logistics</h3>
-    <div class="foot-grid">
-      <div class="foot-item"><strong>Home Base</strong>166 Sunrise Ave, Port Aransas, TX 78373 — Palmilla Beach Resort. Gas cooktops, stacked ovens, outdoor grill.</div>
-      <div class="foot-item"><strong>Group Photos — Jul 26 Evening</strong>Golden hour on the beach with all 16. Connor &amp; Bethany leave the following morning.</div>
-      <div class="foot-item"><strong>Connor &amp; Bethany</strong>Depart morning of Jul 28. Last meal they attend is dinner Jul 27.</div>
-      <div class="foot-item"><strong>Golf — Jul 28 (Tuesday)</strong>Palmilla Beach course, on-site. Open 7:30 AM, ~$63 to walk 9 holes. Barefoot play allowed. 361-749-4653.</div>
-      <div class="foot-item"><strong>Aquarium — Jul 26</strong>Texas State Aquarium, Corpus Christi. ~45 min drive. Open 10 AM–5 PM. 361-881-1200.</div>
-    </div>
-  </div>
-
-  <!-- FOOD ALLERGIES -->
-  <div class="allergy-box">
-    <div class="allergy-header">
-      <div>
-        <h3 class="allergy-title">🚨 Food Allergies &amp; Considerations</h3>
-        <div class="allergy-sub">Important for whoever is cooking</div>
-      </div>
-      <button class="allergy-add-btn" onclick="openAllergyForm()">+ Add</button>
-    </div>
-    <ul class="allergy-list" id="allergyList">
-      <li class="allergy-empty">Loading…</li>
-    </ul>
-
-    <!-- Add form (hidden by default) -->
-    <div class="allergy-form" id="allergyForm" style="display:none">
-      <div class="allergy-form-row">
-        <input class="allergy-input" id="allergyPerson" type="text" placeholder="Person's name" maxlength="30">
-        <input class="allergy-input" id="allergyNote" type="text" placeholder="Allergy or consideration" maxlength="100">
-      </div>
-      <div class="allergy-form-actions">
-        <button class="allergy-cancel" onclick="closeAllergyForm()">Cancel</button>
-        <button class="allergy-save" onclick="saveAllergyNote()">Add</button>
-      </div>
-    </div>
-  </div>
-</div>
 
 
 </div><!-- /view-planner -->
@@ -1484,10 +1486,16 @@ body{background:var(--sand);color:var(--text);font-family:'DM Sans',sans-serif;f
         <h2 class="photo-hero-title">Photo <em>Library</em></h2>
         <div class="photo-hero-sub">Shared memories · 7 couples</div>
       </div>
-      <button class="upload-btn" onclick="startUpload()">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-        Add Photos
-      </button>
+      <div style="display:flex;gap:8px;flex-direction:column;align-items:flex-end;">
+        <button class="upload-btn" onclick="startUpload()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          Add Photos
+        </button>
+        <button class="download-all-btn" id="downloadAllBtn" onclick="downloadAllPhotos()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Download All
+        </button>
+      </div>
     </div>
     <svg class="hero-wave" viewBox="0 0 1200 55" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
       <path d="M0,28 C220,58 440,0 660,30 C880,58 1040,4 1200,28 L1200,56 L0,56 Z" fill="#f4ede0"/>
@@ -1506,30 +1514,88 @@ body{background:var(--sand);color:var(--text);font-family:'DM Sans',sans-serif;f
 
 <!-- RESORT VIEW -->
 <div class="view" id="view-resort">
-  <div class="resort-hero">
+  <div class="info-hero">
     <div class="hero-glow"></div>
-    <div class="eyebrow">🏖️ Port Aransas · Texas</div>
-    <div class="resort-hero-title">Palmilla <em>Beach</em></div>
-    <div class="resort-hero-sub">166 Sunrise Ave · palmillabeach.com</div>
+    <div class="eyebrow">📋 2026 Beach Trip</div>
+    <div class="info-hero-title">Important <em>Info</em></div>
+    <div class="info-hero-sub">Allergies · Notes · Resort</div>
     <svg class="hero-wave" viewBox="0 0 1200 55" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
       <path d="M0,28 C220,58 440,0 660,30 C880,58 1040,4 1200,28 L1200,56 L0,56 Z" fill="#f4ede0"/>
     </svg>
   </div>
-  <div class="resort-frame-wrap" style="display:none">
-    <iframe id="resortFrame" src="" frameborder="0"></iframe>
-  </div>
-  <div class="resort-fallback" id="resortFallback">
-    <a href="https://www.palmillabeach.com" target="_blank" class="resort-open-btn">Open palmillabeach.com ↗</a>
-    <div class="resort-links">
-      <div class="resort-links-label">Quick Links</div>
-      <a href="https://www.palmillabeach.com/dining" target="_blank" class="resort-link-btn">🍽️ Dining &amp; Menus</a>
-      <a href="https://www.palmillabeach.com/activities" target="_blank" class="resort-link-btn">🏄 Activities</a>
-      <a href="https://www.palmillabeach.com/golf" target="_blank" class="resort-link-btn">⛳ Golf Course</a>
-      <a href="https://www.palmillabeach.com/map" target="_blank" class="resort-link-btn">🗺️ Resort Map</a>
-      <a href="https://www.palmillabeach.com/pool" target="_blank" class="resort-link-btn">🏊 Pool &amp; Amenities</a>
+
+  <div class="info-wrap">
+
+    <!-- SECTION 1: FOOD ALLERGIES -->
+    <div class="info-section">
+      <div class="info-section-hdr">
+        <div class="info-section-title">🚨 Food Allergies &amp; Considerations</div>
+        <button class="info-add-btn" onclick="openAllergyForm()">+ Add</button>
+      </div>
+      <div class="info-section-sub">Important for whoever is cooking</div>
+      <ul class="allergy-list" id="allergyList2">
+        <li class="allergy-empty">Loading…</li>
+      </ul>
+      <div class="allergy-form" id="allergyForm2" style="display:none">
+        <div class="allergy-form-row">
+          <input class="allergy-input" id="allergyPerson2" type="text" placeholder="Person's name" maxlength="30">
+          <input class="allergy-input" id="allergyNote2" type="text" placeholder="Allergy or consideration" maxlength="100">
+        </div>
+        <div class="allergy-form-actions">
+          <button class="allergy-cancel" onclick="closeAllergyForm()">Cancel</button>
+          <button class="allergy-save" onclick="saveAllergyNote()">Add</button>
+        </div>
+      </div>
     </div>
+
+    <!-- SECTION 2: NOTES & LOGISTICS -->
+    <div class="info-section">
+      <div class="info-section-hdr">
+        <div class="info-section-title">📝 Notes &amp; Logistics</div>
+        <button class="info-add-btn" onclick="openNoteEditor()">+ Add</button>
+      </div>
+      <div class="notes-list" id="notesList">
+        <div class="notes-loading">Loading…</div>
+      </div>
+    </div>
+
+    <!-- SECTION 3: RESORT -->
+    <div class="info-section">
+      <div class="info-section-title">🏖️ Palmilla Beach Resort</div>
+      <div class="info-section-sub">166 Sunrise Ave · Port Aransas, TX</div>
+      <a href="https://www.palmillabeach.com" target="_blank" class="resort-open-btn" style="margin-top:14px;margin-bottom:16px;">Open palmillabeach.com ↗</a>
+      <div class="resort-links">
+        <div class="resort-links-label">Quick Links</div>
+        <a href="https://www.palmillabeach.com/dining" target="_blank" class="resort-link-btn">🍽️ Dining &amp; Menus</a>
+        <a href="https://www.palmillabeach.com/activities" target="_blank" class="resort-link-btn">🏄 Activities</a>
+        <a href="https://www.palmillabeach.com/golf" target="_blank" class="resort-link-btn">⛳ Golf Course</a>
+        <a href="https://www.palmillabeach.com/map" target="_blank" class="resort-link-btn">🗺️ Resort Map</a>
+        <a href="https://www.palmillabeach.com/pool" target="_blank" class="resort-link-btn">🏊 Pool &amp; Amenities</a>
+      </div>
+    </div>
+
   </div>
 </div><!-- /view-resort -->
+
+<!-- NOTE EDITOR MODAL -->
+<div class="editor-modal" id="noteEditorModal">
+  <div class="editor-inner">
+    <div class="editor-title" id="noteEditorTitle">Add Note</div>
+    <div class="editor-field">
+      <label class="editor-label">Title</label>
+      <input class="editor-input" id="noteEditorTitleInput" type="text" placeholder="e.g. Grocery Run" maxlength="60">
+    </div>
+    <div class="editor-field">
+      <label class="editor-label">Details</label>
+      <textarea class="editor-input" id="noteEditorBody" placeholder="Add details…" rows="3" maxlength="300"></textarea>
+    </div>
+    <input type="hidden" id="noteEditorId">
+    <div class="editor-actions">
+      <button class="editor-cancel" onclick="closeNoteEditor()">Cancel</button>
+      <button class="editor-save" onclick="saveNote()">Save</button>
+    </div>
+  </div>
+</div>
 
 <!-- FEED VIEW -->
 <div class="view" id="view-feed">
@@ -1847,41 +1913,11 @@ body{background:var(--sand);color:var(--text);font-family:'DM Sans',sans-serif;f
     if (name === 'photos') loadPhotos();
     if (name === 'feed') { loadFeed(); initFeedComposer(); }
     if (name === 'profile') { loadMyProfile(); loadCrew(); buildMyItinerary(); }
+    if (name === 'resort') { loadAllergyNotes(); loadNotes(); }
     window.scrollTo(0, 0);
   }
 
   // ── Iframe block detection ────────────────────────────────────
-  function checkIframe() {
-    // Try to access iframe content — if blocked it throws
-    try {
-      const frame = document.getElementById('resortFrame');
-      // If src loaded but is blank due to X-Frame-Options, contentDocument will be null or restricted
-      const doc = frame.contentDocument || frame.contentWindow.document;
-      if (!doc || doc.body === null || doc.body.innerHTML === '') {
-        showResortFallback();
-      }
-    } catch(e) {
-      showResortFallback();
-    }
-  }
-
-  function showResortFallback() {
-    document.getElementById('resortFrame').style.display = 'none';
-    document.getElementById('resortFallback').style.display = 'block';
-  }
-
-  // Also detect via timeout — if iframe hasn't loaded in 5s, show fallback
-  function startResortTimeout() {
-    setTimeout(() => {
-      const frame = document.getElementById('resortFrame');
-      if (frame.style.display !== 'none') {
-        try {
-          const doc = frame.contentDocument || frame.contentWindow.document;
-          if (!doc || !doc.body || doc.body.innerHTML === '') showResortFallback();
-        } catch(e) { showResortFallback(); }
-      }
-    }, 5000);
-  }
 
   // ── Photo upload flow ─────────────────────────────────────────
   const STORAGE_URL = `${SUPABASE_URL}/storage/v1/object/photos`;
@@ -3115,11 +3151,53 @@ body{background:var(--sand);color:var(--text);font-family:'DM Sans',sans-serif;f
     return `<span style="font-size:${Math.floor(size*0.38)}px">${initials(name)}</span>`;
   }
 
+  // ── Download all photos ───────────────────────────────────────
+  async function downloadAllPhotos() {
+    const btn = document.getElementById('downloadAllBtn');
+    btn.classList.add('loading');
+    btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> Preparing…';
+    try {
+      const res = await fetch(`${SUPABASE_URL}/rest/v1/photos?select=url,filename&order=created_at.asc`,
+        { headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` } });
+      const photos = await res.json();
+      if (!photos.length) { showToast('No photos to download'); return; }
+
+      showToast(`Downloading ${photos.length} photos…`);
+
+      // Download each photo one at a time with a small delay
+      for (let i = 0; i < photos.length; i++) {
+        const p = photos[i];
+        try {
+          const imgRes = await fetch(p.url);
+          const blob = await imgRes.blob();
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = p.filename || `beach-trip-photo-${i+1}.jpg`;
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+          URL.revokeObjectURL(url);
+          // Small delay between downloads so browser doesn't block them
+          await new Promise(r => setTimeout(r, 800));
+        } catch(e) { console.error('Failed to download:', p.filename); }
+      }
+      showToast(`✓ ${photos.length} photos downloaded!`);
+    } catch(e) {
+      console.error('Download all error:', e);
+      showToast('⚠ Could not download photos');
+    } finally {
+      btn.classList.remove('loading');
+      btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> Download All';
+    }
+  }
+
   // ── Food allergies & considerations ───────────────────────────
   const FOOD_NOTES_API = `${SUPABASE_URL}/rest/v1/food_notes`;
 
   async function loadAllergyNotes() {
-    const list = document.getElementById('allergyList');
+    const list = document.getElementById('allergyList2');
+    if (!list) return;
     try {
       const res = await fetch(`${FOOD_NOTES_API}?select=id,person,note&order=person.asc`,
         { headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` } });
@@ -3144,32 +3222,24 @@ body{background:var(--sand);color:var(--text);font-family:'DM Sans',sans-serif;f
   }
 
   function openAllergyForm() {
-    document.getElementById('allergyForm').style.display = 'block';
-    document.getElementById('allergyPerson').focus();
+    document.getElementById('allergyForm2').style.display = 'block';
+    document.getElementById('allergyPerson2').focus();
   }
 
   function closeAllergyForm() {
-    document.getElementById('allergyForm').style.display = 'none';
-    document.getElementById('allergyPerson').value = '';
-    document.getElementById('allergyNote').value = '';
+    document.getElementById('allergyForm2').style.display = 'none';
+    document.getElementById('allergyPerson2').value = '';
+    document.getElementById('allergyNote2').value = '';
   }
 
   async function saveAllergyNote() {
-    const person = document.getElementById('allergyPerson').value.trim();
-    const note = document.getElementById('allergyNote').value.trim();
-    if (!person || !note) {
-      showToast('Please fill in both fields');
-      return;
-    }
+    const person = document.getElementById('allergyPerson2').value.trim();
+    const note = document.getElementById('allergyNote2').value.trim();
+    if (!person || !note) { showToast('Please fill in both fields'); return; }
     try {
       const res = await fetch(FOOD_NOTES_API, {
         method: 'POST',
-        headers: {
-          'apikey': SUPABASE_KEY,
-          'Authorization': `Bearer ${SUPABASE_KEY}`,
-          'Content-Type': 'application/json',
-          'Prefer': 'return=minimal'
-        },
+        headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}`, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' },
         body: JSON.stringify({ person, note })
       });
       if (!res.ok) throw new Error('Failed');
@@ -3190,10 +3260,115 @@ body{background:var(--sand);color:var(--text);font-family:'DM Sans',sans-serif;f
     } catch(e) { showToast('⚠ Could not remove'); }
   }
 
-  // Enter key in allergy inputs
-  document.getElementById('allergyNote').addEventListener('keydown', e => {
-    if (e.key === 'Enter') saveAllergyNote();
+  // Enter key in allergy form
+  document.addEventListener('DOMContentLoaded', () => {
+    const noteEl = document.getElementById('allergyNote2');
+    if (noteEl) noteEl.addEventListener('keydown', e => { if (e.key === 'Enter') saveAllergyNote(); });
   });
+
+  // ── Notes & Logistics ─────────────────────────────────────────
+  const NOTES_API = `${SUPABASE_URL}/rest/v1/notes`;
+
+  // Seed default notes if table is empty
+  const DEFAULT_NOTES = [
+    { title: 'Home Base', body: '166 Sunrise Ave, Port Aransas, TX 78373 — Palmilla Beach Resort. Gas cooktops, stacked ovens, outdoor grill.', sort_order: 1 },
+    { title: 'Group Photos — Jul 26 Evening', body: 'Golden hour on the beach with all 16. Connor & Bethany leave the following morning.', sort_order: 2 },
+    { title: 'Connor & Bethany', body: 'Depart morning of Jul 28. Last meal they attend is dinner Jul 27.', sort_order: 3 },
+    { title: 'Golf — Jul 28 (Tuesday)', body: 'Palmilla Beach course, on-site. Open 7:30 AM, ~$63 to walk 9 holes. Barefoot play allowed. 361-749-4653.', sort_order: 4 },
+    { title: 'Aquarium — Jul 26', body: 'Texas State Aquarium, Corpus Christi. ~45 min drive. Open 10 AM–5 PM. 361-881-1200.', sort_order: 5 }
+  ];
+
+  async function loadNotes() {
+    const container = document.getElementById('notesList');
+    if (!container) return;
+    try {
+      const res = await fetch(`${NOTES_API}?select=id,title,body,sort_order&order=sort_order.asc`,
+        { headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` } });
+      if (!res.ok) throw new Error('Failed');
+      const rows = await res.json();
+
+      // Seed defaults if empty
+      if (!rows.length) {
+        await seedDefaultNotes();
+        return;
+      }
+
+      container.innerHTML = rows.map(r => `
+        <div class="note-card" id="note-card-${r.id}">
+          <div class="note-card-title">${r.title}</div>
+          <div class="note-card-body">${r.body}</div>
+          <div class="note-card-actions">
+            <button class="note-action-btn" onclick="openNoteEditor(${r.id}, '${r.title.replace(/'/g,"\\'")}', '${r.body.replace(/'/g,"\\'")}')">✏️ Edit</button>
+            <button class="note-action-btn danger" onclick="deleteNote(${r.id})">✕ Remove</button>
+          </div>
+        </div>`).join('');
+    } catch(e) {
+      container.innerHTML = '<div class="notes-loading">Could not load notes.</div>';
+    }
+  }
+
+  async function seedDefaultNotes() {
+    try {
+      await fetch(NOTES_API, {
+        method: 'POST',
+        headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}`, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' },
+        body: JSON.stringify(DEFAULT_NOTES)
+      });
+      loadNotes();
+    } catch(e) { console.error('Seed notes failed:', e); }
+  }
+
+  function openNoteEditor(id = null, title = '', body = '') {
+    document.getElementById('noteEditorTitle').textContent = id ? 'Edit Note' : 'Add Note';
+    document.getElementById('noteEditorTitleInput').value = title;
+    document.getElementById('noteEditorBody').value = body;
+    document.getElementById('noteEditorId').value = id || '';
+    document.getElementById('noteEditorModal').classList.add('show');
+    setTimeout(() => document.getElementById('noteEditorTitleInput').focus(), 100);
+  }
+
+  function closeNoteEditor() {
+    document.getElementById('noteEditorModal').classList.remove('show');
+  }
+
+  async function saveNote() {
+    const id = document.getElementById('noteEditorId').value;
+    const title = document.getElementById('noteEditorTitleInput').value.trim();
+    const body = document.getElementById('noteEditorBody').value.trim();
+    if (!title || !body) { showToast('Please fill in both fields'); return; }
+    try {
+      if (id) {
+        // Update existing
+        await fetch(`${NOTES_API}?id=eq.${id}`, {
+          method: 'PATCH',
+          headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}`, 'Content-Type': 'application/json' },
+          body: JSON.stringify({ title, body })
+        });
+      } else {
+        // Insert new
+        await fetch(NOTES_API, {
+          method: 'POST',
+          headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}`, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' },
+          body: JSON.stringify({ title, body, sort_order: 99 })
+        });
+      }
+      closeNoteEditor();
+      loadNotes();
+      showToast('✓ Note saved');
+    } catch(e) { showToast('⚠ Could not save note'); }
+  }
+
+  async function deleteNote(id) {
+    if (!confirm('Remove this note?')) return;
+    try {
+      await fetch(`${NOTES_API}?id=eq.${id}`, {
+        method: 'DELETE',
+        headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` }
+      });
+      loadNotes();
+      showToast('Note removed');
+    } catch(e) { showToast('⚠ Could not remove'); }
+  }
 
   // ── Notifications ─────────────────────────────────────────────
   const NOTIFS_API = `${SUPABASE_URL}/rest/v1/notifications`;
@@ -3459,9 +3634,7 @@ body{background:var(--sand);color:var(--text);font-family:'DM Sans',sans-serif;f
   loadMeals();
   loadAssignments();
   loadSignups();
-  loadAllergyNotes();
   startNotifPolling();
-  startResortTimeout();
   updateSyncLabel();
 </script>
 </body>

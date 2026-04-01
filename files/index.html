@@ -165,7 +165,30 @@ body{background:var(--sand);color:var(--text);font-family:'DM Sans',sans-serif;f
 /* LOADING STATE */
 .loading-bar{height:2px;background:var(--seafoam);position:fixed;top:0;left:0;width:0;transition:width .3s;z-index:1000;}
 
-/* SYNC LABEL BAR */
+/* FOOD ALLERGIES */
+.allergy-box{background:var(--white);border:1.5px solid #f0b8a0;border-radius:18px;padding:22px 24px;margin-top:14px;}
+.allergy-header{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:16px;}
+.allergy-title{font-family:'Playfair Display',serif;font-size:18px;font-weight:700;color:var(--text);line-height:1.1;}
+.allergy-sub{font-size:11px;color:var(--text-light);margin-top:3px;}
+.allergy-add-btn{background:var(--coral);color:#fff;border:none;border-radius:10px;padding:7px 14px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;flex-shrink:0;}
+.allergy-add-btn:active{opacity:.8;}
+.allergy-list{list-style:none;display:flex;flex-direction:column;gap:8px;margin:0;padding:0;}
+.allergy-item{display:flex;align-items:flex-start;gap:10px;background:#fff8f5;border:1px solid #f8d0c0;border-radius:10px;padding:10px 13px;}
+.allergy-bullet{font-size:14px;flex-shrink:0;margin-top:1px;}
+.allergy-content{flex:1;}
+.allergy-person{font-size:12px;font-weight:700;color:var(--coral);text-transform:uppercase;letter-spacing:.08em;}
+.allergy-note{font-size:13px;color:var(--text);margin-top:2px;line-height:1.4;}
+.allergy-delete{background:none;border:none;color:var(--text-light);cursor:pointer;font-size:14px;padding:0;flex-shrink:0;opacity:.5;}
+.allergy-delete:hover{opacity:1;color:var(--coral);}
+.allergy-empty{font-size:13px;color:var(--text-light);font-style:italic;padding:4px 0;list-style:none;}
+.allergy-form{margin-top:14px;padding-top:14px;border-top:1px solid var(--sand-mid);}
+.allergy-form-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px;}
+.allergy-input{flex:1;min-width:130px;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--text);background:var(--sand);border:1.5px solid var(--sand-mid);border-radius:9px;padding:9px 12px;outline:none;}
+.allergy-input:focus{border-color:var(--coral);}
+.allergy-form-actions{display:flex;gap:8px;justify-content:flex-end;}
+.allergy-cancel{background:var(--sand);color:var(--text-light);border:1.5px solid var(--sand-mid);border-radius:9px;padding:8px 16px;font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer;}
+.allergy-save{background:var(--coral);color:#fff;border:none;border-radius:9px;padding:8px 18px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;cursor:pointer;}
+.allergy-save:active{opacity:.8;}
 .sync-label-bar{position:fixed;bottom:0;left:0;right:0;z-index:99;text-align:center;padding:2px 0 calc(2px + env(safe-area-inset-bottom));background:var(--white);border-top:none;}
 #syncLabel{font-size:9px;color:var(--text-light);letter-spacing:.04em;opacity:.7;}
 
@@ -1418,6 +1441,32 @@ body{background:var(--sand);color:var(--text);font-family:'DM Sans',sans-serif;f
       <div class="foot-item"><strong>Connor &amp; Bethany</strong>Depart morning of Jul 28. Last meal they attend is dinner Jul 27.</div>
       <div class="foot-item"><strong>Golf — Jul 28 (Tuesday)</strong>Palmilla Beach course, on-site. Open 7:30 AM, ~$63 to walk 9 holes. Barefoot play allowed. 361-749-4653.</div>
       <div class="foot-item"><strong>Aquarium — Jul 26</strong>Texas State Aquarium, Corpus Christi. ~45 min drive. Open 10 AM–5 PM. 361-881-1200.</div>
+    </div>
+  </div>
+
+  <!-- FOOD ALLERGIES -->
+  <div class="allergy-box">
+    <div class="allergy-header">
+      <div>
+        <h3 class="allergy-title">🚨 Food Allergies &amp; Considerations</h3>
+        <div class="allergy-sub">Important for whoever is cooking</div>
+      </div>
+      <button class="allergy-add-btn" onclick="openAllergyForm()">+ Add</button>
+    </div>
+    <ul class="allergy-list" id="allergyList">
+      <li class="allergy-empty">Loading…</li>
+    </ul>
+
+    <!-- Add form (hidden by default) -->
+    <div class="allergy-form" id="allergyForm" style="display:none">
+      <div class="allergy-form-row">
+        <input class="allergy-input" id="allergyPerson" type="text" placeholder="Person's name" maxlength="30">
+        <input class="allergy-input" id="allergyNote" type="text" placeholder="Allergy or consideration" maxlength="100">
+      </div>
+      <div class="allergy-form-actions">
+        <button class="allergy-cancel" onclick="closeAllergyForm()">Cancel</button>
+        <button class="allergy-save" onclick="saveAllergyNote()">Add</button>
+      </div>
     </div>
   </div>
 </div>
@@ -3066,6 +3115,86 @@ body{background:var(--sand);color:var(--text);font-family:'DM Sans',sans-serif;f
     return `<span style="font-size:${Math.floor(size*0.38)}px">${initials(name)}</span>`;
   }
 
+  // ── Food allergies & considerations ───────────────────────────
+  const FOOD_NOTES_API = `${SUPABASE_URL}/rest/v1/food_notes`;
+
+  async function loadAllergyNotes() {
+    const list = document.getElementById('allergyList');
+    try {
+      const res = await fetch(`${FOOD_NOTES_API}?select=id,person,note&order=person.asc`,
+        { headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` } });
+      if (!res.ok) throw new Error('Failed');
+      const rows = await res.json();
+      if (!rows.length) {
+        list.innerHTML = '<li class="allergy-empty">No allergies or considerations added yet.</li>';
+        return;
+      }
+      list.innerHTML = rows.map(r => `
+        <li class="allergy-item">
+          <div class="allergy-bullet">⚠️</div>
+          <div class="allergy-content">
+            <div class="allergy-person">${r.person}</div>
+            <div class="allergy-note">${r.note}</div>
+          </div>
+          <button class="allergy-delete" onclick="deleteAllergyNote(${r.id})" title="Remove">✕</button>
+        </li>`).join('');
+    } catch(e) {
+      list.innerHTML = '<li class="allergy-empty">Could not load.</li>';
+    }
+  }
+
+  function openAllergyForm() {
+    document.getElementById('allergyForm').style.display = 'block';
+    document.getElementById('allergyPerson').focus();
+  }
+
+  function closeAllergyForm() {
+    document.getElementById('allergyForm').style.display = 'none';
+    document.getElementById('allergyPerson').value = '';
+    document.getElementById('allergyNote').value = '';
+  }
+
+  async function saveAllergyNote() {
+    const person = document.getElementById('allergyPerson').value.trim();
+    const note = document.getElementById('allergyNote').value.trim();
+    if (!person || !note) {
+      showToast('Please fill in both fields');
+      return;
+    }
+    try {
+      const res = await fetch(FOOD_NOTES_API, {
+        method: 'POST',
+        headers: {
+          'apikey': SUPABASE_KEY,
+          'Authorization': `Bearer ${SUPABASE_KEY}`,
+          'Content-Type': 'application/json',
+          'Prefer': 'return=minimal'
+        },
+        body: JSON.stringify({ person, note })
+      });
+      if (!res.ok) throw new Error('Failed');
+      closeAllergyForm();
+      loadAllergyNotes();
+      showToast('✓ Added');
+    } catch(e) { showToast('⚠ Could not save'); }
+  }
+
+  async function deleteAllergyNote(id) {
+    if (!confirm('Remove this entry?')) return;
+    try {
+      await fetch(`${FOOD_NOTES_API}?id=eq.${id}`, {
+        method: 'DELETE',
+        headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` }
+      });
+      loadAllergyNotes();
+    } catch(e) { showToast('⚠ Could not remove'); }
+  }
+
+  // Enter key in allergy inputs
+  document.getElementById('allergyNote').addEventListener('keydown', e => {
+    if (e.key === 'Enter') saveAllergyNote();
+  });
+
   // ── Notifications ─────────────────────────────────────────────
   const NOTIFS_API = `${SUPABASE_URL}/rest/v1/notifications`;
   let lastNotifId = 0;
@@ -3330,6 +3459,7 @@ body{background:var(--sand);color:var(--text);font-family:'DM Sans',sans-serif;f
   loadMeals();
   loadAssignments();
   loadSignups();
+  loadAllergyNotes();
   startNotifPolling();
   startResortTimeout();
   updateSyncLabel();
